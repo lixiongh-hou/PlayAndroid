@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <RelativeLayout
+        android:id="@+id/rlIconShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-240dp"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvShareTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/slShare"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:text="分享"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aivShare"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_share"
+                android:tint="?colorIconSurface" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlIconOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+
+        tools:translationY="-180dp"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOpenTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/slOpen"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:text="打开"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slOpen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aivOpen"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_browser"
+                android:tint="?colorIconSurface" />
+
+        </com.lihang.ShadowLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlIconReadLater"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+
+        android:visibility="invisible"
+        tools:translationY="-120dp"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvReadLaterTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/slReadLater"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:text="书签"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slReadLater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aivReadLater"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_read_later"
+                android:tint="?colorIconSurface" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rlIconCollect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-60dp"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCollectTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/slCollect"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:text="收藏"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slCollect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <com.viva.play.views.CollectView
+                android:id="@+id/cvCollect"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlIconBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/pb"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignStart="@+id/slBack"
+            android:layout_alignTop="@+id/slBack"
+            android:layout_alignEnd="@+id/slBack"
+            android:layout_alignBottom="@+id/slBack"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="7dp"
+            android:max="100"
+            app:mpb_determinateCircularProgressStyle="normal"
+            app:mpb_progressStyle="circular"
+            app:mpb_progressTint="?colorMain"
+            app:mpb_showProgressBackground="false"
+            app:mpb_useIntrinsicPadding="false"
+            tools:progress="30" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <FrameLayout
+                android:id="@+id/flBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp">
+
+                <per.goweii.reveallayout.RevealLayout
+                    android:id="@+id/rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rl_allowRevert="true"
+                    app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
+                    app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
+                    tools:rl_checked="false" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_close"
+                    android:tint="?colorIconSurface"
+                    android:visibility="invisible"
+                    tools:ignore="ContentDescription,UseAppTint" />
+
+                <View
+                    android:id="@+id/vBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+        </com.lihang.ShadowLayout>
+    </RelativeLayout>
+</RelativeLayout>

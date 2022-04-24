@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="dialog"
+            type="com.viva.play.dialog.WebMenuDialog" />
+
+        <variable
+            name="data"
+            type="com.viva.play.dialog.WebMenuDialog.WebMenu" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_top_12"
+        android:paddingTop="12dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/webMenuTvHost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.3"
+
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:textColor="?colorTextSecond"
+            android:textSize="12sp"
+            android:visibility="@{TextUtils.isEmpty(data.name)?View.GONE:View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@{data.name}"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlShareArticle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/webMenuTvHost">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvHome"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.onHome()}"
+                android:padding="12dp"
+                android:src="@drawable/ic_home"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="回到首页"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlShareArticle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlCollect"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlHome"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlHome">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvShareArticle"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_share_article"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="分享到广场"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlCollect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlReadLater"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlShareArticle"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlShareArticle">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvCollect"
+                tint="@{data.collected}"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@{data.collected?@drawable/bg_press_color_main_radius_max:@drawable/bg_press_color_surface_top_radius_max}"
+                android:gravity="center"
+                android:onClick="@{(view) -> dialog.onCollect(view)}"
+                android:padding="12dp"
+                android:src="@drawable/ic_collect" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text='@{data.collected?"已收藏":"收藏"}'
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlReadLater"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlCollect"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlCollect">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvReadLater"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_read_later"
+                android:tint="?colorIconSurface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="书签"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlRefresh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlHoTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/webMenuLlHome">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvRefresh"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.onRefresh()}"
+                android:padding="12dp"
+                android:src="@drawable/ic_refresh"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="刷新"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlHoTop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlInterrupt"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlRefresh"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlRefresh">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvHoTop"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.onGoTop()}"
+                android:padding="12dp"
+                android:src="@drawable/ic_go_left"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="回到顶部"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlInterrupt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/webMenuLlCloseActivity"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlHoTop"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlHoTop">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvInterrupt"
+                tint="@{data.interruptState}"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@{data.interruptState?@drawable/bg_press_color_main_radius_max:@drawable/bg_press_color_surface_top_radius_max}"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.urlInterceptType()}"
+                android:padding="12dp"
+                android:src="@drawable/ic_http_interrupt" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@{data.interruptName}"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/webMenuLlCloseActivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/webMenuLlInterrupt"
+            app:layout_constraintTop_toTopOf="@+id/webMenuLlInterrupt">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/webMenuIvCloseActivity"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.onCloseActivity()}"
+                android:padding="12dp"
+                android:src="@drawable/ic_exit"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="退出"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="?colorLine"
+            app:layout_constraintTop_toBottomOf="@+id/webMenuLlRefresh" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/webMenuIvDismiss"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_white_press"
+                android:onClick="@{() -> dialog.dismiss()}"
+                android:padding="16dp"
+                android:src="@drawable/ic_close"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/dialog_web_menu_iv_share"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:onClick="@{() -> dialog.dismiss()}"
+                android:padding="16dp"
+                android:src="@drawable/ic_share"
+                android:tint="?colorIconSurface" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/dialog_web_menu_iv_setting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:onClick="@{() -> dialog.setting()}"
+                android:padding="16dp"
+                android:src="@drawable/ic_setting"
+                android:tint="?colorIconSurface" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

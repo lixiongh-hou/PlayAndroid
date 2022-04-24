@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.viva.play.db.entity.PoArticleEntity" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="com.viva.play.utils.StringUtils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_press_color_surface"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="0dp"
+            android:paddingEnd="5dp"
+            android:text="新"
+            android:textColor="?colorTextMain"
+            android:textSize="12sp"
+            android:visibility="@{data.fresh?View.VISIBLE:View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{TextUtils.isEmpty(data.author)?"匿名用户":data.author}'
+            android:textColor="@color/selector_text_color_article_author"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvNew"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="林帅并不帅" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/selector_article_tag_bg"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text='@{StringUtils.isNullOrEmpty(data.tags)?"":data.tags.get(0).name}'
+            android:textColor="@color/selector_text_color_article_tag"
+            android:textSize="11sp"
+            android:visibility="@{StringUtils.isNullOrEmpty(data.tags)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAuthor"
+            app:layout_constraintStart_toEndOf="@+id/tvAuthor"
+            app:layout_constraintTop_toTopOf="@+id/tvAuthor"
+            tools:text="项目" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:text="@{data.niceDate}"
+            android:textColor="?colorTextThird"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="21小时前" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivImg"
+            style="@style/roundedCornerImageStyle"
+            load="@{data}"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:scaleType="centerCrop"
+            android:visibility='@{!TextUtils.isEmpty(data.envelopePic) || data.envelopePic.startsWith("https")?View.VISIBLE:View.GONE}'
+            app:layout_constraintEnd_toStartOf="@+id/ll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivImg"
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthor">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="0dp"
+                android:maxLines="1"
+                android:singleLine="false"
+                android:text="@{StringUtils.formatHtml(data.title)}"
+                android:textColor="?colorTextSurface"
+                android:textSize="15sp"
+                tools:singleLine="true"
+                tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:includeFontPadding="true"
+                android:lineSpacingExtra="0dp"
+                android:maxLines="3"
+                android:text='@{TextUtils.isEmpty(data.desc)?"":StringUtils.removeAllBank(StringUtils.formatHtml(data.desc),2)}'
+                android:textColor="?colorTextSecond"
+                android:textSize="13sp"
+                android:visibility="@{TextUtils.isEmpty(data.desc)?View.GONE:View.VISIBLE}"
+                tools:text="公众号文章列表强势上线"
+                tools:visibility="visible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="ivImg,ll" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="5dp"
+            android:text="置顶"
+            android:textColor="?colorTextAccent"
+            android:textSize="12sp"
+            android:visibility="@{data.type == 1?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/tvChapterName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChapterName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="@{StringUtils.formatHtml(StringUtils.formatChapterName(data.superChapterName,data.chapterName))}"
+            android:textColor="@color/selector_text_color_article_chapter"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvTop"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+            tools:text="动画效果·Lottie" />
+
+
+        <com.viva.play.views.CollectView
+            android:id="@+id/cvCollect"
+            checked="@{data.collect}"
+            withAnim="@{false}"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+            tools:rl_checked="false" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

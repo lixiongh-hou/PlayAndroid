@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.viva.play.ui.model.WebModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?colorMainOrSurface"
+        android:paddingHorizontal="8dp">
+
+        <com.viva.play.views.CollectView
+            android:id="@+id/cvCollect"
+            checked="@{model.collected}"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:padding="8dp"
+            app:cv_uncheckedColor="?colorHeartUncheckedOnMain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etTitle"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:background="@drawable/action_search_bg"
+            android:ellipsize="end"
+            android:imeOptions="actionGo"
+            android:lines="1"
+            android:paddingHorizontal="13dp"
+            android:singleLine="true"
+            android:text="@{model.title}"
+            android:textColor="?colorOnMainOrSurface"
+            android:textColorHint="?colorOnMainOrSurfaceAlpha"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivInto"
+            app:layout_constraintStart_toEndOf="@+id/cvCollect"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="请输入网址" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivInto"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_into"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?colorOnMainOrSurface" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

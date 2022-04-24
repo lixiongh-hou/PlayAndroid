@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/dialogWebVp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:scrollbars="none"
+        tools:background="?colorDialogBg" />
+
+
+    <RelativeLayout
+        android:id="@+id/dialogWebRlBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dialogWebIvReadLater"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="32dp"
+            android:layout_toStartOf="@+id/dialogWebIvClose"
+            android:padding="13dp"
+            android:src="@drawable/ic_read_later_added"
+            android:tint="?colorOnMainOrSurface"
+            tools:ignore="UseAppTint" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dialogWebIvClose"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_solid_round_color_surface_radius_max"
+            android:padding="13dp"
+            android:src="@drawable/ic_close"
+            android:tint="?colorIconSurface" />
+
+        <com.viva.play.views.CollectView
+            android:id="@+id/dialogWebCvCollect"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="32dp"
+            android:layout_toEndOf="@+id/dialogWebIvClose"
+            android:padding="12dp" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

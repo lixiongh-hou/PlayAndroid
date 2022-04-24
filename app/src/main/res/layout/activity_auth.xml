@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.viva.play.ui.model.AuthModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorLoginBg"
+        android:clipChildren="false">
+
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common"
+            android:background="?colorTransparent"
+            app:abc_leftIconClickToFinish="true"
+            app:abc_leftIconRes="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="欢迎使用"
+            android:textColor="?colorOnMainOrSurface"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/rlInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/abc" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rlInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="300dp"
+            android:clipChildren="false">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/ivCircle1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="-170dp"
+                android:layout_marginRight="-170dp"
+                android:alpha="0.7"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                app:layout_constraintTop_toTopOf="@+id/rlInput"
+                app:piv_basics="width"
+                app:piv_percent="1" />
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/ivCircle2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="-150dp"
+                android:layout_marginEnd="-190dp"
+                android:alpha="0.7"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                app:layout_constraintTop_toTopOf="@id/rlInput"
+                app:piv_basics="width"
+                app:piv_percent="1" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/loginAccountEdt"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="50dp"
+                android:background="@null"
+                android:hint="请输入用户名"
+                android:singleLine="true"
+                android:text="@={model.account}"
+                android:textColor="?colorTextSurface"
+                android:textColorHint="?colorTextThird"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/loginAccountIv"
+                app:layout_constraintTop_toTopOf="@id/rlInput" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/loginAccountIv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="50dp"
+                android:tint="?colorIconThird"
+                app:layout_constraintBottom_toBottomOf="@id/loginAccountEdt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/loginAccountEdt"
+                app:srcCompat="@drawable/ic_account_normal" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:background="?colorIconThird"
+                app:layout_constraintEnd_toEndOf="@id/loginAccountEdt"
+                app:layout_constraintStart_toStartOf="@id/loginAccountIv"
+                app:layout_constraintTop_toBottomOf="@+id/loginAccountEdt" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/loginPasswordEdt"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:singleLine="true"
+                android:text="@={model.password}"
+                android:textColor="?colorTextSurface"
+                android:textColorHint="?colorTextThird"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/loginPasswordDelete"
+                app:layout_constraintStart_toEndOf="@id/loginAccountIv"
+                app:layout_constraintTop_toTopOf="@id/view1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/loginPasswordIv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="50dp"
+                android:tint="?colorIconThird"
+                app:layout_constraintBottom_toBottomOf="@id/loginPasswordEdt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/loginPasswordEdt"
+                app:srcCompat="@drawable/ic_password_normal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/loginPasswordDelete"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="50dp"
+                android:onClick="@{() -> model.deletePassword()}"
+                android:scaleType="centerInside"
+                android:tint="?colorIconThird"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/loginPasswordEdt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/loginPasswordEdt"
+                app:srcCompat="@drawable/ic_delete" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:background="?colorIconThird"
+                app:layout_constraintEnd_toEndOf="@+id/loginPasswordDelete"
+                app:layout_constraintStart_toStartOf="@id/loginPasswordIv"
+                app:layout_constraintTop_toBottomOf="@+id/loginPasswordEdt" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/svLogin"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="30dp"
+                app:cardBackgroundColor="?colorMain"
+                app:cardCornerRadius="999dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bz1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:translationX="-15dp"
+                    app:srcCompat="@drawable/bz0" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="登录"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bz2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:alpha="0.8"
+                    android:translationX="15dp"
+                    app:srcCompat="@drawable/bz6" />
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
