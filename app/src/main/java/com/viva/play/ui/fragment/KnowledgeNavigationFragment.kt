@@ -6,12 +6,14 @@ import com.viva.play.adapter.vp2.FixedFragmentPagerAdapter
 import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentKnowledgeNavigationBinding
 import com.viva.play.utils.getThemeColor
+import dagger.hilt.android.AndroidEntryPoint
 import github.xuqk.kdtablayout.KDTabAdapter
 import github.xuqk.kdtablayout.KDTabLayout
 import github.xuqk.kdtablayout.widget.KDTab
 import github.xuqk.kdtablayout.widget.KDTabIndicator
 import github.xuqk.kdtablayout.widget.tab.KDColorMorphingTextTab
 
+@AndroidEntryPoint
 class KnowledgeNavigationFragment : BaseFragment<FragmentKnowledgeNavigationBinding>() {
 
     private lateinit var mAdapter: FixedFragmentPagerAdapter
@@ -21,6 +23,9 @@ class KnowledgeNavigationFragment : BaseFragment<FragmentKnowledgeNavigationBind
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+    }
+
+    override fun initData() {
         binding.mi.tabMode = KDTabLayout.TAB_MODE_SCROLLABLE
         mAdapter = FixedFragmentPagerAdapter(
             requireActivity(), listOf(
@@ -56,8 +61,5 @@ class KnowledgeNavigationFragment : BaseFragment<FragmentKnowledgeNavigationBind
         }
         // 与ViewPager2联动
         binding.mi.setViewPager2(binding.vp)
-    }
-
-    override fun initData() {
     }
 }

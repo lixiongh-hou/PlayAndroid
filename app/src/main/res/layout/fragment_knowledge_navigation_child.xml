@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,6 +10,28 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.kennyc.view.MultiStateView
+            android:id="@+id/msv"
+            style="@style/StateView_Center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/mSmartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_knowledge" />
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </com.kennyc.view.MultiStateView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

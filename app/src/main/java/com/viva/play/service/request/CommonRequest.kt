@@ -1,7 +1,6 @@
 package com.viva.play.service.request
 
 import androidx.paging.PagingSource
-import androidx.room.withTransaction
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
 import com.viva.play.service.ApiError
@@ -549,6 +548,15 @@ class CommonRequest @Inject constructor() {
     ) {
         scope.launch {
             localRequest.getUserInfo(callback)
+        }
+    }
+
+    /**
+     * 体系数据
+     */
+    fun getKnowledgeList(scope: CoroutineScope, callback: (BaseResult<List<ChapterEntity>>) -> Unit) {
+        scope.launch {
+            remoteRequest.getKnowledgeList(callback)
         }
     }
 

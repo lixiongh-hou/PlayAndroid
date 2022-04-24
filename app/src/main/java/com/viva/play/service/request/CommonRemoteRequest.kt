@@ -241,4 +241,24 @@ class CommonRemoteRequest @Inject constructor(
             }
         )
     }
+
+    /**
+     * 体系列表
+     */
+    suspend fun getKnowledgeList(callback: (BaseResult<List<ChapterEntity>>) -> Unit) {
+        runInDispatcherIO(
+            block = {
+                service.getKnowledgeList().convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
 }

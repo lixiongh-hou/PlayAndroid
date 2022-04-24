@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
  *
  *
  */
-abstract class BaseAdapter<B : ViewDataBinding, T>(val data: ArrayList<T>) :
+abstract class BaseAdapter<B : ViewDataBinding, T>(val data: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<B>>() {
 
     open val clickEvent: ((T, B, Int) -> Unit)? = null
@@ -24,9 +24,9 @@ abstract class BaseAdapter<B : ViewDataBinding, T>(val data: ArrayList<T>) :
         notifyDataSetChanged()
     }
 
-    fun addData(data: List<T>, positionStart: Int) {
+    fun addData(data: List<T>) {
         this.data.addAll(data)
-        notifyItemRangeInserted(positionStart, data.size)
+        notifyItemRangeInserted(itemCount - 1, data.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<B> {

@@ -96,7 +96,7 @@ object Url {
     /**
      * 体系
      */
-    const val System = "tree/json"
+    const val Tree = "tree/json"
 
     /**
      * 公众号名称
