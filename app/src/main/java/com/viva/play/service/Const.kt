@@ -97,6 +97,10 @@ object Url {
      * 体系
      */
     const val Tree = "tree/json"
+    /**
+     * 导航
+     */
+    const val Navi="navi/json"
 
     /**
      * 公众号名称

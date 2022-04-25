@@ -12,6 +12,7 @@ import com.viva.play.service.Url.EditCollectLink
 import com.viva.play.service.Url.Login
 import com.viva.play.service.Url.MyCollect
 import com.viva.play.service.Url.MyUnCollect
+import com.viva.play.service.Url.Navi
 import com.viva.play.service.Url.Question
 import com.viva.play.service.Url.Tree
 import com.viva.play.service.Url.UnCollectArticle
@@ -148,4 +149,10 @@ interface CommonService {
      */
     @GET(Tree)
     suspend fun getKnowledgeList(): BaseResponse<List<ChapterEntity>>
+
+    /**
+     * 导航
+     */
+    @GET(Navi)
+    suspend fun getNaviList(): BaseResponse<List<NaviEntity>>
 }

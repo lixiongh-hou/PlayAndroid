@@ -30,6 +30,7 @@ data class PoCollectArticleEntity(
     val title: String,
     val userId: Int
 ) : BasePagingData() {
+
     @PrimaryKey(autoGenerate = true)
     var primaryId: Long = 0
 

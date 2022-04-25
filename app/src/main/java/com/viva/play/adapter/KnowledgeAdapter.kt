@@ -9,8 +9,8 @@ import com.viva.play.R
 import com.viva.play.base.BaseAdapter
 import com.viva.play.base.BaseViewHolder
 import com.viva.play.databinding.ItemKnowledgeBinding
-import com.viva.play.service.entity.ChapterEntity
-import com.viva.play.service.entity.Children
+import com.viva.play.db.entity.PoChapterChildrenEntity
+import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.formatHtml
 import java.util.*
 
@@ -19,19 +19,19 @@ import java.util.*
  *
  *
  */
-class KnowledgeAdapter(private val context: Context, data: MutableList<ChapterEntity>) :
-    BaseAdapter<ItemKnowledgeBinding, ChapterEntity>(data) {
+class KnowledgeAdapter(private val context: Context, data: MutableList<VoChapterEntity>) :
+    BaseAdapter<ItemKnowledgeBinding, VoChapterEntity>(data) {
 
     private var mInflater: LayoutInflater? = null
     private val mFlexItemTextViewCaches: Queue<AppCompatTextView> = LinkedList()
 
-    private var itemClickListener: ((Children, Int) -> Unit)? = null
+    private var itemClickListener: ((PoChapterChildrenEntity, Int) -> Unit)? = null
 
     override fun createBinding(parent: ViewGroup, viewType: Int): ItemKnowledgeBinding =
         ItemKnowledgeBinding.inflate(LayoutInflater.from(context), parent, false)
 
-    override fun bind(binding: ItemKnowledgeBinding, data: ChapterEntity, position: Int) {
-        binding.tvName.text = data.name
+    override fun bind(binding: ItemKnowledgeBinding, data: VoChapterEntity, position: Int) {
+        binding.tvName.text = data.chapter.name
         data.children.forEachIndexed { index, children ->
             val child = createOrGetCacheFlexItemTextView(binding.fbl)
             child.text = children.name.formatHtml()

@@ -28,6 +28,7 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView(savedInstanceState: Bundle?) {
+        
         mTabFragmentPagerAdapter = TabFragmentPagerAdapter(
             this,
             binding.vpTab,

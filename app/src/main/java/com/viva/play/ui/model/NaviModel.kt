@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.viva.play.base.BaseModel
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
-import com.viva.play.service.entity.ChapterEntity
 import com.viva.play.service.request.CommonRequest
 import com.viva.play.ui.vo.VoChapterEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,18 +17,18 @@ import javax.inject.Inject
  *
  */
 @HiltViewModel
-class KnowledgeModel @Inject constructor(
+class NaviModel @Inject constructor(
     private val commonRequest: CommonRequest
 ) : BaseModel() {
 
-    private val _knowledgeList = MutableLiveData<List<VoChapterEntity>>()
-    val knowledgeList: LiveData<List<VoChapterEntity>>
-        get() = _knowledgeList
+    private val _naviList = MutableLiveData<List<VoChapterEntity>>()
+    val naviList: LiveData<List<VoChapterEntity>>
+        get() = _naviList
 
-    fun getKnowledgeList() {
-        commonRequest.getKnowledgeList(viewModelScope) {
+    fun getNaviList() {
+        commonRequest.getNaviList(viewModelScope) {
             it.doSuccess { success ->
-                _knowledgeList.postValue(success)
+                _naviList.postValue(success)
             }
             it.doFailure { apiError ->
                 error.postValue(apiError)

@@ -261,4 +261,24 @@ class CommonRemoteRequest @Inject constructor(
             }
         )
     }
+
+    /**
+     * 导航数据
+     */
+    suspend fun getNaviList(callback: (BaseResult<List<NaviEntity>>) -> Unit) {
+        runInDispatcherIO(
+            block = {
+                service.getNaviList().convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
 }

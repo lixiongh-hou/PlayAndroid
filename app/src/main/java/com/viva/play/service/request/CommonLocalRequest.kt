@@ -4,6 +4,7 @@ import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
 import com.viva.play.service.BaseResult
 import com.viva.play.service.request.CommonRequest.Companion.noInternet
+import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -89,6 +90,20 @@ class CommonLocalRequest @Inject constructor(
             } else {
                 callback.invoke(BaseResult.Success(data))
             }
+        }
+    }
+
+    suspend fun getKnowledgeList(callback: (BaseResult<List<VoChapterEntity>>) -> Unit) {
+        runInDispatcherIO {
+            val data = baseDataBase.chapterDao().findKnowledge()
+            callback.invoke(BaseResult.Success(data))
+        }
+    }
+
+    suspend fun getNaviList(callback: (BaseResult<List<VoChapterEntity>>) -> Unit) {
+        runInDispatcherIO {
+            val data = baseDataBase.chapterDao().findNavi()
+            callback.invoke(BaseResult.Success(data))
         }
     }
 

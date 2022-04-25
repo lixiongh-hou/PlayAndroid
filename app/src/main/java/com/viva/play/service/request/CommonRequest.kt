@@ -10,6 +10,7 @@ import com.viva.play.service.NetworkStatus.NO_INTERNET
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
 import com.viva.play.service.entity.*
+import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
 import com.viva.play.utils.NetworkUtils.isNetworkAvailable
 import kotlinx.coroutines.*
@@ -521,8 +522,8 @@ class CommonRequest @Inject constructor() {
         scope: CoroutineScope,
         callback: (BaseResult<CoinRecordEntity>) -> Unit
     ) {
-        scope.launch {
-            if (isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
+            scope.launch {
                 remoteRequest.getCoinRecordInfo {
                     it.doSuccess { success ->
                         baseDataBase.userInfoDao().updateRank(success.userId, success.rank)
@@ -532,10 +533,11 @@ class CommonRequest @Inject constructor() {
                         callback.invoke(BaseResult.Failure(apiError))
                     }
                 }
-            } else {
-                callback.invoke(BaseResult.Failure(noInternet))
             }
+        } else {
+            callback.invoke(BaseResult.Failure(noInternet))
         }
+
 
     }
 
@@ -554,9 +556,92 @@ class CommonRequest @Inject constructor() {
     /**
      * 体系数据
      */
-    fun getKnowledgeList(scope: CoroutineScope, callback: (BaseResult<List<ChapterEntity>>) -> Unit) {
+    fun getKnowledgeList(
+        scope: CoroutineScope,
+        callback: (BaseResult<List<VoChapterEntity>>) -> Unit
+    ) {
         scope.launch {
-            remoteRequest.getKnowledgeList(callback)
+            val total = baseDataBase.chapterDao().totalKnowledge()
+            if (isNetworkAvailable()) {
+                if (total <= 0) {
+                    remoteRequest.getKnowledgeList {
+                        it.doSuccess { success ->
+                            baseDataBase.chapterDao()
+                                .insert(PoChapterEntity.parseKnowledge(success))
+                            success.forEach { chapter ->
+                                baseDataBase.chapterDao()
+                                    .insertChildren(
+                                        PoChapterChildrenEntity.parseKnowledge(
+                                            chapter.children,
+                                            chapter.id
+                                        )
+                                    )
+                            }
+                            callback.invoke(
+                                BaseResult.Success(
+                                    VoChapterEntity.parseKnowledge(success)
+                                )
+                            )
+                        }
+                        it.doFailure { apiError ->
+                            callback.invoke(BaseResult.Failure(apiError))
+                        }
+                    }
+                } else {
+                    localRequest.getKnowledgeList(callback)
+
+                }
+            } else {
+                if (total <= 0) {
+                    callback.invoke(BaseResult.Failure(noInternet))
+                } else {
+                    localRequest.getKnowledgeList(callback)
+                }
+            }
+        }
+    }
+
+    /**
+     * 导航数据
+     */
+    fun getNaviList(
+        scope: CoroutineScope,
+        callback: (BaseResult<List<VoChapterEntity>>) -> Unit
+    ) {
+        scope.launch {
+            val total = baseDataBase.chapterDao().totalNavi()
+            if (isNetworkAvailable()) {
+                if (total <= 0) {
+                    remoteRequest.getNaviList {
+                        it.doSuccess { success ->
+                            baseDataBase.chapterDao().insert(PoChapterEntity.parseNavi(success))
+                            success.forEach { chapter ->
+                                baseDataBase.chapterDao()
+                                    .insertChildren(
+                                        PoChapterChildrenEntity.parseNavi(
+                                            chapter.articles,
+                                            chapter.cid
+                                        )
+                                    )
+                            }
+                            callback.invoke(BaseResult.Success(VoChapterEntity.parseNavi(success)))
+                        }
+                        it.doFailure { apiError ->
+                            callback.invoke(BaseResult.Failure(apiError))
+                        }
+                    }
+                } else {
+                    localRequest.getNaviList(callback)
+
+                }
+            } else {
+                if (total <= 0) {
+                    callback.invoke(BaseResult.Failure(noInternet))
+                } else {
+                    localRequest.getNaviList(callback)
+                }
+            }
+
         }
     }
 
