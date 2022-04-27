@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.viva.play.base.BasePagingDataAdapter
 import com.viva.play.databinding.ItemHomeArticleBinding
 import com.viva.play.db.entity.PoArticleEntity
-import com.viva.play.db.entity.PoQuestionEntity
+import com.viva.play.ui.activity.UserPageActivity
+import com.viva.play.utils.CookieCache
 
 /**
  * @author 李雄厚
@@ -16,9 +17,9 @@ import com.viva.play.db.entity.PoQuestionEntity
  */
 class ArticleAdapter(
     private val context: Context
-) : BasePagingDataAdapter<PoQuestionEntity>() {
+) : BasePagingDataAdapter<PoArticleEntity>() {
 
-    var collectClick: ((PoQuestionEntity, Int) -> Unit)? = null
+    var collectClick: ((PoArticleEntity, Int) -> Unit)? = null
 
     override fun createBinding(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CollectionArticleAdapter.ItemHomeArticleHolder(
@@ -30,38 +31,17 @@ class ArticleAdapter(
         )
     }
 
-    override fun bind(binding: RecyclerView.ViewHolder, data: PoQuestionEntity, position: Int) {
-        val tmpData = PoArticleEntity(
-            data.author,
-            -1,
-            data.chapterName,
-            data.collect,
-            -1,
-            data.desc,
-            data.envelopePic,
-            false,
-            data.id,
-            data.link,
-            data.niceDate,
-            "",
-            "",
-            data.publishTime,
-            -1,
-            -1,
-            -1L,
-            "",
-            -1,
-            "",
-            null,
-            data.title,
-            -1,
-            data.userId
-        )
+    override fun bind(binding: RecyclerView.ViewHolder, data: PoArticleEntity, position: Int) {
         if (binding is CollectionArticleAdapter.ItemHomeArticleHolder) {
             binding.binding.apply {
-                this.data = tmpData
+                this.data = data
                 this.cvCollect.onClick = {
-                    collectClick?.invoke(data, position)
+                    if (CookieCache.doIfLogin(context)) {
+                        collectClick?.invoke(data, position)
+                    }
+                }
+                this.tvAuthor.setOnClickListener {
+                    UserPageActivity.start(context, data.userId)
                 }
             }
             binding.binding.executePendingBindings()

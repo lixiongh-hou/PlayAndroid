@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.viva.play.base.BaseModel
 import com.viva.play.db.BaseDataBase
-import com.viva.play.db.entity.PoQuestionEntity
+import com.viva.play.db.entity.PoArticleEntity
 import com.viva.play.di.MadeInCommon
 import com.viva.play.paging.QuestionMediator
 import com.viva.play.service.CommonService
@@ -29,7 +29,7 @@ class QuestionMode @Inject constructor(
     var id: Int = -1
 
     @ExperimentalPagingApi
-    val pagingData: Flow<PagingData<PoQuestionEntity>> =
+    val pagingData: Flow<PagingData<PoArticleEntity>> =
         Pager(
             config = pagingConfig(),
             remoteMediator = QuestionMediator(baseDataBase, commonService)

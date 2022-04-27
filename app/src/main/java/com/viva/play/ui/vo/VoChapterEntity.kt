@@ -25,11 +25,7 @@ data class VoChapterEntity(
                 VoChapterEntity(
                     chapter = PoChapterEntity(
                         chapterEntity.id,
-                        chapterEntity.courseId,
                         chapterEntity.name,
-                        chapterEntity.order,
-                        chapterEntity.parentChapterId,
-                        chapterEntity.visible,
                         Status.KNOWLEDGE,
                         index
                     ),
@@ -37,11 +33,7 @@ data class VoChapterEntity(
                         PoChapterChildrenEntity(
                             children.id,
                             chapterEntity.id,
-                            children.courseId,
                             children.name,
-                            children.order,
-                            children.parentChapterId,
-                            children.visible,
                             index1
                         )
                     }
@@ -53,19 +45,20 @@ data class VoChapterEntity(
             return data.mapIndexed { index, naviEntity ->
                 VoChapterEntity(
                     chapter = PoChapterEntity(
-                        naviEntity.cid, 0, naviEntity.name, 0, 0, 0, Status.NAVI, index
+                        naviEntity.cid, naviEntity.name, Status.NAVI, index
                     ),
                     children = naviEntity.articles.mapIndexed { index1, dataEntity ->
                         PoChapterChildrenEntity(
                             dataEntity.id,
                             naviEntity.cid,
-                            dataEntity.courseId,
                             dataEntity.title,
-                            0,
-                            0,
-                            dataEntity.visible,
                             index1
-                        )
+                        ).apply {
+                            link = dataEntity.link
+                            author = dataEntity.author
+                            collected = dataEntity.collect
+                            userId = dataEntity.userId
+                        }
                     }
                 )
             }

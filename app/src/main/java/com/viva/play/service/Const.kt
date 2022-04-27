@@ -97,11 +97,21 @@ object Url {
      * 体系
      */
     const val Tree = "tree/json"
+
     /**
      * 导航
      */
-    const val Navi="navi/json"
+    const val Navi = "navi/json"
 
+    /**
+     *分享人对应列表数据
+     */
+    const val UserPage = "user/{userId}/share_articles/{page}/json"
+
+    /**
+     *
+     */
+    const val ChapterArticle = "article/list/{page}/json"
     /**
      * 公众号名称
      */
@@ -161,7 +171,7 @@ object FileKey {
 object EventBus {
 
     /**
-     * 通知站内文章收藏和取消收藏
+     * 通知站内文章收藏和取消收藏, 刷新首页
      */
     const val COLLECTED = "COLLECTED"
 

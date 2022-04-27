@@ -6,7 +6,6 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.viva.play.service.entity.Children
 import com.viva.play.service.entity.DataEntity
-import com.viva.play.service.entity.NaviEntity
 
 /**
  * @author 李雄厚
@@ -27,28 +26,31 @@ import com.viva.play.service.entity.NaviEntity
 data class PoChapterChildrenEntity(
     @PrimaryKey
     val id: Int,
+    /**
+     * 这个是外键id
+     */
     val chapterId: Int,
-    val courseId: Int,
     val name: String,
-    val order: Int,
-    val parentChapterId: Int,
-    val visible: Int,
     /**
      * 用来进行排序的
      */
-    val index: Int
+    val index: Int,
 ) {
+    /**
+     * 下方数据是导航需要的
+     */
+    var link: String = ""
+    var author: String = ""
+    var collected: Boolean = false
+    var userId: Int = 0
+
     companion object {
         fun parseKnowledge(data: List<Children>, chapterId: Int): List<PoChapterChildrenEntity> {
             return data.mapIndexed { index, children ->
                 PoChapterChildrenEntity(
                     children.id,
                     chapterId,
-                    children.courseId,
                     children.name,
-                    children.order,
-                    children.parentChapterId,
-                    children.visible,
                     index
                 )
             }
@@ -59,13 +61,14 @@ data class PoChapterChildrenEntity(
                 PoChapterChildrenEntity(
                     dataEntity.id,
                     chapterId,
-                    dataEntity.courseId,
                     dataEntity.title,
-                    0,
-                    0,
-                    dataEntity.visible,
                     index
-                )
+                ).apply {
+                    link = dataEntity.link
+                    author = dataEntity.author
+                    collected = dataEntity.collect
+                    userId = dataEntity.userId
+                }
             }
         }
     }

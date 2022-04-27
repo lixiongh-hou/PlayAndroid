@@ -18,17 +18,17 @@ import com.viva.play.db.entity.*
  */
 @Database(
     entities = [
-        PoArticleEntity::class,
+        PoHomeArticleEntity::class,
         PoBannerEntity::class,
         PoUserInfo::class,
         PoCollectLinkEntity::class,
         PoCollectArticleEntity::class,
-        PoQuestionEntity::class,
+        PoArticleEntity::class,
         PoChapterEntity::class,
         PoChapterChildrenEntity::class
     ],
 
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(value = [HomeArticleConverters::class])
@@ -40,7 +40,7 @@ abstract class BaseDataBase : RoomDatabase() {
 
     abstract fun collectDao(): CollectDao
 
-    abstract fun questionDao(): QuestionDao
+    abstract fun questionDao(): ArticleDao
 
     abstract fun chapterDao(): ChapterDao
 

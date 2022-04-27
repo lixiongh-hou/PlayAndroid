@@ -3,7 +3,7 @@ package com.viva.play.service.entity
 /**
  * @author 李雄厚
  *
- * 统一列表数据实体类
+ * 统一文章列表数据实体类
  */
 data class DataEntity(
 

@@ -242,9 +242,7 @@ class CommonRemoteRequest @Inject constructor(
         )
     }
 
-    /**
-     * 体系列表
-     */
+
     suspend fun getKnowledgeList(callback: (BaseResult<List<ChapterEntity>>) -> Unit) {
         runInDispatcherIO(
             block = {
@@ -262,9 +260,6 @@ class CommonRemoteRequest @Inject constructor(
         )
     }
 
-    /**
-     * 导航数据
-     */
     suspend fun getNaviList(callback: (BaseResult<List<NaviEntity>>) -> Unit) {
         runInDispatcherIO(
             block = {
@@ -280,5 +275,33 @@ class CommonRemoteRequest @Inject constructor(
                 callback.invoke(BaseResult.Failure(it))
             }
         )
+    }
+
+    suspend fun getUserPage(
+        userId: Int,
+        page: Int,
+        callback: (BaseResult<UserPageEntity>) -> Unit
+    ) {
+        runInDispatcherIO(
+            block = {
+                service.getUserPage(userId, page).convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
+
+    /**
+     * 知识体系下的文章
+     */
+    suspend fun getChapterArticleList(page: Int, id: Int): ArticleEntity {
+        return service.getChapterArticleList(page, id).data!!
     }
 }

@@ -40,7 +40,7 @@ class CommonLocalRequest @Inject constructor(
         }
     }
 
-    suspend fun getArticleTop(callback: (BaseResult<List<PoArticleEntity>>) -> Unit) {
+    suspend fun getArticleTop(callback: (BaseResult<List<PoHomeArticleEntity>>) -> Unit) {
         runInDispatcherIO {
             val data = baseDataBase.homeArticleDao().findArticle(1)
             if (data.isNullOrEmpty()) {
@@ -51,7 +51,7 @@ class CommonLocalRequest @Inject constructor(
         }
     }
 
-    suspend fun getArticle(callback: (BaseResult<List<PoArticleEntity>>) -> Unit) {
+    suspend fun getArticle(callback: (BaseResult<List<PoHomeArticleEntity>>) -> Unit) {
         runInDispatcherIO {
             val data = baseDataBase.homeArticleDao().findArticle(0)
             if (data.isNullOrEmpty()) {

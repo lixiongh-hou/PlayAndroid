@@ -34,6 +34,8 @@ class CollectLinkWork(context: Context, params: WorkerParameters) :
                         Result.failure()
                     } else {
                         BaseDataBase.getInstance(App.instance)
+                            .collectDao().deleteLink()
+                        BaseDataBase.getInstance(App.instance)
                             .collectDao().insertLink(PoCollectLinkEntity.parse(data.data))
                         Result.success()
                     }

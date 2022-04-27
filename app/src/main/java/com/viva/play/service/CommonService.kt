@@ -4,6 +4,7 @@ import com.viva.play.base.BaseResponse
 import com.viva.play.service.Url.Article
 import com.viva.play.service.Url.ArticleTop
 import com.viva.play.service.Url.Banner
+import com.viva.play.service.Url.ChapterArticle
 import com.viva.play.service.Url.CoinRecord
 import com.viva.play.service.Url.CollectArticle
 import com.viva.play.service.Url.CollectLink
@@ -17,6 +18,7 @@ import com.viva.play.service.Url.Question
 import com.viva.play.service.Url.Tree
 import com.viva.play.service.Url.UnCollectArticle
 import com.viva.play.service.Url.UnCollectLink
+import com.viva.play.service.Url.UserPage
 import com.viva.play.service.entity.*
 import retrofit2.http.*
 
@@ -155,4 +157,23 @@ interface CommonService {
      */
     @GET(Navi)
     suspend fun getNaviList(): BaseResponse<List<NaviEntity>>
+
+    /**
+     * 分享人对应列表数据
+     */
+    @GET(UserPage)
+    suspend fun getUserPage(
+        @Path("userId") userId: Int,
+        @Path("page") page: Int
+    ): BaseResponse<UserPageEntity>
+
+    /**
+     * 知识体系下的文章
+     */
+    @GET(ChapterArticle)
+    suspend fun getChapterArticleList(
+        @Path("page") page: Int,
+        @Query("cid") id: Int,
+        @Query("order_type") orderType: Int = 0,
+    ): BaseResponse<ArticleEntity>
 }

@@ -7,10 +7,7 @@ import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentKnowledgeNavigationChildBinding
 import com.viva.play.service.NetworkStatus
 import com.viva.play.ui.model.NaviModel
-import com.viva.play.utils.toContent
-import com.viva.play.utils.toEmpty
-import com.viva.play.utils.toError
-import com.viva.play.utils.toLoading
+import com.viva.play.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -49,6 +46,17 @@ class NaviFragment : BaseFragment<FragmentKnowledgeNavigationChildBinding>() {
                 adapter.refreshData(it)
             }
         }
+
+        adapter.itemClickListener = { data, _ ->
+            UrlOpenUtils.with(data.link).apply {
+                id = data.id
+                author = data.author
+                collected = data.collected
+                userId = data.userId
+                forceWeb = false
+            }.open(requireContext())
+        }
+
         model.error.observe(viewLifecycleOwner) {
             if (it.code == NetworkStatus.EMPTY_DATA) {
                 binding.msv.toEmpty {

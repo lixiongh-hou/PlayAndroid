@@ -3,7 +3,7 @@ package com.viva.play.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.db.entity.PoBannerEntity
 
 /**
@@ -15,7 +15,7 @@ import com.viva.play.db.entity.PoBannerEntity
 interface HomeArticleDao {
 
     @Insert
-    fun insert(data: List<PoArticleEntity>)
+    fun insert(data: List<PoHomeArticleEntity>)
 
     /**
      * 查询类型总数
@@ -31,7 +31,7 @@ interface HomeArticleDao {
      * @param type 1是置顶文章， 0是首页文章
      */
     @Query("SELECT * FROM HomeArticle WHERE type = :type ORDER BY publishTime DESC")
-    fun findArticle(type: Int): List<PoArticleEntity>?
+    fun findArticle(type: Int): List<PoHomeArticleEntity>?
 
     /**
      * 收藏

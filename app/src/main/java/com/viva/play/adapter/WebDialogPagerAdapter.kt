@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.viewpager.widget.PagerAdapter
 import com.viva.play.R
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 
 /**
  * @author 李雄厚
@@ -14,12 +14,12 @@ import com.viva.play.db.entity.PoArticleEntity
  *
  */
 class WebDialogPagerAdapter(
-    private val mTopUrls: List<PoArticleEntity>?,
-    private val mUrls: List<PoArticleEntity>?
+    private val mTopUrls: List<PoHomeArticleEntity>?,
+    private val mUrls: List<PoHomeArticleEntity>?
 ) : PagerAdapter() {
 
 
-    fun getArticleEntity(position: Int): PoArticleEntity {
+    fun getArticleEntity(position: Int): PoHomeArticleEntity {
         val topUrlCount = mTopUrls?.size ?: 0
         return if (!mTopUrls.isNullOrEmpty()) {
             mTopUrls[position]

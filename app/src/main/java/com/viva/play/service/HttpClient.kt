@@ -48,7 +48,7 @@ class HttpClient {
             .create(CommonService::class.java)
     }
 
-    private fun initClient(timeout: Long = 20, unit: TimeUnit = TimeUnit.SECONDS): OkHttpClient {
+    private fun initClient(timeout: Long = 15, unit: TimeUnit = TimeUnit.SECONDS): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(timeout, unit)
             .writeTimeout(timeout, unit)

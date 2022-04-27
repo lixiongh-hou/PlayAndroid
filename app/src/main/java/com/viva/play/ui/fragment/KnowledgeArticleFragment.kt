@@ -3,29 +3,53 @@ package com.viva.play.ui.fragment
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
 import com.viva.play.adapter.ArticleAdapter
 import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseFragment
-import com.viva.play.databinding.FragmentQuestionBinding
+import com.viva.play.databinding.FragmentKnowledgeArticleBinding
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
-import com.viva.play.ui.model.QuestionMode
-import com.viva.play.utils.*
+import com.viva.play.ui.model.ChapterArticleModel
+import com.viva.play.utils.bindDivider
+import com.viva.play.utils.observeEvent
+import com.viva.play.utils.postValue
+import com.viva.play.utils.toLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+/**
+ * @author 李雄厚
+ *
+ *
+ */
 @AndroidEntryPoint
-class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
+class KnowledgeArticleFragment : BaseFragment<FragmentKnowledgeArticleBinding>() {
 
     companion object {
-        fun newInstance() = QuestionFragment()
+        private const val POSITION = "position"
+        private const val CHAPTER_ID = "chapterId"
+        fun create(position: Int, chapterId: Int): KnowledgeArticleFragment =
+            KnowledgeArticleFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(POSITION, position)
+                    putInt(CHAPTER_ID, chapterId)
+                }
+            }
     }
 
-    private val model by viewModels<QuestionMode>()
+    private val position by lazy {
+        arguments?.getInt(POSITION, -1) ?: -1
+    }
+
+    private val chapterId by lazy {
+        arguments?.getInt(CHAPTER_ID, -1) ?: -1
+    }
+
+    private val model by viewModels<ChapterArticleModel>()
     private val adapter by lazy { ArticleAdapter(requireContext()) }
 
     override fun initView(savedInstanceState: Bundle?) {
+        model.cid = chapterId
         pureScrollMode()
         initRefresh()
         val footerAdapter = FooterAdapter(requireContext()) {
@@ -33,11 +57,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
         }
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
-        adapter.bindLoadState(binding.msv)
+        adapter.bindLoadState(binding.msv, true)
         binding.recyclerView.bindDivider()
     }
 
-    @ExperimentalPagingApi
     override fun initData() {
         binding.msv.toLoading()
         lifecycleScope.launchWhenCreated {

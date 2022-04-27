@@ -1,82 +1,68 @@
 package com.viva.play.db.entity
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.viva.play.base.paging.BasePagingData
 import com.viva.play.service.entity.DataEntity
 import com.viva.play.service.entity.Tag
 
 /**
  * @author 李雄厚
  *
- * 首页文章列表，只会缓存置顶文章和前20条数据
+ * 统一文章列表的本地数据,对应网络数据[DataEntity]，除了首页数据另外处理
  */
-@Entity(tableName = "HomeArticle")
+@Entity(tableName = "Article")
 data class PoArticleEntity(
     val author: String,
-    val chapterId: Int,
-    val chapterName: String,
-    var collect: Boolean,
-    val courseId: Int,
+    val collect: Boolean,
     val desc: String,
     val envelopePic: String,
-    val fresh: Boolean,
     val id: Int,
     val link: String,
-    val niceDate: String,
-    val niceShareDate: String,
-    val projectLink: String,
-    val publishTime: Long,
-    val realSuperChapterId: Int,
-    val selfVisible: Int,
-    val shareDate: Long,
     val shareUser: String,
-    val superChapterId: Int,
-    val superChapterName: String,
-    val tags: List<Tag>?,
+    val niceDate: String,
+    val publishTime: Long,
     val title: String,
-    val type: Int,
     val userId: Int,
-) {
+    //不为null显示，否则隐藏
+    val tags: List<Tag>?,
+    //是否是置顶 1显示置顶显示，否则隐藏
+    val type: Int,
+    //是否是新发布 true显示，否则隐藏
+    val fresh: Boolean,
+    //这两个字段不为空显示，否则隐藏
+    val superChapterName: String,
+    val chapterName: String,
+) : BasePagingData() {
 
     @PrimaryKey(autoGenerate = true)
-    var primaryId: Long = 0L
+    var primaryId = 0L
 
-    //把banner图放进Rv里面，第一个Position，不需要存储到本地数据库
-    @Ignore
-    var banner: List<PoBannerEntity>? = null
 
     companion object {
-        fun parse(data: List<DataEntity>): List<PoArticleEntity> {
+        fun parse(data: List<DataEntity>, page: Int): List<PoArticleEntity> {
             return data.map {
                 PoArticleEntity(
                     author = it.author,
-                    chapterId = it.chapterId,
                     chapterName = it.chapterName,
                     collect = it.collect,
-                    courseId = it.courseId,
                     desc = it.desc,
                     envelopePic = it.envelopePic,
                     fresh = it.fresh,
                     id = it.id,
                     link = it.link,
                     niceDate = it.niceDate,
-                    niceShareDate = it.niceShareDate,
-                    projectLink = it.projectLink,
                     publishTime = it.publishTime,
-                    realSuperChapterId = it.realSuperChapterId,
-                    selfVisible = it.selfVisible,
-                    shareDate = it.shareDate,
                     shareUser = it.shareUser,
-                    superChapterId = it.superChapterId,
                     superChapterName = it.superChapterName,
                     tags = it.tags,
                     title = it.title,
                     type = it.type,
-                    userId = it.userId
-                )
+                    userId = it.userId,
+                ).apply {
+                    this.page = page + 1
+                }
             }
         }
     }
 }
-

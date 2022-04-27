@@ -145,7 +145,14 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
     }
 
     private var isNotLoading = false
-    protected fun BasePagingDataAdapter<*>.bindLoadState(msv: MultiStateView) {
+    private var isNotError = false
+
+    /**
+     * @param m 如果没有用到paging和room组合就返回true
+     */
+    protected fun BasePagingDataAdapter<*>.bindLoadState(msv: MultiStateView, m: Boolean = false) {
+        isNotLoading = m
+        isNotError = m
         this.addLoadStateListener {
             when (it.refresh) {
                 is LoadState.Loading -> {
@@ -171,12 +178,17 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
                 is LoadState.Error -> {
                     //加载失败
                     Log.e("测试", "Error")
-                    if (itemCount == 0) {
-                        msv.toError {
-                            msv.toLoading()
-                            this.refresh()
+                    if (isNotError) {
+                        if (itemCount == 0) {
+                            msv.toError {
+                                msv.toLoading()
+                                this.refresh()
+                            }
+                        } else {
+                            msv.toContent()
                         }
                     }
+                    isNotError = true
                     failureAfter()
                 }
             }

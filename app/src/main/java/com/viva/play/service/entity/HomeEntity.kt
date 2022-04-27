@@ -1,6 +1,6 @@
 package com.viva.play.service.entity
 
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.db.entity.PoBannerEntity
 
 /**
@@ -11,13 +11,13 @@ import com.viva.play.db.entity.PoBannerEntity
  */
 data class HomeEntity(
     val banner: List<PoBannerEntity>,
-    val article: List<PoArticleEntity>
+    val article: List<PoHomeArticleEntity>
 ) {
     //这边处理一下，把banner图放进Rv里面，第一个Position
-    fun getHomeData(): List<PoArticleEntity> {
-        val data = mutableListOf<PoArticleEntity>()
+    fun getHomeData(): List<PoHomeArticleEntity> {
+        val data = mutableListOf<PoHomeArticleEntity>()
         data.add(
-            PoArticleEntity(
+            PoHomeArticleEntity(
                 "",
                 0,
                 "",

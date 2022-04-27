@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.viva.play.base.BaseModel
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.service.ApiError
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
@@ -38,8 +38,8 @@ class HomeModel @Inject constructor(
     val homeData: LiveData<HomeEntity>
         get() = _homeData
 
-    private val _article = MutableLiveData<List<PoArticleEntity>>()
-    val article: LiveData<List<PoArticleEntity>>
+    private val _article = MutableLiveData<List<PoHomeArticleEntity>>()
+    val article: LiveData<List<PoHomeArticleEntity>>
         get() = _article
 
     private val _loadError = MutableLiveData<ApiError>()

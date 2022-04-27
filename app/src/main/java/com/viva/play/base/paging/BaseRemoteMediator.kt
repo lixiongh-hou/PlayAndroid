@@ -4,6 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.viva.play.service.ApiError
+import com.viva.play.service.DataConvert.convertNetworkError
+import com.viva.play.service.ServerException
 import com.viva.play.utils.NetworkUtils
 
 /**
@@ -31,10 +34,15 @@ abstract class BaseRemoteMediator<Value : BasePagingData> : RemoteMediator<Int, 
         }
 
         if (noNetworkLoadingLocally()) {
-            return MediatorResult.Success(endOfPaginationReached = true)
+            return MediatorResult.Error(Throwable())
         }
 
-        return MediatorResult.Success(endOfPaginationReached = loadData(pageKey, loadType))
+        return try {
+            MediatorResult.Success(endOfPaginationReached = loadData(pageKey, loadType))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return MediatorResult.Error(Throwable())
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.viva.play.R
 import com.viva.play.adapter.WebDialogPagerAdapter
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.dpToPx
 import com.viva.play.views.CollectView
@@ -29,21 +29,21 @@ class WebDialog(
     context: Context,
     private val currPos: Int,
     private val singleTipMode: Boolean,
-    topUrls: List<PoArticleEntity>?,
-    urls: List<PoArticleEntity>?
+    topUrls: List<PoHomeArticleEntity>?,
+    urls: List<PoHomeArticleEntity>?
 ) : DialogLayer(context) {
 
     private var mAdapter: WebDialogPagerAdapter
-    var onPageChanged: ((Int, PoArticleEntity) -> Unit)? = null
-    var collectClick: ((CollectView, PoArticleEntity) -> Unit)? = null
+    var onPageChanged: ((Int, PoHomeArticleEntity) -> Unit)? = null
+    var collectClick: ((CollectView, PoHomeArticleEntity) -> Unit)? = null
 
     companion object {
         fun create(
             context: Context,
             currPos: Int = 0,
             singleTipMode: Boolean = false,
-            topUrls: List<PoArticleEntity>? = null,
-            urls: List<PoArticleEntity>? = null
+            topUrls: List<PoHomeArticleEntity>? = null,
+            urls: List<PoHomeArticleEntity>? = null
         ): WebDialog = WebDialog(context, currPos, singleTipMode, topUrls, urls)
     }
 

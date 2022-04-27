@@ -63,7 +63,7 @@ class CommonRequest @Inject constructor() {
                 if (bannerData == null || articleTopData == null || articleData == null) {
                     callback.invoke(BaseResult.Failure(noInternet))
                 } else {
-                    val data = mutableListOf<PoArticleEntity>()
+                    val data = mutableListOf<PoHomeArticleEntity>()
                     data.addAll(articleTopData)
                     data.addAll(articleData)
                     callback.invoke(BaseResult.Success(HomeEntity(bannerData, data)))
@@ -131,15 +131,15 @@ class CommonRequest @Inject constructor() {
     /**
      * 获取置顶文章
      */
-    private suspend fun getArticleTop(local: Boolean): List<PoArticleEntity>? {
-        var list: MutableList<PoArticleEntity>? = null
+    private suspend fun getArticleTop(local: Boolean): List<PoHomeArticleEntity>? {
+        var list: MutableList<PoHomeArticleEntity>? = null
         val total = baseDataBase.homeArticleDao().findTypeTotal(1)
         //判断取本地数据还是网络数据
         if (isNetworkAvailable() && !local) {
             remoteRequest.getArticleTop {
                 it.doSuccess { success ->
                     list = mutableListOf()
-                    list?.addAll(PoArticleEntity.parse(success))
+                    list?.addAll(PoHomeArticleEntity.parse(success))
 
                     baseDataBase.homeArticleDao().deleteArticle(1)
                     baseDataBase.homeArticleDao().insert(list!!)
@@ -153,7 +153,7 @@ class CommonRequest @Inject constructor() {
                 remoteRequest.getArticleTop {
                     it.doSuccess { success ->
                         list = mutableListOf()
-                        list?.addAll(PoArticleEntity.parse(success))
+                        list?.addAll(PoHomeArticleEntity.parse(success))
 
                         baseDataBase.homeArticleDao().deleteArticle(1)
                         baseDataBase.homeArticleDao().insert(list!!)
@@ -178,15 +178,15 @@ class CommonRequest @Inject constructor() {
         return list
     }
 
-    private suspend fun getArticleAsync(page: Int = 0, local: Boolean): List<PoArticleEntity>? {
-        var list: MutableList<PoArticleEntity>? = null
+    private suspend fun getArticleAsync(page: Int = 0, local: Boolean): List<PoHomeArticleEntity>? {
+        var list: MutableList<PoHomeArticleEntity>? = null
         val total = baseDataBase.homeArticleDao().findTypeTotal(0)
         //判断取本地数据还是网络数据
         if (isNetworkAvailable() && !local) {
             remoteRequest.getArticle(page) {
                 it.doSuccess { success ->
                     list = mutableListOf()
-                    list?.addAll(PoArticleEntity.parse(success.data))
+                    list?.addAll(PoHomeArticleEntity.parse(success.data))
 
                     baseDataBase.homeArticleDao().deleteArticle(0)
                     baseDataBase.homeArticleDao().insert(list!!)
@@ -200,7 +200,7 @@ class CommonRequest @Inject constructor() {
                 remoteRequest.getArticle(page) {
                     it.doSuccess { success ->
                         list = mutableListOf()
-                        list?.addAll(PoArticleEntity.parse(success.data))
+                        list?.addAll(PoHomeArticleEntity.parse(success.data))
 
                         baseDataBase.homeArticleDao().deleteArticle(0)
                         baseDataBase.homeArticleDao().insert(list!!)
@@ -232,13 +232,13 @@ class CommonRequest @Inject constructor() {
     fun getArticle(
         scope: CoroutineScope,
         page: Int = 0,
-        callback: (BaseResult<List<PoArticleEntity>>) -> Unit
+        callback: (BaseResult<List<PoHomeArticleEntity>>) -> Unit
     ) {
         scope.launch {
             if (isNetworkAvailable()) {
                 remoteRequest.getArticle(page) {
                     it.doSuccess { success ->
-                        callback.invoke(BaseResult.Success(PoArticleEntity.parse(success.data)))
+                        callback.invoke(BaseResult.Success(PoHomeArticleEntity.parse(success.data)))
                     }
                     it.doFailure { error ->
                         callback.invoke(BaseResult.Failure(error))
@@ -643,6 +643,24 @@ class CommonRequest @Inject constructor() {
             }
 
         }
+    }
+
+    /**
+     * 分享人对应列表数据
+     */
+    fun getUserPage(
+        scope: CoroutineScope,
+        userId: Int,
+        page: Int,
+        callback: (BaseResult<UserPageEntity>) -> Unit
+    ) {
+        scope.launch {
+            remoteRequest.getUserPage(userId, page, callback)
+        }
+    }
+
+    suspend fun getChapterArticleList(page: Int, id: Int): ArticleEntity {
+        return remoteRequest.getChapterArticleList(page, id)
     }
 
 }

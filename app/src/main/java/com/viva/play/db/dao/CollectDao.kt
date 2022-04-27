@@ -54,6 +54,9 @@ interface CollectDao {
     @Update
     fun updateLink(data: PoCollectLinkEntity)
 
+    @Query("DELETE FROM CollectLink")
+    fun deleteLink()
+
     @Query("DELETE FROM CollectLink WHERE collectId = :id")
     fun deleteLink(id: Int)
 }

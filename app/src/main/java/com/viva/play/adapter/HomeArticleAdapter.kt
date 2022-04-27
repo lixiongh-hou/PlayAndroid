@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.viva.play.databinding.ItemHomeArticleBinding
 import com.viva.play.databinding.ListFooterBinding
 import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.db.entity.PoBannerEntity
+import com.viva.play.ui.activity.KnowledgeArticleActivity
+import com.viva.play.ui.activity.UserPageActivity
 import com.viva.play.utils.*
 import com.viva.play.views.CollectView
 import com.youth.banner.Banner
@@ -46,11 +49,11 @@ class HomeArticleAdapter(
     private var isShowFooter = true
     private var type = LOADING
     private val bannerList = mutableListOf<PoBannerEntity>()
-    val data: ArrayList<PoArticleEntity> = ArrayList()
+    val data: ArrayList<PoHomeArticleEntity> = ArrayList()
 
-    var itemOnClick: ((PoArticleEntity, Int) -> Unit)? = null
-    var itemLongClick: ((PoArticleEntity, Int) -> Boolean)? = null
-    var collectClick: ((CollectView, PoArticleEntity) -> Unit)? = null
+    var itemOnClick: ((PoHomeArticleEntity, Int) -> Unit)? = null
+    var itemLongClick: ((PoHomeArticleEntity, Int) -> Boolean)? = null
+    var collectClick: ((CollectView, PoHomeArticleEntity) -> Unit)? = null
 
     var banner: Banner? = null
 
@@ -91,9 +94,35 @@ class HomeArticleAdapter(
             is ViewHolder -> {
                 val data = this.data[position]
                 holder.binding.apply {
-                    this.data = data
+                    val tmpData = PoArticleEntity(
+                        author = data.author,
+                        chapterName = data.chapterName,
+                        collect = data.collect,
+                        desc = data.desc,
+                        envelopePic = data.envelopePic,
+                        fresh = data.fresh,
+                        id = data.id,
+                        link = data.link,
+                        niceDate = data.niceDate,
+                        publishTime = data.publishTime,
+                        shareUser = data.shareUser,
+                        superChapterName = data.superChapterName,
+                        tags = data.tags,
+                        title = data.title,
+                        type = data.type,
+                        userId = data.userId,
+                    )
+                    this.data = tmpData
                     cvCollect.onClick = {
                         collectClick?.invoke(it, data)
+                    }
+
+                    tvAuthor.setOnClickListener {
+                        UserPageActivity.start(context, data.userId)
+                    }
+
+                    tvTag.setOnClickListener {
+                        KnowledgeArticleActivity.start(context, data.tags?.get(0))
                     }
                 }
 
@@ -152,13 +181,13 @@ class HomeArticleAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun refreshData(data: List<PoArticleEntity>) {
+    fun refreshData(data: List<PoHomeArticleEntity>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }
 
-    fun addData(data: List<PoArticleEntity>) {
+    fun addData(data: List<PoHomeArticleEntity>) {
         this.data.addAll(data)
         notifyItemRangeInserted(itemCount - 1, data.size)
     }

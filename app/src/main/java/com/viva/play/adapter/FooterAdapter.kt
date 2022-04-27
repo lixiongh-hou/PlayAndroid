@@ -16,7 +16,8 @@ import com.viva.play.databinding.ListFooterBinding
  */
 class FooterAdapter(
     private val context: Context,
-    private val retry: () -> Unit) : LoadStateAdapter<BaseViewHolder<ListFooterBinding>>() {
+    private val retry: () -> Unit
+) : LoadStateAdapter<BaseViewHolder<ListFooterBinding>>() {
 
     override fun onBindViewHolder(holder: BaseViewHolder<ListFooterBinding>, loadState: LoadState) {
         when (loadState) {
@@ -31,8 +32,7 @@ class FooterAdapter(
                     retry.invoke()
                 }
             }
-            else -> {
-
+            is LoadState.NotLoading -> {
             }
         }
     }

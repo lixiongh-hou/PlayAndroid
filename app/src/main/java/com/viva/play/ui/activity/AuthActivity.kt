@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isInvisible
 import androidx.core.widget.addTextChangedListener
+import com.viva.play.App
 import com.viva.play.R
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityAuthBinding
@@ -113,6 +114,7 @@ class AuthActivity : BaseActivity(), OnFocusChangeListener {
         super.onResume()
         model.login.observe(this) {
             postValue(EventBus.LOGIN, LoginEvent(it.nickname, it.rank, it.coinCount))
+            App.notification()
             finish()
         }
         model.error.observe(this) {

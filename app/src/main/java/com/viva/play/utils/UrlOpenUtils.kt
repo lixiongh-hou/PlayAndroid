@@ -1,7 +1,7 @@
 package com.viva.play.utils
 
 import android.content.Context
-import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.ui.activity.ArticleActivity
 import com.viva.play.ui.activity.WebActivity
 
@@ -26,7 +26,7 @@ class UrlOpenUtils(private val url: String) {
     companion object {
         fun with(url: String) = UrlOpenUtils(url)
 
-        fun with(article: PoArticleEntity) = with(article.link).apply {
+        fun with(article: PoHomeArticleEntity) = with(article.link).apply {
             article.let {
                 id = it.id
                 title = it.title
