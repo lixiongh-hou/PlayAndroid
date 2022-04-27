@@ -72,6 +72,10 @@ class SwipeBackInitTask : SyncInitTask() {
 
 class X5InitTask : AsyncInitTask() {
     override fun init(application: Application) {
+        val map = HashMap<String, Any>()
+        map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
+        map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
+        QbSdk.initTbsSettings(map)
        QbSdk.initX5Environment(application, object : QbSdk.PreInitCallback {
             override fun onCoreInitFinished() {
                 Log.d("x5", "initX5Environment->onCoreInitFinished")
@@ -81,11 +85,6 @@ class X5InitTask : AsyncInitTask() {
                 Log.d("x5", "initX5Environment->onViewInitFinished=$b")
             }
         })
-
-        val map = HashMap<String, Any>()
-        map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
-        map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
-        QbSdk.initTbsSettings(map)
     }
 
     override fun onlyMainProcess(): Boolean {

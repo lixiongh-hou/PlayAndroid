@@ -47,7 +47,7 @@ class NaviFragment : BaseFragment<FragmentKnowledgeNavigationChildBinding>() {
             }
         }
 
-        adapter.itemClickListener = { data, _ ->
+        adapter.itemClickListener = { data, _, _ ->
             UrlOpenUtils.with(data.link).apply {
                 id = data.id
                 author = data.author

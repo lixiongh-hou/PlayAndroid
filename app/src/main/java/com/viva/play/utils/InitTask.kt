@@ -63,7 +63,7 @@ class InitTaskRunner(private val application: Application) {
         }
         for (map in tasksMap) {
             val task = map.value
-            val async=AsyncRunner(application, task).execute()
+            AsyncRunner(application, task).execute()
         }
     }
 

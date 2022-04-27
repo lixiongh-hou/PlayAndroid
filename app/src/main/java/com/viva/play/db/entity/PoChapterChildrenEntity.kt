@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.viva.play.service.entity.Children
 import com.viva.play.service.entity.DataEntity
+import java.io.Serializable
 
 /**
  * @author 李雄厚
@@ -35,7 +36,7 @@ data class PoChapterChildrenEntity(
      * 用来进行排序的
      */
     val index: Int,
-) {
+): Serializable {
     /**
      * 下方数据是导航需要的
      */

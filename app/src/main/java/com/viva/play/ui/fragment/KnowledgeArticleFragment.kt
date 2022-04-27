@@ -10,10 +10,7 @@ import com.viva.play.databinding.FragmentKnowledgeArticleBinding
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.ChapterArticleModel
-import com.viva.play.utils.bindDivider
-import com.viva.play.utils.observeEvent
-import com.viva.play.utils.postValue
-import com.viva.play.utils.toLoading
+import com.viva.play.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -67,6 +64,17 @@ class KnowledgeArticleFragment : BaseFragment<FragmentKnowledgeArticleBinding>()
             model.pagingData.collectLatest {
                 adapter.submitData(it)
             }
+        }
+
+        adapter.itemOnClick = { data, _ ->
+            UrlOpenUtils.with(data.link).apply {
+                title = data.title
+                id = data.id
+                collected = true
+                author = data.author
+                userId = data.userId
+                forceWeb = false
+            }.open(requireContext())
         }
 
         adapter.collectClick = { data, _ ->

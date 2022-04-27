@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseAdapter<B : ViewDataBinding, T>(val data: MutableList<T>) :
     RecyclerView.Adapter<BaseViewHolder<B>>() {
 
-    open val clickEvent: ((T, B, Int) -> Unit)? = null
+    var clickEvent: ((T, B, Int) -> Unit)? = null
 
 
     @SuppressLint("NotifyDataSetChanged")

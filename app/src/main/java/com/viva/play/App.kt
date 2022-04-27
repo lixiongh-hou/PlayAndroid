@@ -5,6 +5,7 @@ import androidx.work.*
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
 import com.viva.play.utils.*
+import com.viva.play.utils.web.WebInstance
 import com.viva.play.work.CollectLinkWork
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
@@ -56,6 +57,8 @@ class App : Application() {
             SonicEngine.createInstance(TTPRuntime(this), SonicConfig.Builder().build())
         }
         FlowBusInitializer.init(this)
+
+
         InitTaskRunner(this)
             .add(SmartRefreshInitTask())
             .add(CookieManagerInitTask())
@@ -63,6 +66,7 @@ class App : Application() {
 //            .add(SwipeBackInitTask())
             .add(X5InitTask())
             .run()
+        WebInstance.getInstance(instance).create()
         notification()
     }
 

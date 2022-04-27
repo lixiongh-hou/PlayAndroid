@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.viva.play.service.entity.ChapterEntity
 import com.viva.play.service.entity.NaviEntity
+import java.io.Serializable
 
 /**
  * @author 李雄厚
@@ -21,7 +22,7 @@ data class PoChapterEntity(
      */
     val index: Int
 
-) {
+): Serializable {
     companion object {
         fun parseKnowledge(data: List<ChapterEntity>): List<PoChapterEntity> {
             return data.mapIndexed { index, chapterEntity ->

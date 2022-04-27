@@ -71,6 +71,16 @@ class UserPageActivity : BaseActivity() {
 
             }
         }
+        adapter.itemOnClick = { data, _ ->
+            UrlOpenUtils.with(data.link).apply {
+                title = data.title
+                id = data.id
+                collected = true
+                author = data.author
+                userId = data.userId
+                forceWeb = false
+            }.open(this)
+        }
 
         adapter.collectClick = { data, _ ->
             model.id = data.id

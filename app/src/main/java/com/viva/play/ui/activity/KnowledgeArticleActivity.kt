@@ -28,9 +28,19 @@ import github.xuqk.kdtablayout.widget.tab.KDColorMorphingTextTab
 class KnowledgeArticleActivity : BaseActivity() {
 
     companion object {
+        private const val DATA = "data"
+        private const val CURR_POS = "currPos"
+
         private const val SUPER_CHAPTER_ID = "superChapterId"
         private const val SUPER_CHAPTER_NAME = "superChapterName"
         private const val CHAPTER_ID = "chapterId"
+
+        fun start(context: Context, data: VoChapterEntity, currPos: Int) {
+            val intent = Intent(context, KnowledgeArticleActivity::class.java)
+            intent.putExtra(DATA, data)
+            intent.putExtra(CURR_POS, currPos)
+            context.startActivity(intent)
+        }
 
         fun start(context: Context, superChapterId: Int, superChapterName: String, chapterId: Int) {
             val intent = Intent(context, KnowledgeArticleActivity::class.java)
@@ -79,51 +89,65 @@ class KnowledgeArticleActivity : BaseActivity() {
         intent.getIntExtra(CHAPTER_ID, -1)
     }
 
+    private val data by lazy {
+        intent.getSerializableExtra(DATA) as VoChapterEntity?
+    }
+
+    private val currPos by lazy {
+        intent.getIntExtra(CURR_POS, -1)
+    }
+
     private lateinit var mAdapter: FixedFragmentPagerAdapter
 
     override fun initView(savedInstanceState: Bundle?) {
-        if (superChapterId <= 0 && chapterId <= 0) {
-            binding.msv.toError()
-        }
-        binding.abc.titleTextView.text = superChapterName
-        model.getKnowledgeList()
-        model.knowledgeList.observe(this) {
-            var superChapterBean: VoChapterEntity? = null
-            for (bean in it) {
-                if (bean.chapter.id == superChapterId) {
-                    superChapterBean = bean
-                    break
-                }
-            }
-            var currPos = 0
-            if (superChapterBean == null) {
-                for (scb in it) {
-                    val chapters = scb.children
-                    for (i in chapters.indices) {
-                        val cb = chapters[i]
-                        if (cb.id == chapterId) {
-                            superChapterBean = scb
-                            currPos = i
+        if (data != null) {
+            initVP(data!!, currPos)
+        } else {
+            if (superChapterId <= 0 && chapterId <= 0) {
+                binding.msv.toError()
+            } else {
+                binding.abc.titleTextView.text = superChapterName
+                model.getKnowledgeList()
+                model.knowledgeList.observe(this) {
+                    var superChapterBean: VoChapterEntity? = null
+                    for (bean in it) {
+                        if (bean.chapter.id == superChapterId) {
+                            superChapterBean = bean
                             break
                         }
                     }
-                }
-            } else {
-                val chapters = superChapterBean.children
-                for (i in chapters.indices) {
-                    val cb = chapters[i]
-                    if (cb.id == chapterId) {
-                        currPos = i
-                        break
+                    var currPos = 0
+                    if (superChapterBean == null) {
+                        for (scb in it) {
+                            val chapters = scb.children
+                            for (i in chapters.indices) {
+                                val cb = chapters[i]
+                                if (cb.id == chapterId) {
+                                    superChapterBean = scb
+                                    currPos = i
+                                    break
+                                }
+                            }
+                        }
+                    } else {
+                        val chapters = superChapterBean.children
+                        for (i in chapters.indices) {
+                            val cb = chapters[i]
+                            if (cb.id == chapterId) {
+                                currPos = i
+                                break
+                            }
+                        }
+                    }
+                    if (superChapterBean != null) {
+                        initVP(superChapterBean, currPos)
+                    } else {
+                        binding.msv.toError()
                     }
                 }
             }
-            if (superChapterBean != null) {
-                initVP(superChapterBean, currPos)
-            } else {
-                binding.msv.toError()
-            }
         }
+
     }
 
     private fun initVP(superChapterBean: VoChapterEntity, currPos: Int) {

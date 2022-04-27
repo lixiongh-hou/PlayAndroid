@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.viva.play.base.BasePagingDataAdapter
 import com.viva.play.databinding.ItemHomeArticleBinding
 import com.viva.play.db.entity.PoArticleEntity
+import com.viva.play.ui.activity.KnowledgeArticleActivity
 import com.viva.play.ui.activity.UserPageActivity
 import com.viva.play.utils.CookieCache
 
@@ -40,8 +41,13 @@ class ArticleAdapter(
                         collectClick?.invoke(data, position)
                     }
                 }
-                this.tvAuthor.setOnClickListener {
+
+                tvAuthor.setOnClickListener {
                     UserPageActivity.start(context, data.userId)
+                }
+
+                tvTag.setOnClickListener {
+                    KnowledgeArticleActivity.start(context, data.tags?.get(0))
                 }
             }
             binding.binding.executePendingBindings()

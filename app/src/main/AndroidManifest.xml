@@ -22,10 +22,12 @@
         android:theme="@style/ThemePlayAndroid">
         <activity
             android:name=".ui.activity.KnowledgeArticleActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.activity.UserPageActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.activity.CollectionActivity"
             android:exported="true" />

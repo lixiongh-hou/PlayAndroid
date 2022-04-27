@@ -25,7 +25,7 @@ class KnowledgeAdapter(private val context: Context, data: MutableList<VoChapter
     private var mInflater: LayoutInflater? = null
     private val mFlexItemTextViewCaches: Queue<AppCompatTextView> = LinkedList()
 
-    var itemClickListener: ((PoChapterChildrenEntity, Int) -> Unit)? = null
+    var itemClickListener: ((PoChapterChildrenEntity, VoChapterEntity, Int) -> Unit)? = null
 
     override fun createBinding(parent: ViewGroup, viewType: Int): ItemKnowledgeBinding =
         ItemKnowledgeBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -36,7 +36,7 @@ class KnowledgeAdapter(private val context: Context, data: MutableList<VoChapter
             val child = createOrGetCacheFlexItemTextView(binding.fbl)
             child.text = children.name.formatHtml()
             child.setOnClickListener {
-                itemClickListener?.invoke(children, index)
+                itemClickListener?.invoke(children, data, index)
             }
             binding.fbl.addView(child)
         }

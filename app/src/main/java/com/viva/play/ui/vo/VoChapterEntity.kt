@@ -1,5 +1,7 @@
 package com.viva.play.ui.vo
 
+import java.io.Serializable
+
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.viva.play.db.entity.PoChapterChildrenEntity
@@ -18,7 +20,7 @@ data class VoChapterEntity(
     val chapter: PoChapterEntity,
     @Relation(parentColumn = "id", entityColumn = "chapterId")
     val children: List<PoChapterChildrenEntity>
-) {
+) : Serializable {
     companion object {
         fun parseKnowledge(data: List<ChapterEntity>): List<VoChapterEntity> {
             return data.mapIndexed { index, chapterEntity ->
