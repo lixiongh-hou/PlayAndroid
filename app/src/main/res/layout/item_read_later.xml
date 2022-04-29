@@ -7,9 +7,11 @@
 
         <variable
             name="data"
-            type="com.viva.play.db.entity.PoCollectLinkEntity" />
+            type="com.viva.play.db.entity.PoReadLaterEntity" />
 
         <import type="com.viva.play.utils.StringUtils" />
+
+        <import type="com.viva.play.utils.DataUtil" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +47,11 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@{data.url}"
+                android:text="@{DataUtil.useBeautifulFormat(data.time)}"
                 android:textColor="?colorTextSecond"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                tools:text="关键字关键字关键字关键字关键字关键字" />
+                tools:text="2019-01-19" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -86,7 +88,6 @@
                     android:text="复制链接"
                     android:textColor="?colorTextInvert"
                     android:textSize="12sp"
-
                     app:layout_constraintBottom_toBottomOf="@+id/cl"
                     app:layout_constraintEnd_toStartOf="@+id/tvOpen"
                     app:layout_constraintStart_toStartOf="@+id/cl"
@@ -105,25 +106,8 @@
                     android:textColor="?colorTextInvert"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/cl"
-                    app:layout_constraintEnd_toStartOf="@+id/tvEdit"
-                    app:layout_constraintStart_toEndOf="@+id/tvCopy"
-                    app:layout_constraintTop_toTopOf="@+id/cl" />
-
-                <com.viva.play.views.ActionTextView
-                    android:id="@+id/tvEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_edit"
-                    android:gravity="center"
-                    android:text="编辑"
-                    android:textColor="?colorTextInvert"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/cl"
                     app:layout_constraintEnd_toStartOf="@+id/tvDelete"
-                    app:layout_constraintStart_toEndOf="@+id/tvOpen"
+                    app:layout_constraintStart_toEndOf="@+id/tvCopy"
                     app:layout_constraintTop_toTopOf="@+id/cl" />
 
                 <com.viva.play.views.ActionTextView
@@ -140,11 +124,10 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/cl"
                     app:layout_constraintEnd_toEndOf="@+id/cl"
-                    app:layout_constraintStart_toEndOf="@+id/tvEdit"
+                    app:layout_constraintStart_toEndOf="@+id/tvOpen"
                     app:layout_constraintTop_toTopOf="@+id/cl" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

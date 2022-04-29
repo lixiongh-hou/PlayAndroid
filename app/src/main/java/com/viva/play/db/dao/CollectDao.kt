@@ -31,6 +31,9 @@ interface CollectDao {
 
     @Query("DELETE FROM CollectArticle WHERE `key`=:key AND id=:id AND originId=:originId")
     fun deleteArticle(id: Int, originId: Int, key: String = CookieCache.userId.toString())
+    @Query("DELETE FROM CollectArticle WHERE `key`=:key AND originId=:id")
+    fun deleteArticle(id: Int, key: String = CookieCache.userId.toString())
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLink(data: List<PoCollectLinkEntity>)
@@ -46,7 +49,7 @@ interface CollectDao {
      * 如[deleteLink] [updateLink]时候
      */
     @Query("SELECT * FROM CollectLink")
-    fun findLink(): PagingSource<Int, PoCollectLinkEntity>
+    fun findLinkList(): PagingSource<Int, PoCollectLinkEntity>
 
     @Query("SELECT COUNT(collectId) AS total FROM CollectLink LIMIT :offset, 20")
     suspend fun findLinkTotal(offset: Int): Int

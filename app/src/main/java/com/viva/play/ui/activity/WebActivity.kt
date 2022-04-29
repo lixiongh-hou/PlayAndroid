@@ -15,6 +15,7 @@ import com.viva.play.R
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityWebBinding
 import com.viva.play.db.entity.PoCollectLinkEntity
+import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.dialog.WebMenuDialog
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
@@ -131,10 +132,9 @@ class WebActivity : BaseActivity(), OnlyEdge {
             })
         mWebHolder.loadUrl(url)
         mWebHolder.setOnPageScrollEndListener {
-            //TODO 表示已经查看了文章，移除稍后阅读
-            // if (isReadLater()) {
-            //    presenter.deleteReadLater(mWebHolder.getUrl())
-            // }
+            if (isReadLater()) {
+                model.removeReadLater(mWebHolder.getUrl())
+            }
         }
 
         binding.ivBack.setOnClickListener {
@@ -222,6 +222,11 @@ class WebActivity : BaseActivity(), OnlyEdge {
         return true
     }
 
+    private fun isReadLater(): Boolean {
+        model.findReadLater(mWebHolder.getUrl()) ?: return false
+        return true
+    }
+
     private fun switchIconEnable(view: View, enable: Boolean) {
         if (enable) {
             view.isEnabled = true
@@ -242,6 +247,13 @@ class WebActivity : BaseActivity(), OnlyEdge {
         mWebHolder.onResume()
         super.onResume()
         model.getCollectLinkList()
+        model.getReadLaterListData().observe(this) {
+            model.mReadLaterList.clear()
+            it.forEach { entity ->
+                model.mReadLaterList.add(entity.link)
+            }
+
+        }
         model.collectLinkList.observe(this) {
             updateCollect()
         }
@@ -255,6 +267,15 @@ class WebActivity : BaseActivity(), OnlyEdge {
         model.collectLink.observe(this) {
 
         }
+        //稍后阅读回调
+        model.addReadLater.observe(this) {
+            if (it) {
+                "已加入我的书签".toast()
+            } else {
+                "已移出我的书签".toast()
+            }
+        }
+
         model.error.observe(this) {
             updateCollect()
             it.message.toast()
@@ -286,7 +307,7 @@ class WebActivity : BaseActivity(), OnlyEdge {
             supportFragmentManager,
             mWebHolder.getUrl(),
             model.collected.get(),
-            false,
+            isReadLater(),
             object : WebMenuDialog.OnMenuClickListener {
                 override fun onShareArticle() {
                 }
@@ -300,6 +321,15 @@ class WebActivity : BaseActivity(), OnlyEdge {
                 }
 
                 override fun onReadLater() {
+                    if (isReadLater()) {
+                        model.removeReadLater(mWebHolder.getUrl())
+                    } else {
+                        model.addReadLater(
+                            PoReadLaterEntity(
+                                mWebHolder.getUrl(), model.title.get()!!
+                            )
+                        )
+                    }
                 }
 
                 override fun onHome() {

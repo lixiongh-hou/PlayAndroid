@@ -74,6 +74,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var isNotLoading = false
     private var isNotError = false
+
+    /**
+     * @param m 如果没有用到paging的RemoteMediator和room组合就返回true
+     */
     protected fun BasePagingDataAdapter<*>.bindLoadState(msv: MultiStateView, m: Boolean = false) {
         isNotLoading = m
         isNotError = m

@@ -23,7 +23,7 @@ data class PoArticleEntity(
     val niceDate: String,
     val publishTime: Long,
     val title: String,
-    val userId: Int,
+    val userId: Int = 0,
     //不为null显示，否则隐藏
     val tags: List<Tag>?,
     //是否是置顶 1显示置顶显示，否则隐藏
@@ -43,6 +43,7 @@ data class PoArticleEntity(
         fun parse(data: List<DataEntity>, page: Int): List<PoArticleEntity> {
             return data.map {
                 PoArticleEntity(
+                    userId = it.userId,
                     author = it.author,
                     chapterName = it.chapterName,
                     collect = it.collect,
@@ -58,7 +59,6 @@ data class PoArticleEntity(
                     tags = it.tags,
                     title = it.title,
                     type = it.type,
-                    userId = it.userId,
                 ).apply {
                     this.page = page + 1
                 }

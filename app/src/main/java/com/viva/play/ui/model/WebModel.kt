@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.viva.play.base.BaseModel
 import com.viva.play.db.entity.PoCollectLinkEntity
+import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
 import com.viva.play.service.request.CommonRequest
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WebModel @Inject constructor(
     private val commonRequest: CommonRequest
-) : BaseModel() {
+) : BaseModel(commonRequest) {
 
     val title = ObservableField("")
     val id = ObservableInt(-1)
@@ -45,12 +46,25 @@ class WebModel @Inject constructor(
             it.doSuccess { success ->
                 success.forEach { entity ->
                     addCollected(entity.url)
-                    addCollectId(PoCollectLinkEntity(url = entity.url, collectId = entity.collectId))
+                    addCollectId(
+                        PoCollectLinkEntity(
+                            url = entity.url,
+                            collectId = entity.collectId
+                        )
+                    )
                 }
                 _collectLinkList.postValue(success)
             }
         }
     }
+
+    /**
+     * 获取本地缓存的网址来判断用户有没有添加稍后阅读
+     */
+    fun getReadLaterListData(): LiveData<List<PoReadLaterEntity>> {
+        return commonRequest.getReadLaterListLiveData()
+    }
+
 
     /**
      * 这里的收藏要区分收藏站内文章还是网址
@@ -115,11 +129,10 @@ class WebModel @Inject constructor(
 
 
     /*----------------处理是否要收藏网址数据，不会合api合本地数据有关，临时缓存----------------*/
-    /**
-     *
-     */
     private val mCollectedList = mutableListOf<String>()
     private val collectId = mutableListOf<PoCollectLinkEntity>()
+
+    val mReadLaterList = mutableListOf<String>()
 
     /**
      * 用来判断红心是否选中
@@ -152,6 +165,15 @@ class WebModel @Inject constructor(
 
     fun findCollected(url: String): String? {
         val data = mCollectedList.filter { it == url }
+        return if (data.isEmpty()) {
+            null
+        } else {
+            data[0]
+        }
+    }
+
+    fun findReadLater(url: String): String? {
+        val data = mReadLaterList.filter { it == url }
         return if (data.isEmpty()) {
             null
         } else {

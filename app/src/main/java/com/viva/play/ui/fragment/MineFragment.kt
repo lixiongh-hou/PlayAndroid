@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentMineBinding
 import com.viva.play.service.EventBus
+import com.viva.play.service.entity.ReadLaterActivity
 import com.viva.play.ui.activity.CollectionActivity
 import com.viva.play.ui.activity.SettingActivity
 import com.viva.play.ui.event.LoginEvent
@@ -79,5 +80,9 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
         if (CookieCache.doIfLogin(requireContext())) {
             startActivity(Intent(requireContext(), CollectionActivity::class.java))
         }
+    }
+
+    fun navigateReadLaterActivity(){
+        startActivity(Intent(requireContext(), ReadLaterActivity::class.java))
     }
 }

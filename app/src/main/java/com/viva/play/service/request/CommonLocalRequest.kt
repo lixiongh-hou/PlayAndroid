@@ -2,7 +2,10 @@ package com.viva.play.service.request
 
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
+import com.viva.play.service.ApiError
 import com.viva.play.service.BaseResult
+import com.viva.play.service.doFailure
+import com.viva.play.service.doSuccess
 import com.viva.play.service.request.CommonRequest.Companion.noInternet
 import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
@@ -19,12 +22,15 @@ class CommonLocalRequest @Inject constructor(
     private val baseDataBase: BaseDataBase
 ) {
 
-    private suspend fun runInDispatcherIO(block: suspend () -> Unit) {
+    private suspend fun runInDispatcherIO(
+        block: suspend (BaseResult<String>) -> Unit
+    ) {
         withContext(Dispatchers.IO) {
             try {
-                block.invoke()
+                block.invoke(BaseResult.Success("成功"))
             } catch (e: Exception) {
                 e.printStackTrace()
+                block.invoke(BaseResult.Failure(ApiError(code = -1, message = "数据库操作错误")))
             }
         }
     }
@@ -104,6 +110,54 @@ class CommonLocalRequest @Inject constructor(
         runInDispatcherIO {
             val data = baseDataBase.chapterDao().findNavi()
             callback.invoke(BaseResult.Success(data))
+        }
+    }
+
+    suspend fun addReadLater(data: PoReadLaterEntity, callback: (BaseResult<String>) -> Unit) {
+        runInDispatcherIO {
+            baseDataBase.readLaterDao().insert(data)
+            callback.invoke(it)
+        }
+    }
+
+    suspend fun removeReadLater(link: String, callback: (BaseResult<String>) -> Unit) {
+        runInDispatcherIO {
+            val int = baseDataBase.readLaterDao().delete(link)
+            it.doSuccess { success ->
+                if (int > 0) {
+                    callback.invoke(BaseResult.Success(success))
+                } else {
+                    callback.invoke(BaseResult.Failure(ApiError(code = -1, message = "数据库操作错误")))
+                }
+            }
+            it.doFailure { apiError ->
+                callback.invoke(BaseResult.Failure(apiError))
+            }
+
+        }
+    }
+
+    suspend fun isReadLater(link: String, callback: (BaseResult<Boolean>) -> Unit) {
+        runInDispatcherIO {
+            it.doSuccess {
+                val data = baseDataBase.readLaterDao().isReadLater(link)
+                if (data == null) {
+                    callback.invoke(BaseResult.Success(false))
+                } else {
+                    callback.invoke(BaseResult.Success(true))
+                }
+            }
+            it.doFailure { apiError ->
+                callback.invoke(BaseResult.Failure(apiError))
+            }
+
+        }
+    }
+
+    suspend fun removeReadLaterAll(callback: (BaseResult<String>) -> Unit) {
+        runInDispatcherIO {
+            baseDataBase.readLaterDao().delete()
+            callback.invoke(it)
         }
     }
 

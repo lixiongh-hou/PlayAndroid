@@ -24,6 +24,7 @@ import com.lihang.ShadowLayout
 import com.viva.play.R
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityArticleBinding
+import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.HomeModel
@@ -120,6 +121,9 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
 
     private val binding by binding<ActivityArticleBinding>()
     private val model by viewModels<HomeModel>()
+
+    //这个值的目的就是用来初始化一个值判断我是通过点击来移除还是添加稍后阅读的
+    private var readLaterData: PoReadLaterEntity? = null
 
     private val url by lazy {
         intent.getStringExtra(URL) ?: ""
@@ -272,7 +276,9 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
             }
             .setOnPageScrollEndListener {
                 //这里目的时移除稍后阅读
-                Log.e("测试", "setOnPageScrollEndListener")
+                if (readLater) {
+                    model.removeReadLater(mWebHolder.getUrl())
+                }
             }
 
         lastUrlLoadTime = System.currentTimeMillis()
@@ -322,6 +328,11 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
             }
             model.collected.set(!model.collected.get())
             switchCollectView()
+        }
+
+        aivReadLater.setOnClickListener {
+            readLaterData = PoReadLaterEntity("", "")
+            model.isReadLater(model.url.get()!!)
         }
 
         aivOpen.setOnClickListener {
@@ -494,16 +505,17 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
         super.onPause()
     }
 
+
     override fun onResume() {
         mWebHolder.onResume()
         super.onResume()
-
+        model.isReadLater(model.url.get()!!)
         model.collectArticle.observe(this) {
             //通知首页刷新
             postValue(EventBus.COLLECTED, CollectionEvent(it, model.id.get()))
         }
 
-        observeEvent(key = EventBus.COLLECTED){
+        observeEvent(key = EventBus.COLLECTED) {
             model.collected.set((it as CollectionEvent).collect)
             switchCollectView()
         }
@@ -512,6 +524,46 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
             model.collected.set(false)
             switchCollectView()
             it.message.toast()
+        }
+
+
+        model.isReadLater.observe(this) {
+            if (readLaterData == null) {
+                switchReadLaterIcon(it)
+            } else {
+                if (it) {
+                    switchReadLaterIcon(false)
+                    model.removeReadLater(mWebHolder.getUrl())
+                } else {
+                    switchReadLaterIcon(true)
+                    model.addReadLater(
+                        PoReadLaterEntity(
+                            mWebHolder.getUrl(), model.title.get()!!
+                        )
+                    )
+                }
+            }
+            readLaterData = null
+
+        }
+        model.addReadLater.observe(this) {
+            if (it) {
+                "已加入我的书签".toast()
+            } else {
+                "已移除我的书签".toast()
+            }
+        }
+    }
+
+    private var readLater = false
+    private fun switchReadLaterIcon(readLater: Boolean) {
+        this.readLater = readLater
+        if (readLater) {
+            aivReadLater.setImageResource(R.drawable.ic_read_later_added)
+            aivReadLater.setColorFilter(aivReadLater.getThemeColor(R.attr.colorIconMain))
+        } else {
+            aivReadLater.setImageResource(R.drawable.ic_read_later)
+            aivReadLater.setColorFilter(aivReadLater.getThemeColor(R.attr.colorIconSurface))
         }
     }
 

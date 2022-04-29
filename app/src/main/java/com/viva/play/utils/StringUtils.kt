@@ -67,7 +67,7 @@ object StringUtils {
     @JvmStatic
     fun formatChapterName(vararg names: String?): String {
         val format = StringBuilder()
-        if (names.isNullOrEmpty()){
+        if (names.isNullOrEmpty()) {
             return ""
         }
         names.forEach {

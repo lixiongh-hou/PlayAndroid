@@ -50,7 +50,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
             UrlOpenUtils.with(data.link).apply {
                 title = data.title
                 id = data.id
-                collected = true
+                collected = data.collect
                 author = data.author
                 userId = data.userId
                 forceWeb = false

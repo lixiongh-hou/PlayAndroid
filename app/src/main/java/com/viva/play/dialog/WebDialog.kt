@@ -7,6 +7,7 @@ import android.content.Context
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
@@ -16,6 +17,7 @@ import com.viva.play.adapter.WebDialogPagerAdapter
 import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.dpToPx
+import com.viva.play.utils.getThemeColor
 import com.viva.play.views.CollectView
 import per.goweii.anylayer.dialog.DialogLayer
 import per.goweii.anylayer.utils.AnimatorHelper
@@ -36,6 +38,8 @@ class WebDialog(
     private var mAdapter: WebDialogPagerAdapter
     var onPageChanged: ((Int, PoHomeArticleEntity) -> Unit)? = null
     var collectClick: ((CollectView, PoHomeArticleEntity) -> Unit)? = null
+    var readLater: ((PoHomeArticleEntity) -> Unit)? = null
+    var aReadLater: ((PoHomeArticleEntity) -> Unit)? = null
 
     companion object {
         fun create(
@@ -55,10 +59,10 @@ class WebDialog(
         onClickToDismiss(R.id.dialogWebIvClose)
         contentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
-                val vp = getView<ViewPager>(R.id.dialogWebVp)
+                val vp = requireView<ViewPager>(R.id.dialogWebVp)
                 val bar = target.findViewById<RelativeLayout>(R.id.dialogWebRlBottomBar)
                 bar.translationY = 1000f
-                vp!!.pageMargin = 12.dpToPx
+                vp.pageMargin = 12.dpToPx
                 val vpMargin = ValueAnimator.ofInt(vp.pageMargin, 0)
                 vpMargin.interpolator = DecelerateInterpolator()
                 vpMargin.addUpdateListener {
@@ -79,9 +83,9 @@ class WebDialog(
             }
 
             override fun createOutAnimator(target: View): Animator {
-                val vp = getView<ViewPager>(R.id.dialogWebVp)
+                val vp = requireView<ViewPager>(R.id.dialogWebVp)
                 val bar = target.findViewById<RelativeLayout>(R.id.dialogWebRlBottomBar)
-                val vpMargin = ValueAnimator.ofInt(vp!!.pageMargin, vp.pageMargin)
+                val vpMargin = ValueAnimator.ofInt(vp.pageMargin, vp.pageMargin)
                 vpMargin.interpolator = AccelerateInterpolator()
                 vpMargin.addUpdateListener {
                     val value = it.animatedValue as Int
@@ -100,11 +104,21 @@ class WebDialog(
                 return set
             }
         })
-        mAdapter = WebDialogPagerAdapter(topUrls, urls)
+        mAdapter = WebDialogPagerAdapter(activity, topUrls, urls)
     }
 
     fun notifyDataSetChanged() {
         mAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDismiss() {
+        super.onDismiss()
+        mAdapter.pauseAllWeb()
+    }
+
+    override fun onDetach() {
+        mAdapter.destroyAllWeb()
+        super.onDetach()
     }
 
     override fun onAttach() {
@@ -119,16 +133,14 @@ class WebDialog(
             webIvReadLater.isVisible = true
             webCvCollect.isVisible = true
             webIvReadLater.setOnClickListener {
-                "稍后阅读".toast()
+                //第一个position是Banner，取数据时要+1
+                val data = mAdapter.getArticleEntity(vp.currentItem + 1)
+                readLater?.invoke(data)
             }
             webCvCollect.onClick = {
                 //第一个position是Banner，取数据时要+1
                 val data = mAdapter.getArticleEntity(vp.currentItem + 1)
                 collectClick?.invoke(it, data)
-                //                data.collect = !data.collect
-//                it.isChecked = !data.collect
-//                it.toggle()
-//                "收藏".toast()
             }
             vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
@@ -151,8 +163,19 @@ class WebDialog(
             //第一个position是Banner，取数据时要+1
             val data = mAdapter.getArticleEntity(currPos + 1)
             webCvCollect.setChecked(data.collect, true)
+            aReadLater?.invoke(data)
             vp.adapter = mAdapter
             vp.currentItem = currPos
         }
     }
+
+    fun switchIvReadLaterState(checked: Boolean) {
+        val ivReadLater = requireView<AppCompatImageView>(R.id.dialogWebIvReadLater)
+        if (checked) {
+            ivReadLater.setColorFilter(ivReadLater.getThemeColor(R.attr.colorIconMain))
+        } else {
+            ivReadLater.setColorFilter(ivReadLater.getThemeColor(R.attr.colorOnMainOrSurface))
+        }
+    }
+
 }

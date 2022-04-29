@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.viva.play.adapter.HomeArticleAdapter
 import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentHomeBinding
+import com.viva.play.db.entity.PoHomeArticleEntity
+import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.dialog.WebDialog
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
@@ -24,6 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: HomeArticleAdapter
 
     private var mWebDialog: WebDialog? = null
+    private var readLaterData: PoHomeArticleEntity? = null
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -59,6 +62,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             failureAfter()
             it.message.toast()
         }
+
+        mHomeModel.isReadLater.observe(viewLifecycleOwner) {
+            if (readLaterData == null) {
+                mWebDialog?.switchIvReadLaterState(it)
+            } else {
+                if (it) {
+                    //移除稍后阅读
+                    mWebDialog?.switchIvReadLaterState(false)
+                    mHomeModel.removeReadLater(readLaterData!!.link)
+                } else {
+                    //添加稍后阅读
+                    mWebDialog?.switchIvReadLaterState(true)
+                    mHomeModel.addReadLater(
+                        PoReadLaterEntity(
+                            link = readLaterData!!.link, title = readLaterData!!.title
+                        )
+                    )
+                }
+            }
+            readLaterData = null
+
+        }
+
         mHomeModel.error.observe(viewLifecycleOwner) {
             it.message.toast()
         }
@@ -160,6 +186,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 singleTipMode = false
             )
         mWebDialog?.onPageChanged = { _, data ->
+            mHomeModel.isReadLater(data.link)
+
             var currItemPos = 0
             run b@{
                 adapter.data.forEachIndexed { index, poArticleEntity ->
@@ -196,9 +224,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
 
             }
-
         }
 
+        mWebDialog?.readLater = {
+            readLaterData = it
+            mHomeModel.isReadLater(it.link)
+        }
+        mWebDialog?.aReadLater = {
+            mHomeModel.isReadLater(it.link)
+        }
         mWebDialog?.onDismissListener(object : Layer.OnDismissListener {
             override fun onDismissing(layer: Layer) {}
 

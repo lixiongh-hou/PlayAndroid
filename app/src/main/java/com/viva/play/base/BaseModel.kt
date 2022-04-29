@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
+import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.service.ApiError
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
@@ -40,6 +41,7 @@ open class BaseModel(private val commonRequest: CommonRequest? = null) : ViewMod
     val collectArticle: LiveData<Boolean>
         get() = _collectArticle
 
+
     /**
      * 收藏站内文章
      */
@@ -61,6 +63,56 @@ open class BaseModel(private val commonRequest: CommonRequest? = null) : ViewMod
         commonRequest?.unCollectArticle(viewModelScope, id) {
             it.doSuccess {
                 _collectArticle.postValue(false)
+            }
+            it.doFailure { apiError ->
+                error.postValue(apiError)
+            }
+        }
+    }
+
+    /**
+     * 是否是已添加稍后阅读
+     */
+    private val _isReadLater = MutableLiveData<Boolean>()
+    val isReadLater: LiveData<Boolean>
+        get() = _isReadLater
+
+    fun isReadLater(link: String) {
+        commonRequest?.isReadLater(viewModelScope, link) {
+            it.doSuccess { success ->
+                _isReadLater.postValue(success)
+            }
+            it.doFailure { apiError ->
+                error.postValue(apiError)
+            }
+        }
+    }
+
+    private val _addReadLater = MutableLiveData<Boolean>()
+    val addReadLater: LiveData<Boolean>
+        get() = _addReadLater
+
+    /**
+     * 添加稍后阅读
+     */
+    fun addReadLater(data: PoReadLaterEntity) {
+        commonRequest?.addReadLater(viewModelScope, data) {
+            it.doSuccess {
+                _addReadLater.postValue(true)
+            }
+            it.doFailure { apiError ->
+                error.postValue(apiError)
+            }
+        }
+    }
+
+    /**
+     * 删除稍后阅读
+     */
+    fun removeReadLater(link: String) {
+        commonRequest?.removeReadLater(viewModelScope, link) {
+            it.doSuccess {
+                _addReadLater.postValue(false)
             }
             it.doFailure { apiError ->
                 error.postValue(apiError)

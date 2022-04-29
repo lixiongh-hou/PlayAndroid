@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('playAndroid.jks')
+            storePassword '123456'
+            keyAlias 'playAndroid'
+            keyPassword '123456'
+        }
+    }
     compileSdk 31
 
     defaultConfig {

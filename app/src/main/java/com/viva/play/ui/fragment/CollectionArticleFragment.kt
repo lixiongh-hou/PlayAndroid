@@ -42,6 +42,7 @@ class CollectionArticleFragment : BaseFragment<FragmentCollectionArticleBinding>
         }
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
+        binding.recyclerView.bindDivider()
         adapter.bindLoadState(binding.msv)
     }
 

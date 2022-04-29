@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorBackground"
+        tools:context=".service.entity.ReadLaterActivity">
+
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common.Back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:abc_rightText="清空"
+            app:abc_titleText="我的书签"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.kennyc.view.MultiStateView
+            android:id="@+id/msv"
+            style="@style/StateView_Center"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/abc">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/mSmartRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_read_later" />
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </com.kennyc.view.MultiStateView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

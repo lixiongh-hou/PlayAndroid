@@ -1,11 +1,9 @@
 package com.viva.play.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import com.viva.play.adapter.CollectionLinkAdapter
 import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseFragment
@@ -43,38 +41,8 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
         adapter.recyclerView = binding.recyclerView
-        adapter.addLoadStateListener {
-            when (it.refresh) {
-                is LoadState.Loading -> {
-                    //加载中
-                    Log.e("测试", "Loading")
-                }
-                is LoadState.NotLoading -> {
-                    //加载完成
-                    Log.e("测试", "NotLoading")
-                    if (adapter.itemCount == 0) {
-                        binding.msv.toEmpty {
-                            binding.msv.toLoading()
-                            adapter.refresh()
-                        }
-                    } else {
-                        binding.msv.toContent()
-                    }
-                    successAfter(adapter.itemCount)
-                }
-                is LoadState.Error -> {
-                    //加载失败
-                    Log.e("测试", "Error")
-                    if (adapter.itemCount == 0) {
-                        binding.msv.toError {
-                            binding.msv.toLoading()
-                            adapter.refresh()
-                        }
-                    }
-                    failureAfter()
-                }
-            }
-        }
+        binding.recyclerView.bindDivider()
+        adapter.bindLoadState(binding.msv, true)
 
         (requireActivity() as CollectionActivity).dispatchTouchEvent = {
             it?.let { event ->

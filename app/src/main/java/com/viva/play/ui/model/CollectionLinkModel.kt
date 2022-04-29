@@ -1,14 +1,11 @@
 package com.viva.play.ui.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.viva.play.base.BaseModel
 import com.viva.play.db.entity.PoCollectLinkEntity
 import com.viva.play.service.doFailure
 import com.viva.play.service.doSuccess
-import com.viva.play.service.entity.CollectLinkEntity
 import com.viva.play.service.request.CommonRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -26,12 +23,7 @@ class CollectionLinkModel @Inject constructor(
 
     val pagingData: Flow<PagingData<PoCollectLinkEntity>> =
         Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                prefetchDistance = 2,
-                initialLoadSize = 20,
-                enablePlaceholders = false
-            )
+            config = pagingConfig()
         ) {
             commonRequest.getCollectLinkList()
         }.flow.cachedIn(viewModelScope)

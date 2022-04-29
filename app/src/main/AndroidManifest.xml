@@ -21,13 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/ThemePlayAndroid">
         <activity
+            android:name=".service.entity.ReadLaterActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.KnowledgeArticleActivity"
             android:exported="true"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.UserPageActivity"
             android:exported="true"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.CollectionActivity"
             android:exported="true" />

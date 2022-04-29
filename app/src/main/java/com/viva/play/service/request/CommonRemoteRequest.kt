@@ -298,9 +298,7 @@ class CommonRemoteRequest @Inject constructor(
         )
     }
 
-    /**
-     * 知识体系下的文章
-     */
+
     suspend fun getChapterArticleList(page: Int, id: Int): ArticleEntity {
         return service.getChapterArticleList(page, id).data!!
     }

@@ -1,5 +1,6 @@
 package com.viva.play.service.request
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
@@ -318,6 +319,7 @@ class CommonRequest @Inject constructor() {
                         baseDataBase.runInTransaction {
                             baseDataBase.homeArticleDao().collectArticle(id, false)
                             baseDataBase.questionDao().collectQuestion(id, false)
+                            baseDataBase.collectDao().deleteArticle(id)
                         }
                         callback.invoke(BaseResult.Success(success))
                     }
@@ -511,7 +513,7 @@ class CommonRequest @Inject constructor() {
      * 这边只从本地获取数据，网络结合本地一起使用还在学习当中
      */
     fun getCollectLinkList(): PagingSource<Int, PoCollectLinkEntity> {
-        return baseDataBase.collectDao().findLink()
+        return baseDataBase.collectDao().findLinkList()
     }
 
 
@@ -659,8 +661,66 @@ class CommonRequest @Inject constructor() {
         }
     }
 
+    /**
+     * 知识体系下的文章
+     */
     suspend fun getChapterArticleList(page: Int, id: Int): ArticleEntity {
         return remoteRequest.getChapterArticleList(page, id)
+    }
+
+    /**
+     * 添加稍后阅读
+     */
+    fun addReadLater(
+        scope: CoroutineScope,
+        data: PoReadLaterEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.addReadLater(data, callback)
+        }
+    }
+
+    /**
+     * 移除稍后阅读
+     */
+    fun removeReadLater(
+        scope: CoroutineScope,
+        link: String,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.removeReadLater(link, callback)
+        }
+    }
+
+    /**
+     * 是否已经是阅读状态
+     */
+    fun isReadLater(scope: CoroutineScope, link: String, callback: (BaseResult<Boolean>) -> Unit) {
+        scope.launch {
+            localRequest.isReadLater(link, callback)
+        }
+    }
+
+    /**
+     * 获取所有阅读列表
+     */
+    fun getReadLaterList(): PagingSource<Int, PoReadLaterEntity> {
+        return baseDataBase.readLaterDao().findReadLaterList()
+    }
+
+    fun getReadLaterListLiveData(): LiveData<List<PoReadLaterEntity>> {
+        return baseDataBase.readLaterDao().findReadLaterListLiveData()
+    }
+
+    /**
+     * 移除所有稍后阅读
+     */
+    fun removeReadLaterAll(scope: CoroutineScope, callback: (BaseResult<String>) -> Unit) {
+        scope.launch {
+            localRequest.removeReadLaterAll(callback)
+        }
     }
 
 }

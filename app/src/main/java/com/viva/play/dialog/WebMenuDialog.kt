@@ -70,6 +70,7 @@ class WebMenuDialog : BaseFragmentDialog<DialogWebMenuBinding>() {
         }
         binding.data = WebMenu().apply {
             name = host
+            readLater = this@WebMenuDialog.readLater
             collected = this@WebMenuDialog.collected
             interruptState = when (SettingUtils.urlInterceptType) {
                 TYPE_NOTHING -> false
@@ -90,6 +91,11 @@ class WebMenuDialog : BaseFragmentDialog<DialogWebMenuBinding>() {
         if (CookieCache.doIfLogin(view.context)) {
             listener?.onCollect()
         }
+        dismiss()
+    }
+
+    fun onReadLater(){
+        listener?.onReadLater()
         dismiss()
     }
 
@@ -132,6 +138,7 @@ class WebMenuDialog : BaseFragmentDialog<DialogWebMenuBinding>() {
 
     inner class WebMenu {
         var name: String = ""
+        var readLater: Boolean = false
         var collected: Boolean = false
         var interruptState: Boolean = false
         var interruptName: String = ""
