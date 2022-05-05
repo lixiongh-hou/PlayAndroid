@@ -1,11 +1,9 @@
 package com.viva.play.service
 
-import com.ihsanbal.logging.Level
-import com.ihsanbal.logging.LoggingInterceptor
 import com.viva.play.service.interceptor.LoadCookieInterceptor
+import com.viva.play.service.interceptor.LoggingInterceptor
 import com.viva.play.service.interceptor.SaveCookieInterceptor
 import okhttp3.OkHttpClient
-import okhttp3.internal.platform.Platform.Companion.INFO
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -57,8 +55,11 @@ class HttpClient {
             .addInterceptor(LoadCookieInterceptor())
             .addInterceptor(
                 LoggingInterceptor.Builder()
-                    .setLevel(Level.BASIC)
-                    .log(INFO)
+                    .isDebug(true)
+                    .setRequestTag("请求")// Request
+                    .setResponseTag("响应")// Response
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Content-Encoding", "gzip")
                     .build()
             )
             .build()
