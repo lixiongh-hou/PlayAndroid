@@ -94,6 +94,16 @@ class HeaderLayout(context: Context?, attrs: AttributeSet? = null, defStyleAttr:
         return if (string.isNullOrEmpty()) REFRESH_HEADER_FAILED else string
     }
 
+    fun setTextAndHideIcon(text: String) {
+        refreshingAnimation.cancel()
+        taoBaoView.alpha = 0F
+        textView.text = text
+    }
+
+    fun restoreToCurrState() {
+        taoBaoView.alpha = 1F
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         refreshingAnimation.cancel()

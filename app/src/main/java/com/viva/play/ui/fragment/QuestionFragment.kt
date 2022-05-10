@@ -39,7 +39,6 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
 
     @ExperimentalPagingApi
     override fun initData() {
-        binding.msv.toLoading()
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)

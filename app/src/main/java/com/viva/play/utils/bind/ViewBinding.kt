@@ -31,10 +31,10 @@ fun bindImageViewTint(view: AppCompatImageView, collected: Boolean) {
 }
 
 @BindingAdapter(value = ["load"])
-fun bindImageViewLoad(view: ShapeableImageView, data: PoArticleEntity?) {
+fun bindImageViewLoad(view: AppCompatImageView, data: String?) {
     data?.let {
-        if (it.envelopePic.isNotEmpty() || it.envelopePic.startsWith("https")) {
-            view.load(it.envelopePic)
+        if (it.isNotEmpty() || it.startsWith("https")) {
+            view.load(it)
         }
     }
 }

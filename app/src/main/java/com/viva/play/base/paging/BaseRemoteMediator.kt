@@ -4,9 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.viva.play.service.ApiError
-import com.viva.play.service.DataConvert.convertNetworkError
-import com.viva.play.service.ServerException
 import com.viva.play.utils.NetworkUtils
 
 /**
@@ -16,6 +13,10 @@ import com.viva.play.utils.NetworkUtils
  */
 @ExperimentalPagingApi
 abstract class BaseRemoteMediator<Value : BasePagingData> : RemoteMediator<Int, Value>() {
+
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Value>): MediatorResult {
         val pageKey = when (loadType) {
@@ -34,11 +35,11 @@ abstract class BaseRemoteMediator<Value : BasePagingData> : RemoteMediator<Int, 
         }
 
         if (noNetworkLoadingLocally()) {
-            return MediatorResult.Error(Throwable())
+            return MediatorResult.Error(Throwable(message = "网络连接失败"))
         }
 
         return try {
-            MediatorResult.Success(endOfPaginationReached = loadData(pageKey, loadType))
+            loadData(pageKey, loadType)
         } catch (e: Exception) {
             e.printStackTrace()
             return MediatorResult.Error(Throwable())
@@ -53,5 +54,5 @@ abstract class BaseRemoteMediator<Value : BasePagingData> : RemoteMediator<Int, 
         return !NetworkUtils.isNetworkAvailable()
     }
 
-    abstract suspend fun loadData(pageKey: Int?, loadType: LoadType): Boolean
+    abstract suspend fun loadData(pageKey: Int?, loadType: LoadType): MediatorResult
 }

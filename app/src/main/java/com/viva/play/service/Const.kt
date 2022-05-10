@@ -109,9 +109,14 @@ object Url {
     const val UserPage = "user/{userId}/share_articles/{page}/json"
 
     /**
-     *
+     * 知识体系下的文章
      */
     const val ChapterArticle = "article/list/{page}/json"
+
+    /**
+     * 教程列表
+     */
+    const val Books = "chapter/547/sublist/json"
     /**
      * 公众号名称
      */

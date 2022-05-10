@@ -12,22 +12,34 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.KnowledgeNavigationFragment">
 
-        <FrameLayout
-            android:id="@+id/fl"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/abc"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?colorMainOrSurface"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorMainOrSurface"
+            android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
 
-            <github.xuqk.kdtablayout.KDTabLayout
-                android:id="@+id/mi"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="?colorTransparent"
-                android:overScrollMode="never"
-                android:scrollbars="none" />
-        </FrameLayout>
+            <com.viva.play.views.StatusBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?colorMainOrSurface">
+
+                <github.xuqk.kdtablayout.KDTabLayout
+                    android:id="@+id/mi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?colorTransparent"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
+            </FrameLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         <androidx.viewpager2.widget.ViewPager2
@@ -35,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fl" />
+            app:layout_constraintTop_toBottomOf="@id/abc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

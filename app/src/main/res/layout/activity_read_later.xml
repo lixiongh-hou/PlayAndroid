@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorBackground"
-        tools:context=".service.entity.ReadLaterActivity">
+        tools:context=".ui.activity.ReadLaterActivity">
 
         <per.goweii.actionbarex.common.ActionBarCommon
             android:id="@+id/abc"

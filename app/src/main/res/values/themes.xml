@@ -24,10 +24,12 @@
         <item name="colorStriking">@color/color_orange</item>
         <item name="colorBackground">@color/color_gray_light</item>
         <item name="colorForeground">@color/color_gray_light</item>
+        <item name="colorForegroundTop">@color/color_gray_light</item>
         <item name="colorLoginBg">@color/color_blue</item>
         <item name="colorDialogBg">@color/color_black_a50</item>
         <item name="colorRippleDark">@color/color_black_a05</item>
         <item name="colorSurface">@color/color_white</item>
+        <item name="colorSurfaceMask">@color/color_black_a05</item>
         <item name="colorHeartOuter">@color/color_orange</item>
         <item name="colorHeartCenter">@color/color_orange_light</item>
         <item name="colorMainOrSurface">@color/color_blue</item>
@@ -60,6 +62,15 @@
         <item name="colorTextAccent">@color/color_orange</item>
         <item name="colorTextSurfaceAlpha">@color/color_gray_dark1_a50</item>
 
+    </style>
+
+    <style name="TranslucentTheme" parent="ThemePlayAndroid">
+        <!--注意：Android 21（android 5.0 Lollipop）这个系统开始这个属性设置为true，状态栏会呈现半透明加暗效果，并不能全透明-->
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--注意：Android 21（5.0）这个系统开始状态栏透明的话需要把颜色设置为透明，并且上面那个属性需要设置为false-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--注意：导航栏设置透明是为了让activity内容延伸至状态栏，导航栏实际为半透明加暗效果-->
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
 </resources>

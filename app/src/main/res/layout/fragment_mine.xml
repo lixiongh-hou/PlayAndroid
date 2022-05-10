@@ -127,6 +127,7 @@
                 android:layout_weight="1"
                 android:background="@color/bg_press_color_surface"
                 android:gravity="center"
+                android:onClick="@{() -> fragment.test()}"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView

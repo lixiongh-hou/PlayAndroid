@@ -1,7 +1,6 @@
 package com.viva.play.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -122,7 +121,7 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
     private var what: Int = REFRESH
 
     /**刷新布局*/
-    private var mSmartRefreshLayout: SmartRefreshLayout? = null
+    var mSmartRefreshLayout: SmartRefreshLayout? = null
 
     fun isRefresh(): Boolean {
         return what == REFRESH
@@ -144,53 +143,47 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
         page++
     }
 
-    private var isNotLoading = false
-    private var isNotError = false
-
     /**
-     * @param m 如果没有用到paging的RemoteMediator和room组合就返回true
+     * @param isLoading 只加载本地数据就不用加载中页面
      */
-    protected fun BasePagingDataAdapter<*>.bindLoadState(msv: MultiStateView, m: Boolean = false) {
-        isNotLoading = m
-        isNotError = m
+    protected fun BasePagingDataAdapter<*>.bindLoadState(
+        msv: MultiStateView,
+        isLoading: Boolean = true
+    ) {
         this.addLoadStateListener {
-            when (it.refresh) {
-                is LoadState.Loading -> {
-                    //加载中
-                    Log.e("测试", "Loading")
+            if (it.refresh is LoadState.NotLoading && this.itemCount == 0) {
+                msv.toEmpty {
+                    msv.toLoading()
+                    this.refresh()
                 }
-                is LoadState.NotLoading -> {
-                    //加载完成
-                    Log.e("测试", "NotLoading")
-                    if (isNotLoading) {
-                        if (this.itemCount == 0) {
-                            msv.toEmpty {
-                                msv.toLoading()
-                                this.refresh()
-                            }
-                        } else {
-                            msv.toContent()
+            } else {
+                msv.toContent()
+
+            }
+            if (it.mediator?.refresh is LoadState.NotLoading) {
+                msv.toContent()
+                successAfter(this.itemCount)
+            }
+            if (it.mediator?.refresh is LoadState.Loading) {
+                if (NetworkUtils.isNetworkAvailable()) {
+                    if (this.itemCount == 0) {
+                        if (isLoading) {
+                            msv.toLoading()
                         }
                     }
-                    isNotLoading = true
-                    successAfter(this.itemCount)
                 }
-                is LoadState.Error -> {
-                    //加载失败
-                    Log.e("测试", "Error")
-                    if (isNotError) {
-                        if (itemCount == 0) {
-                            msv.toError {
-                                msv.toLoading()
-                                this.refresh()
-                            }
-                        } else {
-                            msv.toContent()
-                        }
-                    }
-                    isNotError = true
-                    failureAfter()
+            }
+            if (it.mediator?.refresh is LoadState.Error && this.itemCount == 0) {
+                msv.toError {
+                    msv.toLoading()
+                    this.refresh()
                 }
+                failureAfter()
+            }
+            // Toast任何错误，无论它是来自RemoteMediator还是PagingSource
+            val errorState = it.refresh as? LoadState.Error
+            errorState?.let { error ->
+                error.error.message?.toast()
             }
         }
     }

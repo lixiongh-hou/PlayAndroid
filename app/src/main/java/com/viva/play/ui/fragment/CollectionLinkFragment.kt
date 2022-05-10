@@ -42,7 +42,7 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
         binding.recyclerView.adapter = concatAdapter
         adapter.recyclerView = binding.recyclerView
         binding.recyclerView.bindDivider()
-        adapter.bindLoadState(binding.msv, true)
+        adapter.bindLoadState(binding.msv, false)
 
         (requireActivity() as CollectionActivity).dispatchTouchEvent = {
             it?.let { event ->
@@ -61,7 +61,6 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
     }
 
     override fun initData() {
-        binding.msv.toLoading()
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)

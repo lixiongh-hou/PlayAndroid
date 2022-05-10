@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.viva.play.service.entity.BookEntity" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.BookDetailsActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBlur"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:background="?colorMainOrSurface"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription,UseAppTint" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/cl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?colorTransparent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorTransparent"
+                app:elevation="0dp">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/ctl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentScrim="?colorTransparent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/llTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="32dp"
+                        app:layout_collapseMode="parallax"
+                        app:layout_collapseParallaxMultiplier="0.6">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/bookImg"
+                            style="@style/roundedCornerImageStyle"
+                            load="@{data.cover}"
+                            android:layout_width="87dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="40dp"
+                            android:background="?colorSurfaceMask"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/bookName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{data.name}"
+                            android:textColor="?colorOnMainOrSurface"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/bookImg"
+                            app:layout_constraintTop_toTopOf="@+id/bookImg"
+                            tools:text="C 语言入门教程_阮一峰C 语言入门教程_阮一峰" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/booAuthor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.8"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text='@{"作者"+data.author}'
+                            android:textColor="?colorOnMainOrSurface"
+                            android:textSize="13sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/bookImg"
+                            app:layout_constraintTop_toBottomOf="@+id/bookName"
+                            tools:text="作者：阮一峰" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/bookDesc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.8"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{data.desc}"
+                            android:textColor="?colorOnMainOrSurface"
+                            android:textSize="13sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/bookImg"
+                            app:layout_constraintTop_toBottomOf="@+id/booAuthor"
+                            tools:text="本教程完整介绍 HTML 语言的所有内容，既可以当作初学者的入门教程，也可以用作参考手册查阅语法。" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/bookCopyright"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:alpha="0.6"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@{data.lisense}"
+                            android:textColor="?colorOnMainOrSurface"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/bookImg"
+                            app:layout_constraintTop_toBottomOf="@id/bookImg"
+                            tools:text="知识共享 署名-相同方式共享 3.0协议" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.kennyc.view.MultiStateView
+                android:id="@+id/msv"
+                style="@style/StateView_Center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?colorBackground"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_book_chapter" />
+
+            </com.kennyc.view.MultiStateView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common.Back"
+            android:background="?colorTransparent" />
+    </FrameLayout>
+</layout>

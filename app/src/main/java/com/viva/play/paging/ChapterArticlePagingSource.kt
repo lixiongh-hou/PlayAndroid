@@ -16,6 +16,6 @@ class ChapterArticlePagingSource(
 ) : BasePagingSource<PoArticleEntity>() {
     override suspend fun loadData(page: Int, offset: Int): BaseSourceData<PoArticleEntity> {
         val data = commonRequest.getChapterArticleList(page, id)
-        return BaseSourceData(data.over, PoArticleEntity.parse(data.data, page))
+        return BaseSourceData(data.over, PoArticleEntity.parse(data.data, page, ""))
     }
 }

@@ -26,7 +26,9 @@ import com.viva.play.db.entity.*
         PoArticleEntity::class,
         PoChapterEntity::class,
         PoChapterChildrenEntity::class,
-        PoReadLaterEntity::class
+        PoReadLaterEntity::class,
+        PoBookDetailsEntity::class,
+        PoReadRecordEntity::class
     ],
 
     version = 4,
@@ -41,11 +43,13 @@ abstract class BaseDataBase : RoomDatabase() {
 
     abstract fun collectDao(): CollectDao
 
-    abstract fun questionDao(): ArticleDao
+    abstract fun articleDao(): ArticleDao
 
     abstract fun chapterDao(): ChapterDao
 
     abstract fun readLaterDao(): ReadLaterDao
+
+    abstract fun bookDetailsDao(): BookDetailsDao
 
 
     companion object {

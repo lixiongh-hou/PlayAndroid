@@ -40,8 +40,6 @@ private fun getStatusBarHeight(): Int {
 val realStatusBarHeight: Int
     get() {
         var barHeight = 0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            barHeight = getStatusBarHeight()
-        }
+        barHeight = getStatusBarHeight()
         return barHeight
     }

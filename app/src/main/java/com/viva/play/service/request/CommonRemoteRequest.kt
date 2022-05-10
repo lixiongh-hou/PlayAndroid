@@ -302,4 +302,21 @@ class CommonRemoteRequest @Inject constructor(
     suspend fun getChapterArticleList(page: Int, id: Int): ArticleEntity {
         return service.getChapterArticleList(page, id).data!!
     }
+
+    suspend fun getBooks(callback: (BaseResult<List<BookEntity>>) -> Unit) {
+        runInDispatcherIO(
+            block = {
+                service.getBooks().convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
 }

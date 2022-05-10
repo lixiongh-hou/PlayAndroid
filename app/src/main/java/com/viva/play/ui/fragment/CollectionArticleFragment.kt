@@ -1,11 +1,9 @@
 package com.viva.play.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.LoadState
 import com.viva.play.adapter.CollectionArticleAdapter
 import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseFragment
@@ -14,7 +12,6 @@ import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.CollectionModel
 import com.viva.play.utils.*
-import com.viva.play.utils.ToastUtil.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -53,7 +50,6 @@ class CollectionArticleFragment : BaseFragment<FragmentCollectionArticleBinding>
 
     @ExperimentalPagingApi
     override fun initData() {
-        binding.msv.toLoading()
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)
@@ -80,9 +76,7 @@ class CollectionArticleFragment : BaseFragment<FragmentCollectionArticleBinding>
         model.unMyCollectArticle.observe(viewLifecycleOwner) {
             postValue(EventBus.COLLECTED, CollectionEvent(it, model.originId))
         }
-        model.error.observe(viewLifecycleOwner) {
-            it.message.toast()
-        }
 
     }
+
 }

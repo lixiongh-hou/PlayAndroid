@@ -37,6 +37,7 @@ class CollectionArticleAdapter(
         position: Int
     ) {
         val tmpData = PoArticleEntity(
+            key = "",
             author = data.author,
             chapterName = data.chapterName,
             collect = true,

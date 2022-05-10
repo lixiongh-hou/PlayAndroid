@@ -24,12 +24,15 @@ class HomeArticleConverters {
     }
 
     @TypeConverter
-    fun dateToLong(time: Date): Long {
-        return time.time
+    fun dateToLong(time: Date?): Long? {
+        return time?.time
     }
 
     @TypeConverter
-    fun longToDate(millisSinceEpoch: Long): Date {
+    fun longToDate(millisSinceEpoch: Long?): Date? {
+        if (millisSinceEpoch == null) {
+            return null
+        }
         return Date(millisSinceEpoch)
     }
 }

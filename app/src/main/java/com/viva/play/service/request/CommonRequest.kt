@@ -294,7 +294,7 @@ class CommonRequest @Inject constructor() {
                     it.doSuccess { success ->
                         baseDataBase.runInTransaction {
                             baseDataBase.homeArticleDao().collectArticle(id, true)
-                            baseDataBase.questionDao().collectQuestion(id, true)
+                            baseDataBase.articleDao().collectQuestion(id, true)
                         }
                         callback.invoke(BaseResult.Success(success))
                     }
@@ -318,7 +318,7 @@ class CommonRequest @Inject constructor() {
                     it.doSuccess { success ->
                         baseDataBase.runInTransaction {
                             baseDataBase.homeArticleDao().collectArticle(id, false)
-                            baseDataBase.questionDao().collectQuestion(id, false)
+                            baseDataBase.articleDao().collectQuestion(id, false)
                             baseDataBase.collectDao().deleteArticle(id)
                         }
                         callback.invoke(BaseResult.Success(success))
@@ -723,4 +723,12 @@ class CommonRequest @Inject constructor() {
         }
     }
 
+    /**
+     * 教程书籍
+     */
+    fun getBooks(scope: CoroutineScope, callback: (BaseResult<List<BookEntity>>) -> Unit) {
+        scope.launch {
+            remoteRequest.getBooks(callback)
+        }
+    }
 }

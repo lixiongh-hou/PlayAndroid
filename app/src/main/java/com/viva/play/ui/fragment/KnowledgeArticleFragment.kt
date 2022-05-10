@@ -54,12 +54,11 @@ class KnowledgeArticleFragment : BaseFragment<FragmentKnowledgeArticleBinding>()
         }
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
-        adapter.bindLoadState(binding.msv, true)
+        adapter.bindLoadState(binding.msv)
         binding.recyclerView.bindDivider()
     }
 
     override fun initData() {
-        binding.msv.toLoading()
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)

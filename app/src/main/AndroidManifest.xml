@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/ThemePlayAndroid">
         <activity
-            android:name=".service.entity.ReadLaterActivity"
+            android:name=".ui.activity.BookDetailsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.ReadLaterActivity"
             android:exported="true" />
         <activity
             android:name=".ui.activity.KnowledgeArticleActivity"
@@ -56,7 +59,8 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

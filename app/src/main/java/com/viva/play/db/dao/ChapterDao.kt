@@ -1,9 +1,6 @@
 package com.viva.play.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.viva.play.db.entity.PoChapterChildrenEntity
 import com.viva.play.db.entity.PoChapterEntity
 import com.viva.play.db.entity.Status
@@ -36,4 +33,5 @@ interface ChapterDao {
     @Transaction
     @Query("SELECT * FROM Chapter WHERE status=:status ORDER BY `index`")
     fun findNavi(status: Status = Status.NAVI): List<VoChapterEntity>
+
 }

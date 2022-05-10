@@ -7,6 +7,7 @@ import com.viva.play.base.paging.BaseRemoteMediator
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.PoArticleEntity
 import com.viva.play.service.CommonService
+import com.viva.play.service.Url
 
 /**
  * @author 李雄厚
@@ -19,7 +20,7 @@ class QuestionMediator(
     private val commonService: CommonService
 ) : BaseRemoteMediator<PoArticleEntity>() {
 
-    override suspend fun loadData(pageKey: Int?, loadType: LoadType): Boolean {
+    override suspend fun loadData(pageKey: Int?, loadType: LoadType): MediatorResult {
 
         //请求网络分页数据
         val page = pageKey ?: 0
@@ -28,15 +29,15 @@ class QuestionMediator(
 //        val resultFilter = result!!.data.distinctBy{
 //            it.id
 //        }
-        val items = PoArticleEntity.parse(result!!.data, page)
+        val items = PoArticleEntity.parse(result!!.data, page, Url.Question)
 
         //插入数据库
         baseDataBase.withTransaction {
             if (loadType == LoadType.REFRESH) {
-                baseDataBase.questionDao().delete()
+                baseDataBase.articleDao().delete()
             }
-            baseDataBase.questionDao().insert(items)
+            baseDataBase.articleDao().insert(items)
         }
-        return result.over
+        return MediatorResult.Success(endOfPaginationReached = result.over)
     }
 }

@@ -1,8 +1,7 @@
-package com.viva.play.service.entity
+package com.viva.play.ui.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.viva.play.adapter.FooterAdapter
@@ -16,7 +15,6 @@ import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.bind.binding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import per.goweii.actionbarex.common.OnActionBarChildClickListener
 
 @AndroidEntryPoint
 class ReadLaterActivity : BaseActivity() {
@@ -35,8 +33,7 @@ class ReadLaterActivity : BaseActivity() {
         binding.recyclerView.adapter = concatAdapter
         adapter.recyclerView = binding.recyclerView
         binding.recyclerView.bindDivider()
-        binding.msv.toLoading()
-        adapter.bindLoadState(binding.msv, true)
+        adapter.bindLoadState(binding.msv, false)
 
         binding.abc.setOnRightTextClickListener {
             TipDialog.Builder().apply {

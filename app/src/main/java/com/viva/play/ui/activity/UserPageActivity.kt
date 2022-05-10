@@ -57,10 +57,8 @@ class UserPageActivity : BaseActivity() {
         }
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
-        adapter.bindLoadState(binding.msv, true)
+        adapter.bindLoadState(binding.msv)
         binding.recyclerView.bindDivider()
-
-        binding.msv.toLoading()
         model.getUserPage(page)
         model._userPage.observe(this) {
             binding.abc.titleTextView.text = it.coinInfo.username

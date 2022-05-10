@@ -33,7 +33,13 @@ class NaviFragment : BaseFragment<FragmentKnowledgeNavigationChildBinding>() {
     }
 
     override fun initData() {
-        binding.msv.toLoading()
+        if (NetworkUtils.isNetworkAvailable()) {
+            binding.msv.postDelayed({
+                if (adapter.itemCount <= 0){
+                    binding.msv.toLoading()
+                }
+            },  500)
+        }
         model.getNaviList()
         model.naviList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {

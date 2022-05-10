@@ -8,10 +8,7 @@ import com.viva.play.databinding.FragmentKnowledgeNavigationChildBinding
 import com.viva.play.service.NetworkStatus
 import com.viva.play.ui.activity.KnowledgeArticleActivity
 import com.viva.play.ui.model.KnowledgeModel
-import com.viva.play.utils.toContent
-import com.viva.play.utils.toEmpty
-import com.viva.play.utils.toError
-import com.viva.play.utils.toLoading
+import com.viva.play.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -38,7 +35,13 @@ class KnowledgeFragment : BaseFragment<FragmentKnowledgeNavigationChildBinding>(
 
 
     override fun initData() {
-        binding.msv.toLoading()
+        if (NetworkUtils.isNetworkAvailable()) {
+            binding.msv.postDelayed({
+                if (adapter.itemCount <= 0){
+                    binding.msv.toLoading()
+                }
+            },  500)
+        }
         model.getKnowledgeList()
         model.knowledgeList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {

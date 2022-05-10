@@ -18,7 +18,7 @@ class UserPagePagingSource(
         val data = commonService.getUserPage(userId, page)
         return BaseSourceData(
             data.data!!.shareArticles.over,
-            PoArticleEntity.parse(data.data.shareArticles.data, page)
+            PoArticleEntity.parse(data.data.shareArticles.data, page, "")
         )
     }
 }

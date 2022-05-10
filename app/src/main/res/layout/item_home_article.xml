@@ -81,7 +81,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivImg"
             style="@style/roundedCornerImageStyle"
-            load="@{data}"
+            load="@{data.envelopePic}"
             android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"

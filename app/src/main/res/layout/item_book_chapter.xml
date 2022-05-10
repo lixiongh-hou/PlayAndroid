@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.viva.play.db.entity.PoBookDetailsEntity" />
+
+        <variable
+            name="position"
+            type="int" />
+
+        <import type="com.viva.play.utils.StringUtils" />
+
+        <import type="com.viva.play.utils.DataUtil" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@{position+"."+StringUtils.formatHtml(data.title)}'
+            android:textColor="?colorTextSurface"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:minWidth="50dp"
+            android:text='@{data.lastTime==null?"未学习":data.percentFloat >= 0.98?"已学完":"已学"+(data.percent * 100)+"%"}'
+            android:textColor="?colorTextMain"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="已学81%" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="?colorTransparent"
+            app:cardCornerRadius="2.5dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintBottom_toBottomOf="@id/tvState"
+            app:layout_constraintEnd_toStartOf="@+id/tvTime"
+            app:layout_constraintStart_toEndOf="@+id/tvState"
+            app:layout_constraintTop_toTopOf="@id/tvState">
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/pbPercent"
+                style="@style/basic_ui_LoadingBarH"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:indeterminate="false"
+                android:visibility="@{data.lastTime==null?View.INVISIBLE:data.percentFloat >= 0.98?View.INVISIBLE:View.VISIBLE}"
+                app:mpb_progressStyle="horizontal"
+                app:mpb_progressTint="?colorPrimary"
+                app:mpb_showProgressBackground="true"
+                app:mpb_useIntrinsicPadding="false"
+                tools:progress="50" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="end"
+            android:text="@{DataUtil.useBeautifulSSFormat(data.lastTime)}"
+            android:textColor="?colorTextThird"
+            android:textSize="11sp"
+            android:visibility="@{data.lastTime==null?View.INVISIBLE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/tvState"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@id/tvState"
+            tools:text="2022-03-27 14:39" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

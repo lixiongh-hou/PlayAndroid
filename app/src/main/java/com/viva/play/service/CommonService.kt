@@ -4,6 +4,7 @@ import com.viva.play.base.BaseResponse
 import com.viva.play.service.Url.Article
 import com.viva.play.service.Url.ArticleTop
 import com.viva.play.service.Url.Banner
+import com.viva.play.service.Url.Books
 import com.viva.play.service.Url.ChapterArticle
 import com.viva.play.service.Url.CoinRecord
 import com.viva.play.service.Url.CollectArticle
@@ -176,4 +177,11 @@ interface CommonService {
         @Query("cid") id: Int,
         @Query("order_type") orderType: Int = 0,
     ): BaseResponse<ArticleEntity>
+
+    /**
+     * 教程列表
+     */
+    @GET(Books)
+    suspend fun getBooks(): BaseResponse<List<BookEntity>>
+
 }

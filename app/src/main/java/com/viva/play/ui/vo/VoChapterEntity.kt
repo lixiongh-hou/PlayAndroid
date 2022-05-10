@@ -18,7 +18,10 @@ import com.viva.play.service.entity.NaviEntity
 data class VoChapterEntity(
     @Embedded
     val chapter: PoChapterEntity,
-    @Relation(parentColumn = "id", entityColumn = "chapterId")
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "chapterId",
+    )
     val children: List<PoChapterChildrenEntity>
 ) : Serializable {
     companion object {

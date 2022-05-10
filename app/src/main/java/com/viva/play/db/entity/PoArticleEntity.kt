@@ -13,6 +13,10 @@ import com.viva.play.service.entity.Tag
  */
 @Entity(tableName = "Article")
 data class PoArticleEntity(
+    /**
+     * 很多接口的返回值都的实体类都是一样的做一个区分来判断是那个接口的数据
+     */
+    val key: String,
     val author: String,
     val collect: Boolean,
     val desc: String,
@@ -40,9 +44,10 @@ data class PoArticleEntity(
 
 
     companion object {
-        fun parse(data: List<DataEntity>, page: Int): List<PoArticleEntity> {
+        fun parse(data: List<DataEntity>, page: Int, key: String): List<PoArticleEntity> {
             return data.map {
                 PoArticleEntity(
+                    key = key,
                     userId = it.userId,
                     author = it.author,
                     chapterName = it.chapterName,

@@ -19,9 +19,9 @@ class CollectionArticleMediator(
     private val commonService: CommonService
 ) : BaseRemoteMediator<PoCollectArticleEntity>() {
 
-    override suspend fun loadData(pageKey: Int?, loadType: LoadType): Boolean {
-        //请求网络分页数据
+    override suspend fun loadData(pageKey: Int?, loadType: LoadType): MediatorResult {
         val page = pageKey ?: 0
+        //请求网络分页数据
         val result = commonService.getCollectArticleList(page).data
         val items = PoCollectArticleEntity.parse(result!!, page)
 
@@ -32,7 +32,8 @@ class CollectionArticleMediator(
             }
             baseDataBase.collectDao().insertArticle(items)
         }
-        return result.over
+
+        return MediatorResult.Success(endOfPaginationReached = result.over)
     }
 
 }

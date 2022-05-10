@@ -25,6 +25,14 @@ object DataUtil {
             val dateFormat = SimpleDateFormat("EEEE MMM d HH:mm:ss 'EST' yyyy ", Locale.ENGLISH)
             dateFormat.format(data)
         }
+    }
 
+    @JvmStatic
+    fun useBeautifulSSFormat(data: Date?):String {
+        if (data == null){
+            return ""
+        }
+        val dateFormat = SimpleDateFormat("yyyy年M月d日 HH:mm:ss", Locale.CHINA)
+       return dateFormat.format(data)
     }
 }

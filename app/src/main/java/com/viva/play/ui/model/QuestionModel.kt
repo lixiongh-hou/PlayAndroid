@@ -34,6 +34,6 @@ class QuestionMode @Inject constructor(
             config = pagingConfig(),
             remoteMediator = QuestionMediator(baseDataBase, commonService)
         ) {
-            baseDataBase.questionDao().findQuestion()
+            baseDataBase.articleDao().findArticle()
         }.flow.cachedIn(viewModelScope)
 }

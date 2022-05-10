@@ -8,44 +8,119 @@
     </data>
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="?colorBackground">
+
+        <View
+            android:id="@+id/ivSecondFloorBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/flDlSecondFloor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="?attr/colorMainOrSurface"
-            android:gravity="center">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="首页"
-                android:textSize="16sp"
-                android:textColor="?attr/colorOnMainOrSurface" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/mSmartRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/abc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="?attr/colorMainOrSurface"
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                <com.viva.play.views.StatusBar
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/banner"
-                    tools:listitem="@layout/item_home_article" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                    android:layout_height="wrap_content" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="首页"
+                        android:textColor="?attr/colorOnMainOrSurface"
+                        android:textSize="16sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.viva.play.views.bottomdrawer.BottomDrawerLayout
+                android:id="@+id/dl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                        android:id="@+id/mSmartRefreshLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:layout_constraintTop_toBottomOf="@+id/banner"
+                                tools:listitem="@layout/item_home_article" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+                    <FrameLayout
+                        android:id="@+id/vFlContentMask"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:id="@+id/vDlContentMask"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0"
+                            android:background="@drawable/bg_white_top_12" />
+
+                        <FrameLayout
+                            android:id="@+id/vDlContentHandle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="49dp"
+                            android:layout_gravity="center_horizontal"
+                            android:alpha="0">
+
+                            <View
+                                android:layout_width="24dp"
+                                android:layout_height="4dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:background="@drawable/bg_solid_round_color_foreground_top_radius_max"
+                                android:backgroundTint="?colorIconThird"
+                                android:padding="15dp" />
+
+                        </FrameLayout>
+
+                    </FrameLayout>
+
+                </FrameLayout>
+
+            </com.viva.play.views.bottomdrawer.BottomDrawerLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </FrameLayout>
 
 </layout>

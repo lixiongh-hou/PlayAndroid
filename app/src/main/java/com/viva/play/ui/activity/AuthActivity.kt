@@ -13,6 +13,7 @@ import com.viva.play.App
 import com.viva.play.R
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityAuthBinding
+import com.viva.play.dialog.LoginDialog
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.LoginEvent
 import com.viva.play.ui.model.AuthModel
@@ -44,6 +45,7 @@ class AuthActivity : BaseActivity(), OnFocusChangeListener {
     private lateinit var mSet1: AnimatorSet
     private lateinit var mSet2: AnimatorSet
     private lateinit var mSoftInputHelper: SoftInputHelper
+    private val loginDialog by lazy { LoginDialog() }
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.model = model
@@ -60,6 +62,7 @@ class AuthActivity : BaseActivity(), OnFocusChangeListener {
         }
 
         binding.svLogin.setOnClickListener {
+            loginDialog.show(supportFragmentManager)
             model.login()
         }
     }
@@ -113,11 +116,13 @@ class AuthActivity : BaseActivity(), OnFocusChangeListener {
     override fun onResume() {
         super.onResume()
         model.login.observe(this) {
+            loginDialog.dismiss()
             postValue(EventBus.LOGIN, LoginEvent(it.nickname, it.rank, it.coinCount))
             App.notification()
             finish()
         }
         model.error.observe(this) {
+            loginDialog.dismiss()
             it.message.toast()
         }
 

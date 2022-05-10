@@ -95,6 +95,7 @@ class HomeArticleAdapter(
                 val data = this.data[position]
                 holder.binding.apply {
                     val tmpData = PoArticleEntity(
+                        key = "",
                         author = data.author,
                         chapterName = data.chapterName,
                         collect = data.collect,

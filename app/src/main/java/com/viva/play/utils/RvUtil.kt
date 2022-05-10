@@ -23,7 +23,7 @@ fun RecyclerView.cancelAnimation() {
     itemAnimator?.addDuration = 0
     itemAnimator?.changeDuration = 0
     itemAnimator?.moveDuration = 0
-    itemAnimator?.removeDuration = 0
+//    itemAnimator?.removeDuration = 0
     (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     itemAnimator = null
 }
