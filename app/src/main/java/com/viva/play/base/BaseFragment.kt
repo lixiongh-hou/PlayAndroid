@@ -13,6 +13,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.viva.play.R
+import com.viva.play.base.paging.BasePagingDataAdapter
 import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
 import java.lang.reflect.ParameterizedType

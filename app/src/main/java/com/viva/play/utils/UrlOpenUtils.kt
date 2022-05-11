@@ -23,6 +23,8 @@ class UrlOpenUtils(private val url: String) {
 
     var forceWeb: Boolean = false
 
+    var key: String? = null
+
     companion object {
         fun with(url: String) = UrlOpenUtils(url)
 
@@ -40,9 +42,9 @@ class UrlOpenUtils(private val url: String) {
     fun open(context: Context?) {
         context ?: return
         if (!forceWeb && id > 0) {
-            ArticleActivity.start(context, url, title, id, collected, author, userId)
+            ArticleActivity.start(context, url, title, id, collected, author, userId, key)
         } else {
-            WebActivity.start(context, url, title, id, collected, collectId)
+            WebActivity.start(context, url, title, id, collected, collectId, key)
         }
     }
 

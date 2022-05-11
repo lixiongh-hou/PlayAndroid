@@ -31,20 +31,13 @@ class BookDetailsMediator(
         val readRecord = result!!.data.map {
             val data = baseDataBase.bookDetailsDao().findReadRecord(it.link, key)
             if (data == null) {
-                PoReadRecordEntity("", it.link, it.title, it.publishTime, null, 0)
+                PoReadRecordEntity("", it.link, null, 0)
             } else {
-                PoReadRecordEntity(
-                    "",
-                    it.link,
-                    it.title,
-                    it.publishTime,
-                    data.lastTime,
-                    data.percent
-                )
+                PoReadRecordEntity("", it.link, data.lastTime, data.percent)
             }
         }
 
-        val items = PoBookDetailsEntity.parse(readRecord, page, key)
+        val items = PoBookDetailsEntity.parse(result.data, readRecord, page, key)
         //插入数据库
         baseDataBase.withTransaction {
             if (loadType == LoadType.REFRESH) {

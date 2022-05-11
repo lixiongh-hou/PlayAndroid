@@ -24,6 +24,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bg_press_color_surface"
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,7 +44,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:minWidth="50dp"
-            android:text='@{data.lastTime==null?"未学习":data.percentFloat >= 0.98?"已学完":"已学"+(data.percent * 100)+"%"}'
+            android:text='@{data.lastTime==null?"未学习":data.percentFloat >= 0.98?"已学完":"已学"+((int)(data.percentFloat * 100))+"%"}'
             android:textColor="?colorTextMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/cardView"

@@ -5,6 +5,7 @@ import androidx.annotation.IntRange
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.viva.play.base.paging.BasePagingData
+import com.viva.play.service.entity.DataEntity
 import java.util.*
 
 /**
@@ -18,6 +19,9 @@ data class PoBookDetailsEntity(
      * 很多接口的返回值都的实体类都是一样的做一个区分来判断是那个接口的数据
      */
     val key: String,
+    val id: Int,
+    val author: String,
+    val userId: Int,
     val link: String,
     val title: String,
     val publishTime: Long,
@@ -28,18 +32,22 @@ data class PoBookDetailsEntity(
     companion object {
         const val MAX_PERCENT = 10000
         fun parse(
+            data: List<DataEntity>,
             readRecord: List<PoReadRecordEntity>,
             page: Int,
             key: String
         ): List<PoBookDetailsEntity> {
-            return readRecord.map {
+            return data.mapIndexed { index, dataEntity ->
                 PoBookDetailsEntity(
                     key = key,
-                    link = it.link,
-                    title = it.title,
-                    publishTime = it.publishTime,
-                    lastTime = it.lastTime,
-                    percent = it.percent
+                    id = dataEntity.id,
+                    author = dataEntity.author,
+                    userId = dataEntity.userId,
+                    link = readRecord[index].link,
+                    title = dataEntity.title,
+                    publishTime = dataEntity.publishTime,
+                    lastTime = readRecord[index].lastTime,
+                    percent = readRecord[index].percent
                 ).apply {
                     this.page = page + 1
                 }

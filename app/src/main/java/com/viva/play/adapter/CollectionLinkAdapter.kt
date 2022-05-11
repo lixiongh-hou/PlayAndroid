@@ -8,8 +8,8 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.viva.play.base.BasePagingDataAdapter
 import com.viva.play.base.BaseViewHolder
+import com.viva.play.base.paging.BasePagingDataAdapter
 import com.viva.play.databinding.ItemCollectionLinkBinding
 import com.viva.play.db.entity.PoCollectLinkEntity
 
@@ -47,7 +47,11 @@ class CollectionLinkAdapter(private val context: Context) :
                     animation.duration = 300
                     animation.start()
                 }
-                lastPosition = position
+                //[position]会因为删除数据后不会进行改变
+                //当下标有0、1、2时候，删除了下标1，此时下标应该是0、1，但是再选择1的时候还是下标2
+                val a1 = snapshot().items
+                lastPosition = a1.indexOf(data)
+//                lastPosition = position
                 true
             }
 
@@ -69,6 +73,7 @@ class CollectionLinkAdapter(private val context: Context) :
     fun clearAnimation() {
         if (recyclerView != null && lastPosition != -1) {
             val view = recyclerView!!.getChildAt(lastPosition)
+            lastPosition = -1
             val tmpViewHolder = recyclerView!!.getChildViewHolder(view)
             if (tmpViewHolder != null) {
                 if (tmpViewHolder is CollectionLinkHolder) {

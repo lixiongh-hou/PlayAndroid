@@ -13,13 +13,11 @@ import com.viva.play.adapter.BookDetailsAdapter
 import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityBookDetailsBinding
+import com.viva.play.service.Url
 import com.viva.play.service.entity.BookEntity
 import com.viva.play.ui.model.BookDetailsModel
-import com.viva.play.utils.NetworkUtils
+import com.viva.play.utils.*
 import com.viva.play.utils.bind.binding
-import com.viva.play.utils.bindDivider
-import com.viva.play.utils.getThemeColor
-import com.viva.play.utils.toLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.abs
@@ -58,9 +56,7 @@ class BookDetailsActivity : BaseActivity() {
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
         adapter.bindLoadState(binding.msv)
-        if (NetworkUtils.isNetworkAvailable()) {
-            binding.msv.toLoading()
-        }
+        binding.recyclerView.cancelAnimation()
         binding.recyclerView.bindDivider()
         binding.abl.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { abl, offset ->
             if (abs(offset) == abl.totalScrollRange) {
@@ -88,6 +84,18 @@ class BookDetailsActivity : BaseActivity() {
             model.pagingData(bookEntity!!.id).collectLatest {
                 adapter.submitData(it)
             }
+        }
+
+        adapter.itemOnClick = { data, _ ->
+            UrlOpenUtils.with(data.link).apply {
+                title = data.title
+                id = data.id
+                collected = true
+                author = data.author
+                userId = data.userId
+                forceWeb = false
+                key = Url.ChapterArticle.replace("{page}", bookEntity!!.id.toString())
+            }.open(this)
         }
     }
 

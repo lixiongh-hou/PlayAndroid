@@ -15,6 +15,7 @@ import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
 import com.viva.play.utils.NetworkUtils.isNetworkAvailable
 import kotlinx.coroutines.*
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -729,6 +730,67 @@ class CommonRequest @Inject constructor() {
     fun getBooks(scope: CoroutineScope, callback: (BaseResult<List<BookEntity>>) -> Unit) {
         scope.launch {
             remoteRequest.getBooks(callback)
+        }
+    }
+
+    /**
+     * 添加阅读记录
+     */
+    fun addReadRecord(
+        scope: CoroutineScope,
+        key: String,
+        link: String,
+        percent: Float,
+        callback: (BaseResult<PoReadRecordEntity?>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.addReadRecord(key, link, percent) {
+                it.doSuccess { success ->
+                    baseDataBase.runInTransaction {
+                        val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                        //如果传来的进度比缓存进度小不更新进度
+                        if ((success?.percent) ?: 0 < p) {
+                            baseDataBase.bookDetailsDao().updateBookDetails(key, link, p)
+                        }
+                        //时间实时更新
+                        baseDataBase.bookDetailsDao()
+                            .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
+                        callback.invoke(BaseResult.Success(success))
+                    }
+                }
+                it.doFailure { apiError ->
+                    callback.invoke(BaseResult.Failure(apiError))
+                }
+            }
+        }
+    }
+
+    fun updateReadRecordPercent(
+        scope: CoroutineScope,
+        key: String,
+        link: String,
+        percent: Float,
+        callback: (BaseResult<PoReadRecordEntity?>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.updateReadRecordPercent(key, link, percent) {
+                it.doSuccess { success ->
+                    baseDataBase.runInTransaction {
+                        val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                        //如果传来的进度比缓存进度小不更新进度
+                        if ((success?.percent) ?: 0 < p) {
+                            baseDataBase.bookDetailsDao().updateBookDetails(key, link, p)
+                        }
+                        //时间实时更新
+                        baseDataBase.bookDetailsDao()
+                            .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
+                        callback.invoke(BaseResult.Success(success))
+                    }
+                }
+                it.doFailure { apiError ->
+                    callback.invoke(BaseResult.Failure(apiError))
+                }
+            }
         }
     }
 }

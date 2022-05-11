@@ -8,8 +8,8 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.viva.play.base.BasePagingDataAdapter
 import com.viva.play.base.BaseViewHolder
+import com.viva.play.base.paging.BasePagingDataAdapter
 import com.viva.play.databinding.ItemReadLaterBinding
 import com.viva.play.db.entity.PoReadLaterEntity
 

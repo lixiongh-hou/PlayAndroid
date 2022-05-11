@@ -1,4 +1,4 @@
-package com.viva.play.base
+package com.viva.play.base.paging
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter

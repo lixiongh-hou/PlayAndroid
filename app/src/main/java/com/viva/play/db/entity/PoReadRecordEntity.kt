@@ -18,8 +18,6 @@ data class PoReadRecordEntity(
     val key: String,
     @PrimaryKey
     val link: String,
-    val title: String,
-    val publishTime: Long,
     val lastTime: Date?,
     @IntRange(from = 0, to = 10000) val percent: Int
 ) {

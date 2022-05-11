@@ -100,6 +100,8 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
             model.id = data.collectId
             model.unCollectLink()
         }
+
+
         model.error.observe(viewLifecycleOwner) {
             it.message.toast()
         }

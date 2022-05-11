@@ -37,6 +37,7 @@ class WebActivity : BaseActivity(), OnlyEdge {
         private const val ID = "id"
         private const val COLLECTED = "collected"
         private const val COLLECT_ID = "collectId"
+        private const val KEY = "key"
 
         fun start(
             context: Context,
@@ -44,7 +45,8 @@ class WebActivity : BaseActivity(), OnlyEdge {
             title: String,
             id: Int,
             collected: Boolean,
-            collectId: Int
+            collectId: Int,
+            key: String?,
         ) {
             context.startActivity(Intent(context, WebActivity::class.java).apply {
                 putExtra(URL, url)
@@ -52,6 +54,7 @@ class WebActivity : BaseActivity(), OnlyEdge {
                 putExtra(ID, id)
                 putExtra(COLLECTED, collected)
                 putExtra(COLLECT_ID, collectId)
+                putExtra(KEY, key)
             })
         }
     }
@@ -78,6 +81,10 @@ class WebActivity : BaseActivity(), OnlyEdge {
     }
     private val collectId by lazy {
         intent.getIntExtra(COLLECT_ID, -1)
+    }
+
+    private val key: String? by lazy {
+        intent.getStringExtra(KEY)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

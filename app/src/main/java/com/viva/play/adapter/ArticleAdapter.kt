@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.viva.play.base.BasePagingDataAdapter
+import com.viva.play.base.paging.BasePagingDataAdapter
 import com.viva.play.databinding.ItemHomeArticleBinding
 import com.viva.play.db.entity.PoArticleEntity
 import com.viva.play.ui.activity.KnowledgeArticleActivity

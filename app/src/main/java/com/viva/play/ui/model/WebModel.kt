@@ -26,9 +26,12 @@ class WebModel @Inject constructor(
     private val commonRequest: CommonRequest
 ) : BaseModel(commonRequest) {
 
+    val url = ObservableField("")
     val title = ObservableField("")
     val id = ObservableInt(-1)
     val collected = ObservableBoolean(false)
+    val author = ObservableField("")
+    val userId = ObservableInt(-1)
 
     private val _collectLink = MutableLiveData<Boolean>()
     val collectLink: LiveData<Boolean>
@@ -123,6 +126,25 @@ class WebModel @Inject constructor(
                 it.doFailure { apiError ->
                     error.postValue(apiError)
                 }
+            }
+        }
+    }
+
+    /**
+     * 添加阅读记录
+     */
+    fun addReadRecord(key: String, link: String, percent: Float) {
+        commonRequest.addReadRecord(viewModelScope, key, link, percent) {
+            it.doSuccess {
+
+            }
+        }
+    }
+
+    fun updateReadRecordPercent(key: String, link: String, percent: Float){
+        commonRequest.updateReadRecordPercent(viewModelScope, key, link, percent) {
+            it.doSuccess {
+
             }
         }
     }

@@ -2,15 +2,13 @@ package com.viva.play.service.request
 
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
-import com.viva.play.service.ApiError
-import com.viva.play.service.BaseResult
-import com.viva.play.service.doFailure
-import com.viva.play.service.doSuccess
+import com.viva.play.service.*
 import com.viva.play.service.request.CommonRequest.Companion.noInternet
 import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -158,6 +156,62 @@ class CommonLocalRequest @Inject constructor(
         runInDispatcherIO {
             baseDataBase.readLaterDao().delete()
             callback.invoke(it)
+        }
+    }
+
+    suspend fun addReadRecord(
+        key: String,
+        link: String,
+        percent: Float,
+        callback: (BaseResult<PoReadRecordEntity?>) -> Unit
+    ) {
+        runInDispatcherIO {
+            baseDataBase.runInTransaction {
+                val data = baseDataBase.bookDetailsDao().findReadRecord1(link, key)
+                //如果不存在阅读记录缓存阅读记录
+                if (data == null) {
+                    baseDataBase.bookDetailsDao().insertReadRecord(
+                        PoReadRecordEntity(
+                            key,
+                            link,
+                            Date(),
+                            (percent * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                        )
+                    )
+                } else {
+                    baseDataBase.bookDetailsDao().updateReadRecordTime(
+                        key,
+                        link,
+                        Date(),
+                    )
+                }
+                callback.invoke(
+                    BaseResult.Success(data)
+                )
+            }
+        }
+    }
+
+    suspend fun updateReadRecordPercent(
+        key: String,
+        link: String,
+        percent: Float,
+        callback: (BaseResult<PoReadRecordEntity?>) -> Unit
+    ) {
+        runInDispatcherIO {
+            baseDataBase.runInTransaction {
+                val data =
+                    baseDataBase.bookDetailsDao().findReadRecord1(link, key)
+                        ?: return@runInTransaction
+                val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                //如果传来的进度比缓存进度小不更新进度
+                if (data.percent < p) {
+                    baseDataBase.bookDetailsDao().updateReadRecord(key, link, p)
+                }
+                //时间实时更新
+                baseDataBase.bookDetailsDao().updateReadRecordTime(key, link, Date())
+                callback.invoke(BaseResult.Success(data))
+            }
         }
     }
 

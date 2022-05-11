@@ -9,7 +9,7 @@ import okhttp3.Call
  */
 abstract class BaseWebUrlInterceptor : WebUrlInterceptor {
 
-    private val callList = arrayListOf<Call>()
+    private val callList = arrayListOf<Call?>()
 
     protected fun Call.resp(): String? {
         callList.add(this)
@@ -19,7 +19,7 @@ abstract class BaseWebUrlInterceptor : WebUrlInterceptor {
     }
 
     override fun cancel() {
-        callList.forEach { it.cancel() }
+        callList.forEach { it?.cancel() }
         callList.clear()
     }
 }

@@ -1,4 +1,4 @@
-package com.viva.play.base
+package com.viva.play.base.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

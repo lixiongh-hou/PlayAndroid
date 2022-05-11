@@ -28,6 +28,7 @@ import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.HomeModel
+import com.viva.play.ui.model.WebModel
 import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.bind.binding
@@ -98,6 +99,7 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
         private const val COLLECTED = "collected"
         private const val AUTHOR = "author"
         private const val USER_ID = "userId"
+        private const val KEY = "key"
 
         fun start(
             context: Context,
@@ -106,7 +108,8 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
             id: Int,
             collected: Boolean,
             author: String,
-            userId: Int
+            userId: Int,
+            key: String?,
         ) {
             context.startActivity(Intent(context, ArticleActivity::class.java).apply {
                 putExtra(URL, url)
@@ -115,12 +118,13 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
                 putExtra(COLLECTED, collected)
                 putExtra(AUTHOR, author)
                 putExtra(USER_ID, userId)
+                putExtra(KEY, key)
             })
         }
     }
 
     private val binding by binding<ActivityArticleBinding>()
-    private val model by viewModels<HomeModel>()
+    private val model by viewModels<WebModel>()
 
     //这个值的目的就是用来初始化一个值判断我是通过点击来移除还是添加稍后阅读的
     private var readLaterData: PoReadLaterEntity? = null
@@ -142,6 +146,9 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
     }
     private val userId by lazy {
         intent.getIntExtra(USER_ID, -1)
+    }
+    private val key: String? by lazy {
+        intent.getStringExtra(KEY)
     }
 
     private lateinit var mWebHolder: WebHolder
@@ -240,10 +247,14 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
 
                 override fun onPageFinished() {
                     isPageLoadFinished = true
-                    val uri = Uri.parse(mWebHolder.getUrl())
-                    val message = uri.getQueryParameter("scrollToKeywords")
-                    if (!message.isNullOrEmpty()) {
-                        mWebHolder.scrollToKeywords(message.split(","))
+                    try {
+                        val uri = Uri.parse(mWebHolder.getUrl())
+                        val message = uri.getQueryParameter("scrollToKeywords")
+                        if (!message.isNullOrEmpty()) {
+                            mWebHolder.scrollToKeywords(message.split(","))
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             })
@@ -272,12 +283,19 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
                 return@setInterceptUrlInterceptor null
             }
             .setOnPageTitleCallback {
-                Log.e("测试", "setOnPageTitleCallback::${it}")
+                if (!key.isNullOrEmpty()) {
+                    model.addReadRecord(key!!, mWebHolder.getUrl(), mWebHolder.getPercent())
+                }
             }
             .setOnPageScrollEndListener {
                 //这里目的时移除稍后阅读
                 if (readLater) {
                     model.removeReadLater(mWebHolder.getUrl())
+                }
+            }
+            .setOnPageScrollChangeListener {
+                if (!key.isNullOrEmpty()) {
+                    model.updateReadRecordPercent(key!!, mWebHolder.getUrl(), it)
                 }
             }
 

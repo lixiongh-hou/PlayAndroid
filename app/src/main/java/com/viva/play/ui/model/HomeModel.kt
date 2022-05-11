@@ -1,9 +1,6 @@
 package com.viva.play.ui.model
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -46,14 +43,6 @@ class HomeModel @Inject constructor(
     val loadError: LiveData<ApiError>
         get() = _loadError
 
-    val url = ObservableField("")
-    val title = ObservableField("")
-    val id = ObservableInt(-1)
-    val collected = ObservableBoolean(false)
-    val author = ObservableField("")
-    val userId = ObservableInt(-1)
-    val collectId = ObservableInt(-1)
-
     fun getHomeData(refresh: Boolean = false, local: Boolean = false) {
         if (!refresh) {
             if (_homeData.value != null) {
@@ -85,6 +74,7 @@ class HomeModel @Inject constructor(
             }
         }
     }
+
 
 
     /**

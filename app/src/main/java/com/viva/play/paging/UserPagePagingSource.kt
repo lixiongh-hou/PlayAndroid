@@ -1,7 +1,7 @@
 package com.viva.play.paging
 
-import com.viva.play.base.BasePagingSource
-import com.viva.play.base.BaseSourceData
+import com.viva.play.base.paging.BasePagingSource
+import com.viva.play.base.paging.BaseSourceData
 import com.viva.play.db.entity.PoArticleEntity
 import com.viva.play.service.CommonService
 

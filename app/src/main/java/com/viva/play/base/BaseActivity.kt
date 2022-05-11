@@ -1,7 +1,6 @@
 package com.viva.play.base
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.LoadState
 import androidx.viewbinding.ViewBinding
@@ -10,6 +9,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.viva.play.R
+import com.viva.play.base.paging.BasePagingDataAdapter
 import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
 
