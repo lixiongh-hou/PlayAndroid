@@ -29,6 +29,15 @@ object Url {
     const val CoinRecord = "lg/coin/userinfo/json"
 
     /**
+     * 获取个人积分列表
+     */
+    const val CoinRecordList = "lg/coin/list/{page}/json"
+
+    /**
+     * 获取个人积分
+     */
+    const val Coin = "lg/coin/getcount/json"
+    /**
      * 首页Banner
      */
     const val Banner = "banner/json"
@@ -117,6 +126,7 @@ object Url {
      * 教程列表
      */
     const val Books = "chapter/547/sublist/json"
+
     /**
      * 公众号名称
      */

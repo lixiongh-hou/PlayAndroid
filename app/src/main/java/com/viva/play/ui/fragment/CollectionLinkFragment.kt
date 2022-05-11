@@ -42,7 +42,7 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
         binding.recyclerView.adapter = concatAdapter
         adapter.recyclerView = binding.recyclerView
         binding.recyclerView.bindDivider()
-        adapter.bindLoadState(binding.msv, false)
+        adapter.bindLoadState(binding.msv, isLoading = false)
 
         (requireActivity() as CollectionActivity).dispatchTouchEvent = {
             it?.let { event ->

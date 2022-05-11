@@ -127,6 +127,27 @@ class CommonRemoteRequest @Inject constructor(
         )
     }
 
+    suspend fun getCoinRecordList(page: Int): CoinRecordListEntity {
+        return service.getCoinRecordList(page).data!!
+    }
+
+    suspend fun getCoin(callback: (BaseResult<Int>) -> Unit) {
+        runInDispatcherIO(
+            block = {
+                service.getCoin().convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
+
     suspend fun collectArticle(id: Int, callback: (BaseResult<Any?>) -> Unit) {
         runInDispatcherIO(
             block = {

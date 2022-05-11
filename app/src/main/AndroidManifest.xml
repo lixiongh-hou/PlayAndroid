@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/ThemePlayAndroid">
         <activity
+            android:name=".ui.activity.CoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.ReadRecordActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.BookDetailsActivity"
             android:exported="true" />
         <activity

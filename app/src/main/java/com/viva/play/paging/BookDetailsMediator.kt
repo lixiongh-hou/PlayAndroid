@@ -19,7 +19,7 @@ import com.viva.play.service.Url
 class BookDetailsMediator(
     private val baseDataBase: BaseDataBase,
     private val commonService: CommonService,
-    private val cid: Int
+    private val cid: Int,
 ) : BaseRemoteMediator<PoBookDetailsEntity>() {
     override suspend fun loadData(pageKey: Int?, loadType: LoadType): MediatorResult {
 
@@ -29,11 +29,19 @@ class BookDetailsMediator(
         val key = Url.ChapterArticle.replace("{page}", cid.toString())
 
         val readRecord = result!!.data.map {
-            val data = baseDataBase.bookDetailsDao().findReadRecord(it.link, key)
+            val data = baseDataBase.bookDetailsDao().findReadRecord(it.link)
             if (data == null) {
-                PoReadRecordEntity("", it.link, null, 0)
+                PoReadRecordEntity(it.id, it.author, it.userId, it.link, it.title, null, 0)
             } else {
-                PoReadRecordEntity("", it.link, data.lastTime, data.percent)
+                PoReadRecordEntity(
+                    it.id,
+                    it.author,
+                    it.userId,
+                    it.link,
+                    it.title,
+                    data.lastTime,
+                    data.percent
+                )
             }
         }
 

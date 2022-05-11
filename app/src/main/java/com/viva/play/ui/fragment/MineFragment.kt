@@ -12,9 +12,7 @@ import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentMineBinding
 import com.viva.play.db.BaseDataBase
 import com.viva.play.service.EventBus
-import com.viva.play.ui.activity.ReadLaterActivity
-import com.viva.play.ui.activity.CollectionActivity
-import com.viva.play.ui.activity.SettingActivity
+import com.viva.play.ui.activity.*
 import com.viva.play.ui.event.LoginEvent
 import com.viva.play.ui.model.MineModel
 import com.viva.play.utils.CookieCache
@@ -95,6 +93,16 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
 
     fun navigateReadLaterActivity() {
         startActivity(Intent(requireContext(), ReadLaterActivity::class.java))
+    }
+
+    fun navigateReadRecordActivity(){
+        startActivity(Intent(requireContext(), ReadRecordActivity::class.java))
+    }
+
+    fun navigateCoinActivity(){
+        if (CookieCache.doIfLogin(requireContext())) {
+            startActivity(Intent(requireContext(), CoinActivity::class.java))
+        }
     }
 
     fun test() {

@@ -6,7 +6,9 @@ import com.viva.play.service.Url.ArticleTop
 import com.viva.play.service.Url.Banner
 import com.viva.play.service.Url.Books
 import com.viva.play.service.Url.ChapterArticle
+import com.viva.play.service.Url.Coin
 import com.viva.play.service.Url.CoinRecord
+import com.viva.play.service.Url.CoinRecordList
 import com.viva.play.service.Url.CollectArticle
 import com.viva.play.service.Url.CollectLink
 import com.viva.play.service.Url.CollectLinkList
@@ -53,8 +55,23 @@ interface CommonService {
         @Field("password") password: String
     ): BaseResponse<UserInfo>
 
+    /**
+     * 个人积分信息
+     */
     @GET(CoinRecord)
     suspend fun getCoinRecordInfo(): BaseResponse<CoinRecordEntity>
+
+    /**
+     * 个人积分列表
+     */
+    @GET(CoinRecordList)
+    suspend fun getCoinRecordList(@Path("page") page: Int): BaseResponse<CoinRecordListEntity>
+
+    /**
+     * 获取个人积分
+     */
+    @GET(Coin)
+    suspend fun getCoin(): BaseResponse<Int>
 
     /**
      * 首页Banner图
@@ -183,5 +200,6 @@ interface CommonService {
      */
     @GET(Books)
     suspend fun getBooks(): BaseResponse<List<BookEntity>>
+
 
 }

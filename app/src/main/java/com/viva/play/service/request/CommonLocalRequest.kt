@@ -160,31 +160,29 @@ class CommonLocalRequest @Inject constructor(
     }
 
     suspend fun addReadRecord(
-        key: String,
+        id: Int,
+        author: String,
+        userId: Int,
         link: String,
+        title: String,
         percent: Float,
         callback: (BaseResult<PoReadRecordEntity?>) -> Unit
     ) {
         runInDispatcherIO {
             baseDataBase.runInTransaction {
-                val data = baseDataBase.bookDetailsDao().findReadRecord1(link, key)
-                //如果不存在阅读记录缓存阅读记录
-                if (data == null) {
-                    baseDataBase.bookDetailsDao().insertReadRecord(
-                        PoReadRecordEntity(
-                            key,
-                            link,
-                            Date(),
-                            (percent * PoBookDetailsEntity.MAX_PERCENT).toInt()
-                        )
-                    )
-                } else {
-                    baseDataBase.bookDetailsDao().updateReadRecordTime(
-                        key,
+                val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                val data = baseDataBase.bookDetailsDao().findReadRecord1(id, link)
+                baseDataBase.bookDetailsDao().insertReadRecord(
+                    PoReadRecordEntity(
+                        id,
+                        author,
+                        userId,
                         link,
+                        title,
                         Date(),
+                        p
                     )
-                }
+                )
                 callback.invoke(
                     BaseResult.Success(data)
                 )
@@ -193,7 +191,7 @@ class CommonLocalRequest @Inject constructor(
     }
 
     suspend fun updateReadRecordPercent(
-        key: String,
+        id: Int,
         link: String,
         percent: Float,
         callback: (BaseResult<PoReadRecordEntity?>) -> Unit
@@ -201,18 +199,35 @@ class CommonLocalRequest @Inject constructor(
         runInDispatcherIO {
             baseDataBase.runInTransaction {
                 val data =
-                    baseDataBase.bookDetailsDao().findReadRecord1(link, key)
+                    baseDataBase.bookDetailsDao().findReadRecord1(id, link)
                         ?: return@runInTransaction
                 val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
-                //如果传来的进度比缓存进度小不更新进度
+                //如果传来的进度比缓存进度小不更新进度只更新时间
                 if (data.percent < p) {
-                    baseDataBase.bookDetailsDao().updateReadRecord(key, link, p)
+                    baseDataBase.bookDetailsDao().updateReadRecord(id, link, p, Date())
+                } else {
+                    //时间实时更新
+                    baseDataBase.bookDetailsDao().updateReadRecordTime(id, link, Date())
                 }
-                //时间实时更新
-                baseDataBase.bookDetailsDao().updateReadRecordTime(key, link, Date())
+
                 callback.invoke(BaseResult.Success(data))
             }
         }
     }
+
+    suspend fun delReadRecord(data: PoReadRecordEntity, callback: (BaseResult<String>) -> Unit) {
+        runInDispatcherIO {
+            baseDataBase.bookDetailsDao().delReadRecord(data)
+            callback.invoke(it)
+        }
+    }
+
+    suspend fun delAllReadRecord(callback: (BaseResult<String>) -> Unit){
+        runInDispatcherIO{
+            baseDataBase.bookDetailsDao().delAllReadRecord()
+            callback.invoke(it)
+        }
+    }
+
 
 }

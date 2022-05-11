@@ -30,6 +30,21 @@
         <item name="abc_leftIconClickToFinish">true</item>
     </style>
 
+
+    <style name="ActionBar.Super">
+        <item name="absuper_titleTextColor">?colorOnMainOrSurface</item>
+        <item name="absuper_iconColor">?colorOnMainOrSurface</item>
+        <item name="absuper_iconPadding">13dp</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+    </style>
+
+    <style name="ActionBar.Super.Back">
+        <item name="absuper_left1Icon">@drawable/ic_back</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="absuper_left1IconClickToFinish">true</item>
+    </style>
+
     <style name="roundedCornerImageStyle">
         <item name="cornerSize">3dp</item>
     </style>

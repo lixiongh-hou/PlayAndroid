@@ -2,26 +2,31 @@ package com.viva.play.ui.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.viva.play.adapter.FooterAdapter
-import com.viva.play.adapter.ReadLaterAdapter
+import com.viva.play.adapter.ReadRecordAdapter
 import com.viva.play.base.BaseActivity
-import com.viva.play.databinding.ActivityReadLaterBinding
+import com.viva.play.databinding.ActivityReadRecordBinding
 import com.viva.play.dialog.TipDialog
-import com.viva.play.ui.model.ReadLaterModel
-import com.viva.play.utils.*
+import com.viva.play.ui.model.ReadRecordModel
+import com.viva.play.utils.CopyUtils
+import com.viva.play.utils.IntentUtils
 import com.viva.play.utils.ToastUtil.toast
+import com.viva.play.utils.UrlOpenUtils
 import com.viva.play.utils.bind.binding
+import com.viva.play.utils.bindDivider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import per.goweii.actionbarex.common.OnActionBarChildClickListener
 
 @AndroidEntryPoint
-class ReadLaterActivity : BaseActivity() {
+class ReadRecordActivity : BaseActivity() {
 
-    private val binding by binding<ActivityReadLaterBinding>()
-    private val model by viewModels<ReadLaterModel>()
-    private val adapter by lazy { ReadLaterAdapter(this) }
+    private val binding by binding<ActivityReadRecordBinding>()
+    private val model by viewModels<ReadRecordModel>()
+    private val adapter by lazy { ReadRecordAdapter(this) }
 
     override fun initView(savedInstanceState: Bundle?) {
         pureScrollMode(binding)
@@ -34,17 +39,22 @@ class ReadLaterActivity : BaseActivity() {
         adapter.recyclerView = binding.recyclerView
         binding.recyclerView.bindDivider()
         adapter.bindLoadState(binding.msv, isLoading = false)
+    }
 
-        binding.abc.setOnRightTextClickListener {
-            TipDialog.Builder().apply {
-                title = "清除书签"
-                msg = "是否要清除全部书签？"
-                callbackYes = {
-                    model.removeReadLaterAll()
-                }
-            }.builder().show(supportFragmentManager)
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            adapter.clearAnimation()
         }
+        return super.dispatchTouchEvent(ev)
+    }
 
+    override fun startRefresh() {
+        super.startRefresh()
+        adapter.refresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)
@@ -68,24 +78,24 @@ class ReadLaterActivity : BaseActivity() {
             }
             IntentUtils.openBrowser(this, data.link)
         }
+
         adapter.onDelete = { data, _ ->
-            model.removeReadLater(data.link)
+            model.delReadRecord(data)
         }
+
+        binding.abc.setOnRightTextClickListener {
+            TipDialog.Builder().apply {
+                msg = "确定要全部删除吗?"
+                callbackYes = {
+                    model.delAllReadRecord()
+                }
+            }.builder().show(supportFragmentManager)
+        }
+
         model.error.observe(this) {
             it.message.toast()
         }
-    }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action == MotionEvent.ACTION_DOWN) {
-            adapter.clearAnimation()
-        }
-        return super.dispatchTouchEvent(ev)
-    }
-
-    override fun startRefresh() {
-        super.startRefresh()
-        adapter.refresh()
     }
 
 }

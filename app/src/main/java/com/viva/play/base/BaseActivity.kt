@@ -77,42 +77,85 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     protected fun BasePagingDataAdapter<*>.bindLoadState(
         msv: MultiStateView,
-        isLoading: Boolean = true
+        isLoading: Boolean = true,
+        isMediator: Boolean = true
     ) {
         this.addLoadStateListener {
-            if (it.refresh is LoadState.NotLoading && this.itemCount == 0) {
-                msv.toEmpty {
-                    msv.toLoading()
-                    this.refresh()
+            if (!isMediator) {
+                if (it.refresh is LoadState.NotLoading && this.itemCount == 0) {
+                    msv.toEmpty {
+                        msv.toLoading()
+                        this.refresh()
+                    }
+                } else {
+                    msv.toContent()
                 }
-            } else {
-                msv.toContent()
 
-            }
-            if (it.mediator?.refresh is LoadState.NotLoading) {
-                msv.toContent()
-                successAfter(this.itemCount)
-            }
-            if (it.mediator?.refresh is LoadState.Loading) {
-                if (NetworkUtils.isNetworkAvailable()) {
-                    if (this.itemCount == 0) {
-                        if (isLoading) {
+                if (it.source.refresh is LoadState.NotLoading) {
+                    msv.toContent()
+                    successAfter(this.itemCount)
+                }
+
+                if (it.source.refresh is LoadState.Loading) {
+                    if (NetworkUtils.isNetworkAvailable()) {
+                        if (this.itemCount == 0) {
                             msv.toLoading()
                         }
                     }
                 }
-            }
-            if (it.mediator?.refresh is LoadState.Error && this.itemCount == 0) {
-                msv.toError {
-                    msv.toLoading()
-                    this.refresh()
+                if (it.source.refresh is LoadState.Error && this.itemCount == 0) {
+                    msv.toError {
+                        msv.toLoading()
+                        this.refresh()
+                    }
+                    failureAfter()
                 }
-                failureAfter()
-            }
-            // Toast任何错误，无论它是来自RemoteMediator还是PagingSource
-            val errorState = it.refresh as? LoadState.Error
-            errorState?.let { error ->
-                error.error.message?.toast()
+                // Toast任何错误，无论它是来自RemoteMediator还是PagingSource
+                val errorState = it.source.append as? LoadState.Error
+                    ?: it.source.prepend as? LoadState.Error
+                    ?: it.append as? LoadState.Error
+                    ?: it.prepend as? LoadState.Error
+                errorState?.let { error ->
+                    error.error.message?.toast()
+                }
+
+            } else {
+                if (it.refresh is LoadState.NotLoading && this.itemCount == 0) {
+                    msv.toEmpty {
+                        msv.toLoading()
+                        this.refresh()
+                    }
+                } else {
+                    msv.toContent()
+                }
+                if (it.mediator?.refresh is LoadState.NotLoading) {
+                    msv.toContent()
+                    successAfter(this.itemCount)
+                }
+                if (it.mediator?.refresh is LoadState.Loading) {
+                    if (NetworkUtils.isNetworkAvailable()) {
+                        if (this.itemCount == 0) {
+                            if (isLoading) {
+                                msv.toLoading()
+                            }
+                        }
+                    }
+                }
+                if (it.mediator?.refresh is LoadState.Error && this.itemCount == 0) {
+                    msv.toError {
+                        msv.toLoading()
+                        this.refresh()
+                    }
+                    failureAfter()
+                }
+                // Toast任何错误，无论它是来自RemoteMediator还是PagingSource
+                val errorState = it.source.append as? LoadState.Error
+                    ?: it.source.prepend as? LoadState.Error
+                    ?: it.append as? LoadState.Error
+                    ?: it.prepend as? LoadState.Error
+                errorState?.let { error ->
+                    error.error.message?.toast()
+                }
             }
         }
     }

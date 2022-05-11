@@ -540,8 +540,25 @@ class CommonRequest @Inject constructor() {
         } else {
             callback.invoke(BaseResult.Failure(noInternet))
         }
+    }
 
+    /**
+     * 个人积分列表
+     */
+    suspend fun getCoinRecordList(page: Int): CoinRecordListEntity {
+        return remoteRequest.getCoinRecordList(page)
+    }
 
+    /**
+     * 获取个人积分
+     */
+    fun getCoin(
+        scope: CoroutineScope,
+        callback: (BaseResult<Int>) -> Unit
+    ) {
+        scope.launch {
+            remoteRequest.getCoin(callback)
+        }
     }
 
     /**
@@ -738,25 +755,35 @@ class CommonRequest @Inject constructor() {
      */
     fun addReadRecord(
         scope: CoroutineScope,
-        key: String,
+        id: Int,
+        author: String,
+        userId: Int,
         link: String,
+        title: String,
         percent: Float,
+        key: String?,
         callback: (BaseResult<PoReadRecordEntity?>) -> Unit
     ) {
         scope.launch {
-            localRequest.addReadRecord(key, link, percent) {
+            localRequest.addReadRecord(id, author, userId, link, title, percent) {
                 it.doSuccess { success ->
-                    baseDataBase.runInTransaction {
-                        val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
-                        //如果传来的进度比缓存进度小不更新进度
-                        if ((success?.percent) ?: 0 < p) {
-                            baseDataBase.bookDetailsDao().updateBookDetails(key, link, p)
+                    if (!key.isNullOrEmpty()) {
+                        baseDataBase.runInTransaction {
+                            val p =
+                                (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
+                            //如果传来的进度比缓存进度小不更新进度只更新时间
+                            if ((success?.percent) ?: 0 < p) {
+                                baseDataBase.bookDetailsDao()
+                                    .updateBookDetails(key, link, p, success?.lastTime ?: Date())
+                            } else {
+                                //时间实时更新
+                                baseDataBase.bookDetailsDao()
+                                    .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
+                            }
+
                         }
-                        //时间实时更新
-                        baseDataBase.bookDetailsDao()
-                            .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
-                        callback.invoke(BaseResult.Success(success))
                     }
+                    callback.invoke(BaseResult.Success(success))
                 }
                 it.doFailure { apiError ->
                     callback.invoke(BaseResult.Failure(apiError))
@@ -767,23 +794,27 @@ class CommonRequest @Inject constructor() {
 
     fun updateReadRecordPercent(
         scope: CoroutineScope,
+        id: Int,
         key: String,
         link: String,
         percent: Float,
         callback: (BaseResult<PoReadRecordEntity?>) -> Unit
     ) {
         scope.launch {
-            localRequest.updateReadRecordPercent(key, link, percent) {
+            localRequest.updateReadRecordPercent(id, link, percent) {
                 it.doSuccess { success ->
                     baseDataBase.runInTransaction {
                         val p = (percent.coerceIn(0f, 1f) * PoBookDetailsEntity.MAX_PERCENT).toInt()
-                        //如果传来的进度比缓存进度小不更新进度
+                        //如果传来的进度比缓存进度小不更新进度只更新时间
                         if ((success?.percent) ?: 0 < p) {
-                            baseDataBase.bookDetailsDao().updateBookDetails(key, link, p)
+                            baseDataBase.bookDetailsDao()
+                                .updateBookDetails(key, link, p, success?.lastTime ?: Date())
+                        } else {
+                            //时间实时更新
+                            baseDataBase.bookDetailsDao()
+                                .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
                         }
-                        //时间实时更新
-                        baseDataBase.bookDetailsDao()
-                            .updateBookDetailsTime(key, link, success?.lastTime ?: Date())
+
                         callback.invoke(BaseResult.Success(success))
                     }
                 }
@@ -793,4 +824,34 @@ class CommonRequest @Inject constructor() {
             }
         }
     }
+
+    /**
+     * 获取所有阅读记录
+     */
+    fun getReadRecordList(): PagingSource<Int, PoReadRecordEntity> {
+        return baseDataBase.bookDetailsDao().findReadRecord()
+    }
+
+    /**
+     * 删除阅读记录
+     */
+    fun delReadRecord(
+        scope: CoroutineScope,
+        data: PoReadRecordEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.delReadRecord(data, callback)
+        }
+    }
+
+    /**
+     * 删除所有阅读记录
+     */
+    fun delAllReadRecord(scope: CoroutineScope, callback: (BaseResult<String>) -> Unit) {
+        scope.launch {
+            localRequest.delAllReadRecord(callback)
+        }
+    }
+
 }

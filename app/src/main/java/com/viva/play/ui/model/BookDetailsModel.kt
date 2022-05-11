@@ -7,14 +7,11 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.viva.play.base.BaseModel
 import com.viva.play.db.BaseDataBase
-import com.viva.play.db.entity.PoArticleEntity
 import com.viva.play.db.entity.PoBookDetailsEntity
 import com.viva.play.di.MadeInCommon
 import com.viva.play.paging.BookDetailsMediator
-import com.viva.play.paging.QuestionMediator
 import com.viva.play.service.CommonService
 import com.viva.play.service.Url
-import com.viva.play.service.request.CommonRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -32,11 +29,12 @@ class BookDetailsModel @Inject constructor(
 ) : BaseModel() {
 
     @ExperimentalPagingApi
-    fun pagingData(id: Int): Flow<PagingData<PoBookDetailsEntity>> =
+    fun pagingData(cid: Int): Flow<PagingData<PoBookDetailsEntity>> =
         Pager(
             config = pagingConfig(),
-            remoteMediator = BookDetailsMediator(baseDataBase, commonService, id)
+            remoteMediator = BookDetailsMediator(baseDataBase, commonService, cid)
         ) {
-            baseDataBase.bookDetailsDao().findBookDetails(Url.ChapterArticle.replace("{page}", id.toString()))
+            baseDataBase.bookDetailsDao()
+                .findBookDetails(Url.ChapterArticle.replace("{page}", cid.toString()))
         }.flow.cachedIn(viewModelScope)
 }

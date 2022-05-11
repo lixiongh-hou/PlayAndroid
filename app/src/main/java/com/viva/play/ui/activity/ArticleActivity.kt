@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -27,7 +26,6 @@ import com.viva.play.databinding.ActivityArticleBinding
 import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.service.EventBus
 import com.viva.play.ui.event.CollectionEvent
-import com.viva.play.ui.model.HomeModel
 import com.viva.play.ui.model.WebModel
 import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
@@ -283,9 +281,15 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
                 return@setInterceptUrlInterceptor null
             }
             .setOnPageTitleCallback {
-                if (!key.isNullOrEmpty()) {
-                    model.addReadRecord(key!!, mWebHolder.getUrl(), mWebHolder.getPercent())
-                }
+                model.addReadRecord(
+                    model.id.get(),
+                    model.author.get()!!,
+                    model.userId.get(),
+                    mWebHolder.getUrl(),
+                    mWebHolder.getTitle(),
+                    mWebHolder.getPercent(),
+                    key
+                )
             }
             .setOnPageScrollEndListener {
                 //这里目的时移除稍后阅读
@@ -295,7 +299,7 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
             }
             .setOnPageScrollChangeListener {
                 if (!key.isNullOrEmpty()) {
-                    model.updateReadRecordPercent(key!!, mWebHolder.getUrl(), it)
+                    model.updateReadRecordPercent(model.id.get(), key!!, mWebHolder.getUrl(), it)
                 }
             }
 

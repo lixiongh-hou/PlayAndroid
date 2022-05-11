@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.viva.play.db.entity.PoReadRecordEntity" />
+
+        <import type="com.viva.play.utils.DataUtil" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_press_color_surface">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="16dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:text="@{data.title}"
+                android:textColor="?colorTextSurface"
+                android:textSize="15sp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="关键字关键字关键字关键字关" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{DataUtil.useBeautifulSSFormat(data.lastTime)}"
+                android:textColor="?colorTextSecond"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="2019-01-19" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/swipeLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            android:background="@color/color_black_a13"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/ll"
+            app:layout_constraintEnd_toEndOf="@+id/ll"
+            app:layout_constraintStart_toStartOf="@+id/ll"
+            app:layout_constraintTop_toTopOf="@+id/ll"
+            tools:alpha="1"
+            tools:visibility="visible">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <com.viva.play.views.ActionTextView
+                    android:id="@+id/tvCopy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_copy"
+                    android:gravity="center"
+                    android:text="复制链接"
+                    android:textColor="?colorTextInvert"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cl"
+                    app:layout_constraintEnd_toStartOf="@+id/tvOpen"
+                    app:layout_constraintStart_toStartOf="@+id/cl"
+                    app:layout_constraintTop_toTopOf="@+id/cl" />
+
+                <com.viva.play.views.ActionTextView
+                    android:id="@+id/tvOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_open"
+                    android:gravity="center"
+                    android:text="浏览器打开"
+                    android:textColor="?colorTextInvert"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cl"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDelete"
+                    app:layout_constraintStart_toEndOf="@+id/tvCopy"
+                    app:layout_constraintTop_toTopOf="@+id/cl" />
+
+
+                <com.viva.play.views.ActionTextView
+                    android:id="@+id/tvDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_delete"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="?colorTextInvert"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cl"
+                    app:layout_constraintEnd_toEndOf="@+id/cl"
+                    app:layout_constraintStart_toEndOf="@+id/tvOpen"
+                    app:layout_constraintTop_toTopOf="@+id/cl" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

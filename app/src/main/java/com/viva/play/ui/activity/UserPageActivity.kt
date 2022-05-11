@@ -57,7 +57,7 @@ class UserPageActivity : BaseActivity() {
         }
         val concatAdapter = adapter.withLoadStateFooter(footerAdapter)
         binding.recyclerView.adapter = concatAdapter
-        adapter.bindLoadState(binding.msv)
+        adapter.bindLoadState(binding.msv, isMediator = false)
         binding.recyclerView.bindDivider()
         model.getUserPage(page)
         model._userPage.observe(this) {

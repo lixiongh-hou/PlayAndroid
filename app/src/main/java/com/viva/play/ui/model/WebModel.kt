@@ -133,16 +133,29 @@ class WebModel @Inject constructor(
     /**
      * 添加阅读记录
      */
-    fun addReadRecord(key: String, link: String, percent: Float) {
-        commonRequest.addReadRecord(viewModelScope, key, link, percent) {
+    fun addReadRecord(
+        id: Int,
+        author: String,
+        userId: Int,
+        link: String,
+        title: String,
+        percent: Float,
+        key: String?,
+    ) {
+        commonRequest.addReadRecord(viewModelScope, id, author, userId, link, title, percent, key) {
             it.doSuccess {
 
             }
         }
     }
 
-    fun updateReadRecordPercent(key: String, link: String, percent: Float){
-        commonRequest.updateReadRecordPercent(viewModelScope, key, link, percent) {
+    fun updateReadRecordPercent(
+        id: Int,
+        key: String,
+        link: String,
+        percent: Float,
+    ) {
+        commonRequest.updateReadRecordPercent(viewModelScope, id, key, link, percent) {
             it.doSuccess {
 
             }

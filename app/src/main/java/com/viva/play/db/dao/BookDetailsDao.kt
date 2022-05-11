@@ -1,10 +1,7 @@
 package com.viva.play.db.dao
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.viva.play.db.entity.PoBookDetailsEntity
 import com.viva.play.db.entity.PoReadRecordEntity
 import com.viva.play.service.Url
@@ -30,21 +27,31 @@ interface BookDetailsDao {
     @Query("DELETE FROM BookDetails WHERE `key`=:key")
     suspend fun delete(key: String)
 
-    @Query("SELECT * FROM ReadRecord WHERE link=:link AND`key`=:key")
-    suspend fun findReadRecord(link: String, key: String): PoReadRecordEntity?
-
-    @Query("SELECT * FROM ReadRecord WHERE link=:link AND`key`=:key")
-    fun findReadRecord1(link: String, key: String): PoReadRecordEntity?
-
-    @Query("UPDATE BookDetails SET percent=:percent WHERE `key`=:key AND link=:link AND percent < :percent")
-    fun updateBookDetails(key: String, link: String, percent: Int)
+    @Query("UPDATE BookDetails SET percent=:percent, lastTime=:lastTime WHERE `key`=:key AND link=:link AND percent < :percent")
+    fun updateBookDetails(key: String, link: String, percent: Int, lastTime: Date)
 
     @Query("UPDATE BookDetails SET lastTime=:lastTime WHERE `key`=:key AND link=:link")
     fun updateBookDetailsTime(key: String, link: String, lastTime: Date)
 
-    @Query("UPDATE ReadRecord SET percent=:percent WHERE `key`=:key AND link=:link AND percent < :percent")
-    fun updateReadRecord(key: String, link: String, percent: Int)
 
-    @Query("UPDATE ReadRecord SET lastTime=:lastTime WHERE `key`=:key AND link=:link")
-    fun updateReadRecordTime(key: String, link: String, lastTime: Date)
+    @Query("SELECT * FROM ReadRecord WHERE link=:link")
+    suspend fun findReadRecord(link: String): PoReadRecordEntity?
+
+    @Query("SELECT * FROM ReadRecord WHERE link=:link AND id=:id")
+    fun findReadRecord1(id: Int, link: String): PoReadRecordEntity?
+
+    @Query("UPDATE ReadRecord SET percent=:percent, lastTime=:lastTime WHERE link=:link AND id=:id AND percent < :percent")
+    fun updateReadRecord(id: Int, link: String, percent: Int, lastTime: Date)
+
+    @Query("UPDATE ReadRecord SET lastTime=:lastTime WHERE link=:link AND id=:id")
+    fun updateReadRecordTime(id: Int, link: String, lastTime: Date)
+
+    @Query("SELECT * FROM ReadRecord ORDER BY lastTime DESC")
+    fun findReadRecord(): PagingSource<Int, PoReadRecordEntity>
+
+    @Delete
+    fun delReadRecord(data: PoReadRecordEntity)
+
+    @Query("DELETE FROM ReadRecord")
+    fun delAllReadRecord()
 }
