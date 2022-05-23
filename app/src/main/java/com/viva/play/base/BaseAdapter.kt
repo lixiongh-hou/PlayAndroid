@@ -29,6 +29,11 @@ abstract class BaseAdapter<B : ViewDataBinding, T>(val data: MutableList<T>) :
         notifyItemRangeInserted(itemCount - 1, data.size)
     }
 
+    fun remove(position: Int) {
+        this.data.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<B> {
         return BaseViewHolder(createBinding(parent, viewType))
     }
@@ -49,7 +54,8 @@ abstract class BaseAdapter<B : ViewDataBinding, T>(val data: MutableList<T>) :
 }
 
 
-open class BaseViewHolder<B : ViewDataBinding>(val binding: B) : RecyclerView.ViewHolder(binding.root)
+open class BaseViewHolder<B : ViewDataBinding>(val binding: B) :
+    RecyclerView.ViewHolder(binding.root)
 
 
 class DiffCallback<T>(

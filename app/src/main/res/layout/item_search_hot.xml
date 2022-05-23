@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_press_color_surface_top_radius_max"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="5dp"
+        android:textColor="?colorTextThird"
+        android:textSize="13sp"
+        tools:text="公众号文章" />
+</layout>

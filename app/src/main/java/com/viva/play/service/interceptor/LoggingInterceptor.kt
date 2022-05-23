@@ -344,7 +344,7 @@ class LoggingInterceptor(private val builder: Builder) : Interceptor {
 
         private fun showLog(tab: String, msg: String) {
             val random = ((Math.random() * 9 + 1) * 10000).toInt()
-            Log.e("${random}\u3000$tab", msg)
+            Log.i("${random}\u3000$tab", msg)
         }
     }
 }

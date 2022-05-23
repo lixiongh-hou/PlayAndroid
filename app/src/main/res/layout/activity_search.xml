@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.SearchActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="?colorMainOrSurface"
+            android:orientation="horizontal">
+
+            <com.viva.play.views.ActionIconView
+                android:id="@+id/aivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="13dp"
+                android:src="@drawable/ic_back"
+                android:tint="?colorOnMainOrSurface" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/action_search_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="?colorTransparent"
+                    android:ellipsize="end"
+                    android:hint="用空格隔开多个关键词"
+                    android:imeOptions="actionSearch"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?colorOnMainOrSurface"
+                    android:textColorHint="?colorOnMainOrSurfaceAlpha"
+                    android:textSize="15sp" />
+
+
+                <com.viva.play.views.ActionIconView
+                    android:id="@+id/aivClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_remove"
+                    android:tint="?colorOnMainOrSurface"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.viva.play.views.ActionIconView
+                android:id="@+id/aivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="3dp"
+                android:padding="13dp"
+                android:src="@drawable/ic_search"
+                android:tint="?colorOnMainOrSurface" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <FrameLayout
+            android:id="@+id/fl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

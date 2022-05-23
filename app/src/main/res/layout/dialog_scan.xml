@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_top_12">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="识别结果"
+            android:textColor="?colorTextSurface"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="?colorTextSurface"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llAccess"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/llCopy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUrl">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/access"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_browser"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="访问"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llCopy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/llSaveText"
+            app:layout_constraintStart_toEndOf="@+id/llAccess"
+            app:layout_constraintTop_toTopOf="@+id/llAccess">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/copy"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                android:tint="?colorIconSurface" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="复制文本"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llSaveText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/llShare"
+            app:layout_constraintStart_toEndOf="@+id/llCopy"
+            app:layout_constraintTop_toTopOf="@+id/llCopy">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/saveText"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="10dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="保存文本"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llShare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/llSaveText"
+            app:layout_constraintTop_toTopOf="@+id/llSaveText">
+
+            <com.viva.play.views.PercentImageView
+                android:id="@+id/share"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_share" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="分享"
+                android:textColor="?colorTextSurface"
+                android:textSize="12sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

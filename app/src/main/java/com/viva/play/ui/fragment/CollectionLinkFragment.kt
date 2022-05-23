@@ -105,6 +105,7 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
         model.error.observe(viewLifecycleOwner) {
             it.message.toast()
         }
+
     }
 
 

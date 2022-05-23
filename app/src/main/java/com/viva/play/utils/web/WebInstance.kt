@@ -9,13 +9,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings
 import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.WebSettings
 import com.tencent.smtt.sdk.WebView
-import com.viva.play.App
-import com.viva.play.R
 import com.viva.play.views.X5WebView
 import java.lang.Exception
 import java.util.ArrayList
@@ -42,7 +39,7 @@ class WebInstance(private val application: Application) {
         }
     }
 
-    private val mCache = ArrayList<WebView>(1)
+    private val mCache = ArrayList<X5WebView>(1)
 
     init {
         Looper.myQueue().addIdleHandler {
@@ -54,7 +51,7 @@ class WebInstance(private val application: Application) {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    fun obtain(): WebView {
+    fun obtain(): X5WebView {
         if (mCache.isEmpty()) {
             return create()
         }
@@ -66,7 +63,7 @@ class WebInstance(private val application: Application) {
         return webView
     }
 
-    fun recycle(webView: WebView) {
+    fun recycle(webView: X5WebView) {
         val parent = webView.parent
         if (parent != null) {
             (parent as ViewGroup).removeView(webView)
@@ -91,7 +88,7 @@ class WebInstance(private val application: Application) {
         }
     }
 
-    fun destroy(webView: WebView) {
+    fun destroy(webView: X5WebView) {
         recycle(webView)
         try {
             webView.removeAllViews()
@@ -103,8 +100,8 @@ class WebInstance(private val application: Application) {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    fun create(): WebView {
-        val webView: WebView = X5WebView(MutableContextWrapper(application))
+    fun create(): X5WebView {
+        val webView = X5WebView(MutableContextWrapper(application))
         webView.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         webView.setBackgroundColor(0)
         webView.background.alpha = 0

@@ -3,11 +3,7 @@ package com.viva.play.ui.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.google.gson.Gson
-import com.viva.play.App
 import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentMineBinding
 import com.viva.play.db.BaseDataBase
@@ -18,8 +14,6 @@ import com.viva.play.ui.model.MineModel
 import com.viva.play.utils.CookieCache
 import com.viva.play.utils.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -73,6 +67,10 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
             model.rank.set("--")
             model.coinCount.set("--")
         }
+    }
+
+    fun rank(){
+        model.getCoinRecordInfo()
     }
 
     fun navigateSettingActivity() {

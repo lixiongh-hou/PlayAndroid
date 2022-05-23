@@ -2,19 +2,20 @@ package com.viva.play.service.request
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
+import com.viva.play.base.BaseResponse
 import com.viva.play.db.BaseDataBase
 import com.viva.play.db.entity.*
-import com.viva.play.service.ApiError
-import com.viva.play.service.BaseResult
+import com.viva.play.service.*
+import com.viva.play.service.DataConvert.convert
 import com.viva.play.service.NetworkStatus.EMPTY_DATA
 import com.viva.play.service.NetworkStatus.NO_INTERNET
-import com.viva.play.service.doFailure
-import com.viva.play.service.doSuccess
 import com.viva.play.service.entity.*
 import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
+import com.viva.play.utils.NetworkUtils
 import com.viva.play.utils.NetworkUtils.isNetworkAvailable
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
 
@@ -852,6 +853,84 @@ class CommonRequest @Inject constructor() {
         scope.launch {
             localRequest.delAllReadRecord(callback)
         }
+    }
+
+    /**
+     * 搜索热词
+     */
+    fun getHotKeyList(scope: CoroutineScope, callback: (BaseResult<List<HotKeyEntity>>) -> Unit) {
+        scope.launch {
+            remoteRequest.getHotKeyList(callback)
+        }
+    }
+
+    suspend fun getHotKeyList(): Flow<List<PoHotKeyEntity>> {
+        return if (!isNetworkAvailable()) {
+            localRequest.getHotKeyList()
+        } else {
+            val total = baseDataBase.searchHistoryDao().findTotal()
+            if (total == 0) {
+                remoteRequest.getHotKeyList().map {
+                    val data = it.map { entity ->
+                        PoHotKeyEntity(entity.name)
+                    }
+                    baseDataBase.searchHistoryDao().insertHotKey(data)
+                    data
+                }
+            } else {
+                localRequest.getHotKeyList()
+            }
+
+        }
+        //网络请求
+    }
+
+    /**
+     * 保存搜索历史
+     */
+    fun saveSearchHistory(
+        scope: CoroutineScope,
+        data: PoSearchHistoryEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.saveSearchHistory(data, callback)
+        }
+    }
+
+    /**
+     * 查询搜索历史
+     */
+    fun getSearchHistory(
+        scope: CoroutineScope,
+        callback: (BaseResult<List<PoSearchHistoryEntity>>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.getSearchHistory(callback)
+        }
+    }
+
+    /**
+     * 删除历史记录
+     */
+    fun delHistory(
+        scope: CoroutineScope,
+        data: PoSearchHistoryEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        scope.launch {
+            localRequest.delHistory(data, callback)
+        }
+    }
+
+    /**
+     * 搜索
+     */
+    suspend fun search(
+        page: Int,
+        k: String
+    ): ArticleEntity {
+        return remoteRequest.search(page, k)
     }
 
 }

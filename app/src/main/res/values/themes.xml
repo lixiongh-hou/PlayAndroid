@@ -43,6 +43,7 @@
         <item name="colorLine">@color/color_gray</item>
         <item name="colorHeartUncheckedOnMain">@color/color_blue</item>
         <item name="colorOnMainOrSurfaceAlpha">@color/color_white_a50</item>
+        <item name="colorSurfaceTopAlpha">@color/color_gray_light_a80</item>
 
 
         <!--图标颜色-->
@@ -50,6 +51,7 @@
         <item name="colorIconOnMain">@color/color_white</item>
         <item name="colorIconSecond">@color/color_gray_dark3</item>
         <item name="colorIconSurface">@color/color_gray_dark1</item>
+        <item name="colorIconAccent">@color/color_orange</item>
         <!--文字颜色-->
         <item name="colorTextMain">@color/color_blue</item>
         <item name="colorTextOnMain">@color/color_white</item>
@@ -69,8 +71,24 @@
         <item name="android:windowTranslucentStatus">false</item>
         <!--注意：Android 21（5.0）这个系统开始状态栏透明的话需要把颜色设置为透明，并且上面那个属性需要设置为false-->
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--注意：导航栏设置透明是为了让activity内容延伸至状态栏，导航栏实际为半透明加暗效果-->
-        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+
+    <style name="TranslucentTheme.Main">
+        <item name="android:windowBackground">@color/colorSplashScreen</item>
+    </style>
+
+    <style name="Theme.SplashScreen.Demo" parent="TranslucentTheme">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <!--        &lt;!&ndash;启动画面背景颜色&ndash;&gt;-->
+        <!--        <item name="windowSplashScreenBackground">@color/colorSplashScreen</item>-->
+        <!--        &lt;!&ndash; 启动画面icon图标：这里可以是图片、帧动画等&ndash;&gt;-->
+        <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>-->
+        <!--        <item name="windowSplashScreenIconBackgroundColor">@color/colorSplashScreen</item>-->
+        <!--        &lt;!&ndash; icon动画在关闭之前显示的时长：最长时间为1000毫秒&ndash;&gt;-->
+        <!--        <item name="windowSplashScreenAnimationDuration">1000</item>-->
+        <!--        &lt;!&ndash; Splash退出后的主题&ndash;&gt;-->
+        <!--        <item name="postSplashScreenTheme">@style/TranslucentTheme.Main</item>-->
     </style>
 
 </resources>

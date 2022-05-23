@@ -58,8 +58,7 @@ class App : Application() {
         }
         FlowBusInitializer.init(this)
 
-
-        InitTaskRunner(this)
+        InitTaskRunner(instance)
             .add(SmartRefreshInitTask())
             .add(CookieManagerInitTask())
             .add(BuglyInitTask())

@@ -2,6 +2,7 @@ package com.viva.play.ui.fragment
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +24,9 @@ import com.viva.play.db.entity.PoHomeArticleEntity
 import com.viva.play.db.entity.PoReadLaterEntity
 import com.viva.play.dialog.WebDialog
 import com.viva.play.service.EventBus
+import com.viva.play.ui.activity.ScanActivity
+import com.viva.play.ui.activity.SearchActivity
+import com.viva.play.ui.activity.TestActivity
 import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.HomeModel
 import com.viva.play.utils.*
@@ -58,6 +62,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.bindDivider()
         setupScrollListener()
+
+        binding.scan.setOnClickListener {
+            ScanActivity.start(requireActivity())
+        }
+
+        binding.search.setOnClickListener {
+            SearchActivity.start(requireActivity())
+//            requireContext().startActivity(Intent(requireContext(), TestActivity::class.java))
+        }
 
         val fragment = childFragmentManager.findFragmentByTag("BookFragment")
         if (fragment == null) {

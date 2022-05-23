@@ -37,20 +37,47 @@
 
                 <com.viva.play.views.StatusBar
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/scan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="15dp"
+                        android:scaleType="centerInside"
+                        android:tint="?colorIconOnMain"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_scan" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="首页"
                         android:textColor="?attr/colorOnMainOrSurface"
-                        android:textSize="16sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="15dp"
+                        android:scaleType="centerInside"
+                        android:tint="?colorIconOnMain"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_search" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

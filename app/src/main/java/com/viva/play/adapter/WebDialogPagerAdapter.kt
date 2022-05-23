@@ -5,12 +5,11 @@ import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.viewpager.widget.PagerAdapter
 import com.viva.play.R
 import com.viva.play.db.entity.PoHomeArticleEntity
-import com.viva.play.utils.web.WebContainer
 import com.viva.play.utils.web.WebHolder
+import com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
 
 /**
  * @author 李雄厚
@@ -54,7 +53,7 @@ class WebDialogPagerAdapter(
         val data = getArticleEntity(position + 1)
         val rootView =
             LayoutInflater.from(container.context).inflate(R.layout.dialog_web_vp, container, false)
-        val dialogWebWc = rootView.findViewById<WebContainer>(R.id.dialogWebWc)
+        val dialogWebWc = rootView.findViewById<QMUIContinuousNestedScrollLayout>(R.id.dialogWebWc)
         val  web = WebHolder.with(mActivity, data.link, dialogWebWc)
             .setAllowOpenOtherApp(false)
             .setAllowOpenDownload(false)

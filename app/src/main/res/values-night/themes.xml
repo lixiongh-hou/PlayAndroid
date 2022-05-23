@@ -43,6 +43,7 @@
         <item name="colorLine">@color/color_black_dark1</item>
         <item name="colorHeartUncheckedOnMain">@color/color_black_dark3</item>
         <item name="colorOnMainOrSurfaceAlpha">@color/color_white_a30</item>
+        <item name="colorSurfaceTopAlpha">@color/color_black_dark4_a93</item>
 
 
         <!--图标颜色-->
@@ -50,6 +51,7 @@
         <item name="colorIconOnMain">@color/color_black_a10</item>
         <item name="colorIconSecond">@color/color_white_a50</item>
         <item name="colorIconSurface">@color/color_white_a70</item>
+        <item name="colorIconAccent">@color/color_orange_light</item>
         <!--文字颜色-->
         <item name="colorTextMain">@color/color_blue_light</item>
         <item name="colorTextOnMain">@color/color_black_a93</item>

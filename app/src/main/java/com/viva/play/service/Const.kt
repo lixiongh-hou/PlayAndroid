@@ -37,6 +37,7 @@ object Url {
      * 获取个人积分
      */
     const val Coin = "lg/coin/getcount/json"
+
     /**
      * 首页Banner
      */
@@ -46,11 +47,6 @@ object Url {
      * 首页文章
      */
     const val Article = "article/list/{page}/json"
-
-    /**
-     * 搜索
-     */
-    const val Search = "article/query/{page}/json"
 
     /**
      * 首页文章置顶
@@ -126,6 +122,16 @@ object Url {
      * 教程列表
      */
     const val Books = "chapter/547/sublist/json"
+
+    /**
+     * 搜索热词
+     */
+    const val Hotkey = "hotkey/json"
+
+    /**
+     * 搜索
+     */
+    const val Search = "article/query/{page}/json"
 
     /**
      * 公众号名称

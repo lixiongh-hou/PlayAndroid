@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Build
@@ -17,6 +18,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.annotation.FloatRange
 import androidx.annotation.RequiresApi
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
@@ -41,6 +43,9 @@ import com.tencent.sonic.sdk.SonicEngine
 import com.tencent.sonic.sdk.SonicSessionConfig
 import com.viva.play.utils.WebSessionClientImpl
 import com.tencent.sonic.sdk.SonicSession
+import com.viva.play.views.X5WebView
+import com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
+import com.viva.play.views.draggable.QMUIContinuousNestedTopAreaBehavior
 
 
 /**
@@ -51,7 +56,7 @@ import com.tencent.sonic.sdk.SonicSession
 class WebHolder(
     activity: Activity,
     mUrl: String,
-    container: WebContainer,
+    container: QMUIContinuousNestedScrollLayout,
     progressBar: ProgressBar?
 ) {
 
@@ -59,8 +64,8 @@ class WebHolder(
     private var mOnPageProgressCallback: OnPageProgressCallback? = null
 
     private var mActivity: Activity
-    private var mWebContainer: WebContainer
-    private var mWebView: WebView
+    private var mWebContainer: QMUIContinuousNestedScrollLayout
+    private var mWebView: X5WebView
     private var mProgressBar: ProgressBar
     private var mUserAgentString: String
 
@@ -83,7 +88,7 @@ class WebHolder(
         fun with(
             activity: Activity,
             mUrl: String,
-            container: WebContainer,
+            container: QMUIContinuousNestedScrollLayout,
             progressBar: ProgressBar? = null
         ): WebHolder = WebHolder(activity, mUrl, container, progressBar)
 
@@ -136,12 +141,19 @@ class WebHolder(
             sonicSession?.bindClient(WebSessionClientImpl().also { client = it })
         }
 
-        container.addView(
-            mWebView, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
+        container.setDraggableScrollBarEnabled(true)
+        val matchParent = ViewGroup.LayoutParams.MATCH_PARENT
+        val topLp = CoordinatorLayout.LayoutParams(
+            matchParent, ViewGroup.LayoutParams.MATCH_PARENT
         )
+        topLp.behavior = QMUIContinuousNestedTopAreaBehavior(mActivity)
+        container.setTopAreaView(mWebView, topLp)
+//        container.addView(
+//            mWebView, FrameLayout.LayoutParams(
+//                FrameLayout.LayoutParams.MATCH_PARENT,
+//                FrameLayout.LayoutParams.MATCH_PARENT
+//            )
+//        )
 
         if (progressBar == null) {
             mProgressBar = LayoutInflater.from(activity)

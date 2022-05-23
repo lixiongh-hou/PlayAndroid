@@ -2,6 +2,7 @@ package com.viva.play
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.viva.play.adapter.vp2.MainTabAdapter
 import com.viva.play.adapter.vp2.TabEntity
 import com.viva.play.adapter.vp2.TabFragmentPagerAdapter
@@ -28,7 +29,7 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView(savedInstanceState: Bundle?) {
-        
+        installSplashScreen()
         mTabFragmentPagerAdapter = TabFragmentPagerAdapter(
             this,
             binding.vpTab,
@@ -40,8 +41,46 @@ class MainActivity : BaseActivity() {
             if (mMainModel.isDarkTheme == null) false else mMainModel.isDarkTheme != SettingUtils.darkTheme
         )
         mMainModel.isDarkTheme = SettingUtils.darkTheme
+
+//        listOf(1, 2, 3).asFlow().onEach {
+//            if (it == 3){
+//                throw Exception("test")
+//            }
+//            println("$it")
+//        }.catch {
+//            println("test")
+//        }.launchIn(lifecycleScope)
+//        println("Done")
+
+//        main()
+        //创建
+//        val signEvent = MutableSharedFlow<String>()
+//        //监听
+//        lifecycleScope.launch{
+//            signEvent.collect{ value->
+//                println(value)
+//            }
+//        }
+//
+//        //赋值
+//        signEvent.tryEmit("hello")
+//        signEvent.tryEmit("shared flow")
     }
 
+//    private fun main() = runBlocking {
+//        withTimeoutOrNull(250) {
+//            simple().collect { value -> println(value) }
+//        }
+//        println("Done")
+//    }
+//
+//    private fun simple(): Flow<Int> = flow {
+//        (1..3).forEach {
+//            delay(200)
+//            println("Emitting $it")
+//            emit(it)
+//        }
+//    }
 
     private fun setTabLayout(isNight: Boolean = false, refresh: Boolean) {
         mMinePage = TabFragmentPagerAdapter.Page(

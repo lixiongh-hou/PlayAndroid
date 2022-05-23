@@ -7,6 +7,8 @@ import com.viva.play.service.DataConvert.convertNetworkError
 import com.viva.play.service.entity.*
 import com.viva.play.service.request.CommonRequest.Companion.emptyData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -339,5 +341,31 @@ class CommonRemoteRequest @Inject constructor(
                 callback.invoke(BaseResult.Failure(it))
             }
         )
+    }
+
+    suspend fun getHotKeyList(callback: (BaseResult<List<HotKeyEntity>>) -> Unit) {
+        runInDispatcherIO(
+            block = {
+                service.getHotKeyList().convert {
+                    it?.let { data ->
+                        callback.invoke(BaseResult.Success(data))
+                    } ?: run {
+                        callback.invoke(BaseResult.Failure(emptyData))
+                    }
+                }
+            },
+            error = {
+                callback.invoke(BaseResult.Failure(it))
+            }
+        )
+    }
+
+    fun getHotKeyList(): Flow<List<HotKeyEntity>> = flow {
+        val latestNews = service.getHotKeyList().convert() ?: throw ServerException(emptyData)
+        emit(latestNews)
+    }
+
+    suspend fun search(page: Int, k: String): ArticleEntity {
+        return service.search(page, k).data!!
     }
 }

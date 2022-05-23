@@ -44,6 +44,10 @@ data class PoArticleEntity(
 
 
     companion object {
+        /**
+         * @param page 本地缓存需要填入
+         * @param key 本地缓存需要填入
+         */
         fun parse(data: List<DataEntity>, page: Int, key: String): List<PoArticleEntity> {
             return data.map {
                 PoArticleEntity(

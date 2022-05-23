@@ -7,6 +7,7 @@ import com.viva.play.service.request.CommonRequest.Companion.noInternet
 import com.viva.play.ui.vo.VoChapterEntity
 import com.viva.play.utils.CookieCache
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class CommonLocalRequest @Inject constructor(
     suspend fun getBanner(callback: (BaseResult<List<PoBannerEntity>>) -> Unit) {
         runInDispatcherIO {
             val data = baseDataBase.homeArticleDao().findBanner
-            if (data.isNullOrEmpty()) {
+            if (data.isEmpty()) {
                 callback.invoke(BaseResult.Failure(noInternet))
             } else {
                 callback.invoke(BaseResult.Success(data))
@@ -78,7 +79,7 @@ class CommonLocalRequest @Inject constructor(
     suspend fun getCollectLinkList(callback: (BaseResult<List<PoCollectLinkEntity>>) -> Unit) {
         runInDispatcherIO {
             val data = baseDataBase.collectDao().findLink
-            if (data.isNullOrEmpty()) {
+            if (data.isEmpty()) {
                 callback.invoke(BaseResult.Failure(noInternet))
             } else {
                 callback.invoke(BaseResult.Success(data))
@@ -222,12 +223,41 @@ class CommonLocalRequest @Inject constructor(
         }
     }
 
-    suspend fun delAllReadRecord(callback: (BaseResult<String>) -> Unit){
-        runInDispatcherIO{
+    suspend fun delAllReadRecord(callback: (BaseResult<String>) -> Unit) {
+        runInDispatcherIO {
             baseDataBase.bookDetailsDao().delAllReadRecord()
             callback.invoke(it)
         }
     }
 
+    suspend fun saveSearchHistory(
+        data: PoSearchHistoryEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        runInDispatcherIO {
+            baseDataBase.searchHistoryDao().insertHistory(data)
+            callback.invoke(it)
+        }
+    }
 
+    suspend fun getSearchHistory(
+        callback: (BaseResult<List<PoSearchHistoryEntity>>) -> Unit
+    ) {
+        runInDispatcherIO {
+            callback.invoke(BaseResult.Success(baseDataBase.searchHistoryDao().findSearchHistory))
+        }
+    }
+
+    suspend fun delHistory(
+        data: PoSearchHistoryEntity,
+        callback: (BaseResult<String>) -> Unit
+    ) {
+        runInDispatcherIO {
+            baseDataBase.searchHistoryDao().delete(data)
+            callback.invoke(it)
+        }
+    }
+
+    fun getHotKeyList(): Flow<List<PoHotKeyEntity>> =
+        baseDataBase.searchHistoryDao().findHotKey()
 }

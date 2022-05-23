@@ -9,6 +9,6 @@ import com.google.gson.annotations.SerializedName
  */
 data class ArticleEntity(
     @SerializedName("datas")
-    val data: MutableList<DataEntity>,
+    val data: List<DataEntity>,
     val over: Boolean
 )

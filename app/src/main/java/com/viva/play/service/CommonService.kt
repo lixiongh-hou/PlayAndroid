@@ -13,11 +13,13 @@ import com.viva.play.service.Url.CollectArticle
 import com.viva.play.service.Url.CollectLink
 import com.viva.play.service.Url.CollectLinkList
 import com.viva.play.service.Url.EditCollectLink
+import com.viva.play.service.Url.Hotkey
 import com.viva.play.service.Url.Login
 import com.viva.play.service.Url.MyCollect
 import com.viva.play.service.Url.MyUnCollect
 import com.viva.play.service.Url.Navi
 import com.viva.play.service.Url.Question
+import com.viva.play.service.Url.Search
 import com.viva.play.service.Url.Tree
 import com.viva.play.service.Url.UnCollectArticle
 import com.viva.play.service.Url.UnCollectLink
@@ -201,5 +203,19 @@ interface CommonService {
     @GET(Books)
     suspend fun getBooks(): BaseResponse<List<BookEntity>>
 
+    /**
+     * 搜索热词
+     */
+    @GET(Hotkey)
+    suspend fun getHotKeyList(): BaseResponse<List<HotKeyEntity>>
 
+    /**
+     * 搜索
+     */
+    @FormUrlEncoded
+    @POST(Search)
+    suspend fun search(
+        @Path("page") page: Int,
+        @Field("k") key: String
+    ): BaseResponse<ArticleEntity>
 }

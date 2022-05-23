@@ -17,7 +17,7 @@ object DataConvert {
     /**
      * 解析网络错误信息
      */
-    fun Throwable.convertNetworkError(failure: (ApiError)->Unit) {
+    fun Throwable.convertNetworkError(failure: (ApiError) -> Unit) {
         failure(
             when (this) {
                 is SocketTimeoutException -> ApiError(
@@ -72,7 +72,30 @@ object DataConvert {
         if (this.success()) {
             success(this.data)
         } else {
-            when(this.errorCode){
+            when (this.errorCode) {
+                NetworkStatus.LOGIN_ERROR -> throw ServerException(
+                    ApiError(
+                        this.errorCode,
+                        this.errorMsg ?: "登录失效，重新登录"
+                    )
+                )
+                else -> {
+                    throw ServerException(
+                        ApiError(
+                            this.errorCode,
+                            this.errorMsg ?: ""
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun <T> BaseResponse<T>.convert(): T? {
+        return if (this.success()) {
+            this.data
+        } else {
+            when (this.errorCode) {
                 NetworkStatus.LOGIN_ERROR -> throw ServerException(
                     ApiError(
                         this.errorCode,

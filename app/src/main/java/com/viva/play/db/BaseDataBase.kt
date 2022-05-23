@@ -28,10 +28,12 @@ import com.viva.play.db.entity.*
         PoChapterChildrenEntity::class,
         PoReadLaterEntity::class,
         PoBookDetailsEntity::class,
-        PoReadRecordEntity::class
+        PoReadRecordEntity::class,
+        PoSearchHistoryEntity::class,
+        PoHotKeyEntity::class
     ],
 
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(value = [HomeArticleConverters::class])
@@ -51,6 +53,8 @@ abstract class BaseDataBase : RoomDatabase() {
 
     abstract fun bookDetailsDao(): BookDetailsDao
 
+    abstract fun searchHistoryDao(): SearchHistoryDao
+
 
     companion object {
         @Volatile
@@ -68,6 +72,7 @@ abstract class BaseDataBase : RoomDatabase() {
 //                .fallbackToDestructiveMigration()
                 .addMigrations(MIGRATION_1_2)
                 .addMigrations(MIGRATION_2_3)
+                .addMigrations(MIGRATION_4_5)
                 .build()
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -89,6 +94,14 @@ abstract class BaseDataBase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "ALTER TABLE Chapter ADD COLUMN status INTEGER NOT NULL DEFAULT 0"
+                )
+            }
+
+        }
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `HotKey` (`key` TEXT NOT NULL DEFAULT '', PRIMARY KEY(`key`))"
                 )
             }
 

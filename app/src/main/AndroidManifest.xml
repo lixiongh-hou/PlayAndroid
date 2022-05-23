@@ -20,6 +20,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ThemePlayAndroid">
+        <activity android:name=".ui.activity.TestActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.ScanActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.activity.CoinActivity"
             android:exported="true" />
@@ -66,7 +76,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/TranslucentTheme">
+            android:theme="@style/Theme.SplashScreen.Demo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
