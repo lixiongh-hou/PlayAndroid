@@ -86,6 +86,9 @@ class HistoryAdapter(
             itemLongClick?.invoke(data)
             true
         }
+        binding.tvKey.setOnClickListener {
+            clickEvent?.invoke(data, binding, position)
+        }
         binding.ivRemove.setOnClickListener {
             itemChildClick?.invoke(data, position)
         }

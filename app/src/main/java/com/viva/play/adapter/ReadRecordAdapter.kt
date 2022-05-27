@@ -71,7 +71,7 @@ class ReadRecordAdapter(private val context: Context) :
             lastPosition = -1
             val tmpViewHolder = recyclerView!!.getChildViewHolder(view)
             if (tmpViewHolder != null) {
-                if (tmpViewHolder is CollectionLinkAdapter.CollectionLinkHolder) {
+                if (tmpViewHolder is ReadRecordHolder) {
                     if (tmpViewHolder.binding.swipeLayout.isVisible) {
                         val animation =
                             ObjectAnimator.ofFloat(

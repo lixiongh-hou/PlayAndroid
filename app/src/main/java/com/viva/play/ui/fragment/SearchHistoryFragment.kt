@@ -10,9 +10,11 @@ import com.viva.play.adapter.HistoryAdapter
 import com.viva.play.adapter.HotAdapter
 import com.viva.play.base.BaseFragment
 import com.viva.play.databinding.FragmentSearchHistoryBinding
+import com.viva.play.dialog.TipDialog
 import com.viva.play.ui.activity.SearchActivity
 import com.viva.play.ui.model.SearchHistoryModel
 import com.viva.play.utils.ToastUtil.toast
+import com.viva.play.utils.launchAndCollectIn
 import com.viva.play.utils.solveNestQuestion
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -49,7 +51,16 @@ class SearchHistoryFragment : BaseFragment<FragmentSearchHistoryBinding>() {
         binding.rvHistory.adapter = historyAdapter
 
         binding.tvClean.setOnClickListener {
-
+            TipDialog.Builder().apply {
+                title = "清除历史"
+                msg = "是否要清除历史记录？"
+                callbackYes = {
+                    model.delAllHistory()
+                    historyAdapter.notifyItemRangeRemoved(0, historyAdapter.itemCount - 1)
+                    historyAdapter.data.clear()
+                    changeHistoryVisible()
+                }
+            }.builder().show(childFragmentManager)
         }
 
         binding.tvDown.setOnClickListener {
@@ -60,15 +71,13 @@ class SearchHistoryFragment : BaseFragment<FragmentSearchHistoryBinding>() {
     }
 
     override fun initData() {
-//        model.getHotKeyList()
-//        model.hotKeyList.observe(viewLifecycleOwner) {
-//            hotAdapter.refreshData(it)
-//        }
         model.getHotKeyList1()
-        model.uiState.onEach {
-            it ?: return@onEach
+//        model.uiState.onEach {
+//            hotAdapter.refreshData(it)
+//        }.launchIn(lifecycleScope)
+        model.uiState.launchAndCollectIn(this) {
             hotAdapter.refreshData(it)
-        }.launchIn(lifecycleScope)
+        }
         model.getSearchHistory()
         model.historyList.observe(viewLifecycleOwner) {
             historyAdapter.refreshData(it)
@@ -90,9 +99,9 @@ class SearchHistoryFragment : BaseFragment<FragmentSearchHistoryBinding>() {
         }
         historyAdapter.itemChildClick = { data, position ->
             historyAdapter.remove(position)
-            model.delReadRecord(data)
+            model.delHistory(data)
         }
-        model.error.observe(viewLifecycleOwner){
+        model.error.observe(viewLifecycleOwner) {
             it.message.toast()
         }
     }

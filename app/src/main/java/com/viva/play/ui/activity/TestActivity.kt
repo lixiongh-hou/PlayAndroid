@@ -19,112 +19,113 @@ import kotlinx.android.synthetic.main.item_home_article.*
 class TestActivity : BaseActivity() {
 
     private val binding by binding<ActivityLiBinding>()
-    private lateinit var adapter: Adapter
+//    private lateinit var adapter: Adapter
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.mCoordinatorLayout.setDraggableScrollBarEnabled(true)
-        binding.mRecyclerView.setBackgroundColor(Color.LTGRAY)
-        val matchParent = ViewGroup.LayoutParams.MATCH_PARENT
-        val topLp = CoordinatorLayout.LayoutParams(
-            matchParent, ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        topLp.behavior = QMUIContinuousNestedTopAreaBehavior(this)
+//        binding.mCoordinatorLayout.setDraggableScrollBarEnabled(true)
+//        binding.mRecyclerView.setBackgroundColor(Color.LTGRAY)
+//        val matchParent = ViewGroup.LayoutParams.MATCH_PARENT
+//        val topLp = CoordinatorLayout.LayoutParams(
+//            matchParent, ViewGroup.LayoutParams.MATCH_PARENT
+//        )
+//        topLp.behavior = QMUIContinuousNestedTopAreaBehavior(this)
+//        binding.mCoordinatorLayout.setTopAreaView(binding.mNestedWebView, topLp)
+        binding.mNestedWebView.x5WebViewExtension.setScrollBarDefaultDelayBeforeFade(3000)
+        binding.mNestedWebView.loadUrl("https://www.jianshu.com/p/3a372af38103")
 
-        adapter = Adapter(
-            listOf(
-                "数据1",
-                "数据2",
-                "数据2",
-                "数据3",
-                "数据4",
-                "数据5",
-                "数据6",
-                "数据7",
-                "数据8",
-                "数据9",
-                "数据10",
-                "数据1",
-                "数据2",
-                "数据2",
-                "数据3",
-                "数据4",
-                "数据5",
-                "数据6",
-                "数据7",
-                "数据8",
-                "数据9",
-                "数据10",
-                "数据1",
-                "数据2",
-                "数据2",
-                "数据3",
-                "数据4",
-                "数据5",
-                "数据6",
-                "数据7",
-                "数据8",
-                "数据9",
-                "数据10",
-                "数据1",
-                "数据2",
-                "数据2",
-                "数据3",
-                "数据4",
-                "数据5",
-                "数据6",
-                "数据7",
-                "数据8",
-                "数据9",
-                "数据10",
-                "数据1",
-                "数据2",
-                "数据2",
-                "数据3",
-                "数据4",
-                "数据5",
-                "数据6",
-                "数据7",
-                "数据8",
-                "数据9",
-                "数据10",
-            )
-        )
-        binding.mRecyclerView.bindDivider()
-        binding.mRecyclerView.adapter = adapter
-        binding.mCoordinatorLayout.postDelayed({
-            binding.mCoordinatorLayout.setTopAreaView(binding.mRecyclerView, topLp)
-        }, 300)
+//        adapter = Adapter(
+//            listOf(
+//                "数据1",
+//                "数据2",
+//                "数据2",
+//                "数据3",
+//                "数据4",
+//                "数据5",
+//                "数据6",
+//                "数据7",
+//                "数据8",
+//                "数据9",
+//                "数据10",
+//                "数据1",
+//                "数据2",
+//                "数据2",
+//                "数据3",
+//                "数据4",
+//                "数据5",
+//                "数据6",
+//                "数据7",
+//                "数据8",
+//                "数据9",
+//                "数据10",
+//                "数据1",
+//                "数据2",
+//                "数据2",
+//                "数据3",
+//                "数据4",
+//                "数据5",
+//                "数据6",
+//                "数据7",
+//                "数据8",
+//                "数据9",
+//                "数据10",
+//                "数据1",
+//                "数据2",
+//                "数据2",
+//                "数据3",
+//                "数据4",
+//                "数据5",
+//                "数据6",
+//                "数据7",
+//                "数据8",
+//                "数据9",
+//                "数据10",
+//                "数据1",
+//                "数据2",
+//                "数据2",
+//                "数据3",
+//                "数据4",
+//                "数据5",
+//                "数据6",
+//                "数据7",
+//                "数据8",
+//                "数据9",
+//                "数据10",
+//            )
+//        )
+//        binding.mRecyclerView.bindDivider()
+//        binding.mRecyclerView.adapter = adapter
+//        binding.mCoordinatorLayout.postDelayed({
+//        }, 300)
 
-//        binding.mNestedWebView.loadUrl("https://mp.weixin.qq.com/s/zgfLOMD2JfZJKfHx-5BsBg")
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
 //        binding.mCoordinatorLayout.removeView(binding.mNestedWebView)
-//        binding.mNestedWebView.destroy()
+        binding.mNestedWebView.destroy()
     }
 
 
-    inner class Adapter(private val data: List<String>) :
-        RecyclerView.Adapter<Adapter.ViewHolder>() {
-
-        inner class ViewHolder(private val textView: View) :
-            RecyclerView.ViewHolder(textView) {
-            fun bind(str: String) {
-                (textView as AppCompatTextView).text = str
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(layoutInflater.inflate(R.layout.item_li, parent, false))
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(data[position])
-        }
-
-        override fun getItemCount(): Int = data.size
-    }
+//    inner class Adapter(private val data: List<String>) :
+//        RecyclerView.Adapter<Adapter.ViewHolder>() {
+//
+//        inner class ViewHolder(private val textView: View) :
+//            RecyclerView.ViewHolder(textView) {
+//            fun bind(str: String) {
+//                (textView as AppCompatTextView).text = str
+//            }
+//        }
+//
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//            return ViewHolder(layoutInflater.inflate(R.layout.item_li, parent, false))
+//        }
+//
+//        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//            holder.bind(data[position])
+//        }
+//
+//        override fun getItemCount(): Int = data.size
+//    }
 
 }

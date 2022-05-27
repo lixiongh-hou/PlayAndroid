@@ -2,7 +2,7 @@ package com.viva.play.views.draggable
 
 import android.content.Context
 import android.util.AttributeSet
-import android.webkit.WebView
+import com.tencent.smtt.sdk.WebView
 import com.viva.play.views.draggable.IQMUIContinuousNestedScrollCommon.OnScrollNotifier
 
 /**

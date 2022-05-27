@@ -257,6 +257,11 @@ class CommonLocalRequest @Inject constructor(
             callback.invoke(it)
         }
     }
+    suspend fun delAllHistory(callback: (BaseResult<String>) -> Unit){
+        runInDispatcherIO{
+            baseDataBase.searchHistoryDao().deleteAll()
+        }
+    }
 
     fun getHotKeyList(): Flow<List<PoHotKeyEntity>> =
         baseDataBase.searchHistoryDao().findHotKey()

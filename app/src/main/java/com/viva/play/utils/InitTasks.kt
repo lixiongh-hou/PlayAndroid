@@ -76,7 +76,7 @@ class X5InitTask : AsyncInitTask() {
         map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
         map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
         QbSdk.initTbsSettings(map)
-       QbSdk.initX5Environment(application, object : QbSdk.PreInitCallback {
+        QbSdk.initX5Environment(application, object : QbSdk.PreInitCallback {
             override fun onCoreInitFinished() {
                 Log.d("x5", "initX5Environment->onCoreInitFinished")
             }
@@ -85,6 +85,9 @@ class X5InitTask : AsyncInitTask() {
                 Log.d("x5", "initX5Environment->onViewInitFinished=$b")
             }
         })
+        //（可选）为了提高内核占比，在初始化前可配置允许移动网络下载内核（大小 40-50 MB）。
+        // 默认移动网络不下载
+        QbSdk.setDownloadWithoutWifi(false)
     }
 
     override fun onlyMainProcess(): Boolean {

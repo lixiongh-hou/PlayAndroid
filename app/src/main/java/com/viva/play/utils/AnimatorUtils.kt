@@ -9,26 +9,23 @@ import androidx.appcompat.widget.AppCompatTextView
  *
  *
  */
-object AnimatorUtils {
-
-    fun doIntAnim(target: AppCompatTextView, to: Int, duration: Long) {
-        val fromStr = target.text.toString().trim()
-        val from = try {
-            fromStr.toInt()
-        } catch (e: Exception) {
-            0
-        }
-        doIntAnim(target, from, to, duration)
+fun AppCompatTextView.doIntAnim(to: Int, duration: Long) {
+    val fromStr = this.text.toString().trim()
+    val from = try {
+        fromStr.toInt()
+    } catch (e: Exception) {
+        0
     }
+    this.doIntAnim(from, to, duration)
+}
 
-    private fun doIntAnim(target: AppCompatTextView, from: Int, to: Int, duration: Long) {
-        val animator = ValueAnimator.ofInt(from, to)
-        animator.addUpdateListener {
-            val value = it.animatedValue
-            target.text = String.format("%d", value)
-        }
-        animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
-        animator.start()
+private fun AppCompatTextView.doIntAnim(from: Int, to: Int, duration: Long) {
+    val animator = ValueAnimator.ofInt(from, to)
+    animator.addUpdateListener {
+        val value = it.animatedValue
+        this.text = String.format("%d", value)
     }
+    animator.duration = duration
+    animator.interpolator = DecelerateInterpolator()
+    animator.start()
 }

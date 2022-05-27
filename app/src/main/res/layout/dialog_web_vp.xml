@@ -17,7 +17,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp">
 
-       <com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
+       <com.viva.play.utils.web.WebContainer
            android:id="@+id/dialogWebWc"
            android:layout_width="match_parent"
            android:layout_height="match_parent"/>

@@ -58,6 +58,7 @@ class ReadRecordActivity : BaseActivity() {
         lifecycleScope.launchWhenCreated {
             model.pagingData.collectLatest {
                 adapter.submitData(it)
+                successAfter(adapter.itemCount)
             }
         }
 
@@ -94,6 +95,7 @@ class ReadRecordActivity : BaseActivity() {
 
         model.error.observe(this) {
             it.message.toast()
+            failureAfter()
         }
 
     }

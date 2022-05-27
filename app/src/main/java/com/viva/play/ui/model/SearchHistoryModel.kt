@@ -43,10 +43,10 @@ class SearchHistoryModel @Inject constructor(
     }
 
     private val _uiState =
-        MutableStateFlow<List<PoHotKeyEntity>?>(null)
+        MutableSharedFlow<List<PoHotKeyEntity>>()
 
     //使用Flow来监听，替换LiveData
-    val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.asSharedFlow()
 
     fun getHotKeyList1() {
         viewModelScope.launch {
@@ -61,7 +61,7 @@ class SearchHistoryModel @Inject constructor(
                         }
                     }
                 }.collect {
-                    _uiState.value = it
+                    _uiState.emit(it)
                 }
         }
     }
@@ -89,8 +89,15 @@ class SearchHistoryModel @Inject constructor(
         }
     }
 
-    fun delReadRecord(data: PoSearchHistoryEntity) {
+    fun delHistory(data: PoSearchHistoryEntity) {
         commonRequest.delHistory(viewModelScope, data) {
+
+        }
+    }
+
+
+    fun delAllHistory(){
+        commonRequest.delAllHistory(viewModelScope){
 
         }
     }

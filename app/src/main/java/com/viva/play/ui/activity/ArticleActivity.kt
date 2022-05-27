@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
@@ -185,6 +186,8 @@ class ArticleActivity : BaseActivity(), SwipeBackAbility.OnlyEdge {
     private lateinit var rl: RevealLayout
 
     override fun initView(savedInstanceState: Bundle?) {
+        //这个对宿主没什么影响，建议声明
+        window.setFormat(PixelFormat.TRANSLUCENT)
         model.id.set(id)
         model.url.set(url)
         model.title.set(title)

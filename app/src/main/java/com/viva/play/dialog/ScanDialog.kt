@@ -1,12 +1,14 @@
 package com.viva.play.dialog
 
 import android.content.DialogInterface
-import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.FragmentManager
 import com.viva.play.R
 import com.viva.play.base.BaseFragmentDialog
 import com.viva.play.databinding.DialogScanBinding
+import com.viva.play.utils.arguments
+import com.viva.play.utils.toast
+import com.viva.play.utils.withArguments
 
 /**
  * @author 李雄厚
@@ -28,22 +30,19 @@ class ScanDialog : BaseFragmentDialog<DialogScanBinding>() {
                 this.listener = listener
                 setAnimStyle(R.style.DialogBottomAnim)
                 setGravity(Gravity.BOTTOM)
-                arguments = Bundle().apply {
-                    putString(RESULT, result)
-                }
+                withArguments(RESULT to result)
                 this.show(manager)
             }
     }
 
-    private val result by lazy {
-        arguments?.getString(RESULT) ?: ""
-    }
+    private val result by arguments(RESULT, "")
 
     override fun convertView(binding: DialogScanBinding) {
         binding.tvUrl.text = result
 
         binding.llAccess.setOnClickListener {
-            listener?.access(result)
+//            listener?.access(result)
+            toast("点击")
         }
 
         binding.llCopy.setOnClickListener {

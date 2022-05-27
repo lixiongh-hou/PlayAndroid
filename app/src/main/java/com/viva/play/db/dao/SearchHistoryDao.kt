@@ -23,6 +23,9 @@ interface SearchHistoryDao {
     @Delete
     fun delete(data: PoSearchHistoryEntity)
 
+    @Query("DELETE FROM SearchHistory")
+    fun deleteAll()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHotKey(data: List<PoHotKeyEntity>)
 

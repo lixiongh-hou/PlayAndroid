@@ -51,6 +51,7 @@ class SearchActivity : BaseActivity() {
             binding.etSearch.setText("")
             InputMethodUtils.hide(binding.etSearch)
             binding.etSearch.clearFocus()
+            showHistoryFragment()
         }
         binding.etSearch.addTextChangedListener {
             val key = binding.etSearch.text.toString()

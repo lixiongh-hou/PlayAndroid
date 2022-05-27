@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
+        <com.viva.play.utils.web.WebContainer
             android:id="@+id/wc"
             android:layout_width="match_parent"
             android:layout_height="0dp"

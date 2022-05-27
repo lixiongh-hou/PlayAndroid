@@ -15,6 +15,7 @@ import com.viva.play.ui.fragment.QuestionFragment
 import com.viva.play.ui.model.MainModel
 import com.viva.play.utils.SettingUtils
 import com.viva.play.utils.bind.binding
+import com.viva.play.utils.pressBackTwiceToExitApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +31,7 @@ class MainActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         installSplashScreen()
+        pressBackTwiceToExitApp("要退出应用程序，请再次按下")
         mTabFragmentPagerAdapter = TabFragmentPagerAdapter(
             this,
             binding.vpTab,

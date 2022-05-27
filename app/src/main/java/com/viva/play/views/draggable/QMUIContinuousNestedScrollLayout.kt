@@ -229,7 +229,7 @@ open class QMUIContinuousNestedScrollLayout @JvmOverloads constructor(
         if (layoutParams1 == null) {
             layoutParams1 = LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
         val behavior = layoutParams1.behavior
@@ -240,8 +240,8 @@ open class QMUIContinuousNestedScrollLayout @JvmOverloads constructor(
             layoutParams1.behavior = mTopAreaBehavior
         }
         mTopAreaBehavior?.setCallback(this)
-//        topView.layoutParams = layoutParams1
-        addView(topView, 0, layoutParams1)
+        topView.layoutParams = layoutParams1
+//        addView(topView, 0, layoutParams1)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

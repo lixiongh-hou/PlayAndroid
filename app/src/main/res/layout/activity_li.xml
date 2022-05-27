@@ -10,56 +10,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
-            android:id="@+id/mCoordinatorLayout"
+        <com.viva.play.views.draggable.QMUIContinuousNestedTopWebView
+            android:id="@+id/mNestedWebView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <!--            <com.viva.play.views.draggable.QMUIContinuousNestedTopWebView-->
-            <!--                android:id="@+id/mNestedWebView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent" />-->
+<!--        <com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout-->
+<!--            android:id="@+id/mCoordinatorLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <!--            <com.viva.play.views.draggable.QMUINestedScrollView-->
-            <!--                android:id="@+id/mNestedScrollView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent">-->
+<!--                        <com.viva.play.views.draggable.QMUIContinuousNestedTopWebView-->
+<!--                            android:id="@+id/mNestedWebView"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent" />-->
 
-            <!--                <androidx.appcompat.widget.LinearLayoutCompat-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:orientation="vertical">-->
+<!--            &lt;!&ndash;            <com.viva.play.views.draggable.QMUINestedScrollView&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:id="@+id/mNestedScrollView"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                android:layout_height="match_parent">&ndash;&gt;-->
 
-            <!--                    <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="1000dp"-->
-            <!--                        android:background="?colorMain"-->
-            <!--                        android:gravity="center"-->
-            <!--                        android:text="第一个数据"-->
-            <!--                        android:textColor="@color/white" />-->
+<!--            &lt;!&ndash;                <androidx.appcompat.widget.LinearLayoutCompat&ndash;&gt;-->
+<!--            &lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                    android:orientation="vertical">&ndash;&gt;-->
 
-            <!--                    <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="1000dp"-->
-            <!--                        android:background="?colorAssist"-->
-            <!--                        android:gravity="center"-->
-            <!--                        android:text="第二个数据" />-->
+<!--            &lt;!&ndash;                    <androidx.appcompat.widget.AppCompatTextView&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_height="1000dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:background="?colorMain"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:gravity="center"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:text="第一个数据"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:textColor="@color/white" />&ndash;&gt;-->
 
-            <!--                    <androidx.recyclerview.widget.RecyclerView-->
-            <!--                        android:id="@+id/mRecyclerView"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
-            <!--                </androidx.appcompat.widget.LinearLayoutCompat>-->
-            <!--            </com.viva.play.views.draggable.QMUINestedScrollView>-->
+<!--            &lt;!&ndash;                    <androidx.appcompat.widget.AppCompatTextView&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_height="1000dp"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:background="?colorAssist"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:gravity="center"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:text="第二个数据" />&ndash;&gt;-->
+
+<!--            &lt;!&ndash;                    <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:id="@+id/mRecyclerView"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--            &lt;!&ndash;                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />&ndash;&gt;-->
+<!--            &lt;!&ndash;                </androidx.appcompat.widget.LinearLayoutCompat>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </com.viva.play.views.draggable.QMUINestedScrollView>&ndash;&gt;-->
 
 
-            <com.viva.play.views.draggable.QMUIContinuousNestedTopRecyclerView
-                android:id="@+id/mRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout>
+<!--&lt;!&ndash;            <com.viva.play.views.draggable.QMUIContinuousNestedTopRecyclerView&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/mRecyclerView"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />&ndash;&gt;-->
+<!--        </com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout>-->
 
 
     </FrameLayout>

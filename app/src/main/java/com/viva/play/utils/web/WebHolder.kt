@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Build
@@ -18,7 +17,6 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.annotation.FloatRange
 import androidx.annotation.RequiresApi
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
@@ -56,7 +54,7 @@ import com.viva.play.views.draggable.QMUIContinuousNestedTopAreaBehavior
 class WebHolder(
     activity: Activity,
     mUrl: String,
-    container: QMUIContinuousNestedScrollLayout,
+    container: WebContainer,
     progressBar: ProgressBar?
 ) {
 
@@ -64,7 +62,7 @@ class WebHolder(
     private var mOnPageProgressCallback: OnPageProgressCallback? = null
 
     private var mActivity: Activity
-    private var mWebContainer: QMUIContinuousNestedScrollLayout
+    private var mWebContainer: WebContainer
     private var mWebView: X5WebView
     private var mProgressBar: ProgressBar
     private var mUserAgentString: String
@@ -88,7 +86,7 @@ class WebHolder(
         fun with(
             activity: Activity,
             mUrl: String,
-            container: QMUIContinuousNestedScrollLayout,
+            container: WebContainer,
             progressBar: ProgressBar? = null
         ): WebHolder = WebHolder(activity, mUrl, container, progressBar)
 
@@ -101,7 +99,7 @@ class WebHolder(
                 return
             }
             val cookies = PersistentCookieUtils.loadForUrl(url)
-            if (cookies.isNullOrEmpty()) {
+            if (cookies.isEmpty()) {
                 return
             }
             val cookieManager = CookieManager.getInstance()
@@ -141,19 +139,12 @@ class WebHolder(
             sonicSession?.bindClient(WebSessionClientImpl().also { client = it })
         }
 
-        container.setDraggableScrollBarEnabled(true)
-        val matchParent = ViewGroup.LayoutParams.MATCH_PARENT
-        val topLp = CoordinatorLayout.LayoutParams(
-            matchParent, ViewGroup.LayoutParams.MATCH_PARENT
+        container.addView(
+            mWebView, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
         )
-        topLp.behavior = QMUIContinuousNestedTopAreaBehavior(mActivity)
-        container.setTopAreaView(mWebView, topLp)
-//        container.addView(
-//            mWebView, FrameLayout.LayoutParams(
-//                FrameLayout.LayoutParams.MATCH_PARENT,
-//                FrameLayout.LayoutParams.MATCH_PARENT
-//            )
-//        )
 
         if (progressBar == null) {
             mProgressBar = LayoutInflater.from(activity)
@@ -198,7 +189,7 @@ class WebHolder(
             }
         }
 
-        mWebView.setOnScrollChangeListener(View.OnScrollChangeListener { _, _, scrollY, _, _ ->
+        mWebView.setOnScrollChangeListener(View.OnScrollChangeListener { _, _, _, _, _ ->
             if (isProgressShown) return@OnScrollChangeListener
             val percent = getPercent()
             pageScrolled?.invoke(percent)
@@ -396,7 +387,7 @@ class WebHolder(
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +
-                ")()";
+                ")()"
         mWebView.evaluateJavascript(js, null)
     }
 
@@ -756,7 +747,6 @@ class WebHolder(
             return shouldOverrideUrlLoading(view!!, Uri.parse(url))
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         override fun shouldOverrideUrlLoading(
             view: WebView?,
             request: WebResourceRequest
@@ -790,7 +780,6 @@ class WebHolder(
 
     private var pageScrollEnd: (() -> Unit)? = null
     private var pageScrolled: ((percent: Float) -> Unit)? = null
-    private val hitTestResult: ((result: HitResult) -> Unit)? = null
     private var receivedTitle: ((title: String) -> Unit)? = null
 
     interface OnPageLoadCallback {

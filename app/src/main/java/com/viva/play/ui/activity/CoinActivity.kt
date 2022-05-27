@@ -8,9 +8,9 @@ import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityCoinBinding
 import com.viva.play.ui.model.CoinModel
-import com.viva.play.utils.AnimatorUtils
 import com.viva.play.utils.bind.binding
 import com.viva.play.utils.bindDivider
+import com.viva.play.utils.doIntAnim
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,7 +42,7 @@ class CoinActivity : BaseActivity() {
             }
         }
         mode.coin.observe(this) {
-            AnimatorUtils.doIntAnim(binding.tvCoin, it, 1000)
+            binding.tvCoin.doIntAnim(it, 1000)
         }
     }
 

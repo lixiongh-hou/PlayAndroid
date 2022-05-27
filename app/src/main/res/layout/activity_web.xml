@@ -21,9 +21,9 @@
         <include
             android:id="@+id/ab"
             layout="@layout/action_bar_web"
-            app:model="@{model}"/>
+            app:model="@{model}" />
 
-        <com.viva.play.views.draggable.QMUIContinuousNestedScrollLayout
+        <com.viva.play.utils.web.WebContainer
             android:id="@+id/wc"
             android:layout_width="match_parent"
             android:layout_height="0dp"

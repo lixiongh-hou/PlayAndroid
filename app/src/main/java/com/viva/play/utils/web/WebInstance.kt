@@ -9,16 +9,15 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings
 import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.WebSettings
 import com.tencent.smtt.sdk.WebView
+import com.viva.play.R
 import com.viva.play.views.X5WebView
 import java.lang.Exception
 import java.util.ArrayList
-
-
-
 
 /**
  * @author 李雄厚
@@ -107,6 +106,15 @@ class WebInstance(private val application: Application) {
         webView.background.alpha = 0
         webView.overScrollMode = WebView.OVER_SCROLL_NEVER
         webView.view.overScrollMode = View.OVER_SCROLL_NEVER
+        if (webView.x5WebViewExtension != null){
+            webView.x5WebViewExtension.setVerticalTrackDrawable(
+                ContextCompat.getDrawable(
+                    application,
+                    R.drawable.qmui_icon_scroll_bar
+                )
+            )
+            webView.x5WebViewExtension.setScrollBarDefaultDelayBeforeFade(2000)
+        }
 
         val webSetting = webView.settings
         webSetting.javaScriptEnabled = true

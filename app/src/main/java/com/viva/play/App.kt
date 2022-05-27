@@ -65,7 +65,8 @@ class App : Application() {
 //            .add(SwipeBackInitTask())
             .add(X5InitTask())
             .run()
-        WebInstance.getInstance(instance).create()
+
+        WebInstance.getInstance(instance)
         notification()
     }
 

@@ -2,6 +2,7 @@ package com.viva.play.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
@@ -88,6 +89,8 @@ class WebActivity : BaseActivity(), OnlyEdge {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        //这个对宿主没什么影响，建议声明
+        window.setFormat(PixelFormat.TRANSLUCENT)
         if (collected) {
             model.addCollected(url)
             if (collectId != -1) {

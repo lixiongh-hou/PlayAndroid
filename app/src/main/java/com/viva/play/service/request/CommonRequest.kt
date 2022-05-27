@@ -923,6 +923,12 @@ class CommonRequest @Inject constructor() {
         }
     }
 
+    fun delAllHistory(scope: CoroutineScope, callback: (BaseResult<String>) -> Unit) {
+        scope.launch {
+            localRequest.delAllHistory(callback)
+        }
+    }
+
     /**
      * 搜索
      */
