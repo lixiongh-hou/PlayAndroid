@@ -2,7 +2,6 @@ package com.viva.play.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import com.viva.play.adapter.ArticleAdapter
 import com.viva.play.adapter.FooterAdapter
@@ -13,7 +12,6 @@ import com.viva.play.ui.event.CollectionEvent
 import com.viva.play.ui.model.QuestionMode
 import com.viva.play.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
@@ -37,12 +35,10 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding>() {
         binding.recyclerView.bindDivider()
     }
 
-    @ExperimentalPagingApi
+    @OptIn(ExperimentalPagingApi::class)
     override fun initData() {
-        lifecycleScope.launchWhenCreated {
-            model.pagingData.collectLatest {
-                adapter.submitData(it)
-            }
+        model.pagingData.launchAndCollectLatestIn(viewLifecycleOwner) {
+            adapter.submitData(it)
         }
 
         adapter.itemOnClick = { data, _ ->

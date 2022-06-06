@@ -11,12 +11,9 @@ import com.viva.play.base.BaseActivity
 import com.viva.play.databinding.ActivityReadRecordBinding
 import com.viva.play.dialog.TipDialog
 import com.viva.play.ui.model.ReadRecordModel
-import com.viva.play.utils.CopyUtils
-import com.viva.play.utils.IntentUtils
+import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
-import com.viva.play.utils.UrlOpenUtils
 import com.viva.play.utils.bind.binding
-import com.viva.play.utils.bindDivider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import per.goweii.actionbarex.common.OnActionBarChildClickListener
@@ -77,7 +74,7 @@ class ReadRecordActivity : BaseActivity() {
                 "链接为空".toast()
                 return@b
             }
-            IntentUtils.openBrowser(this, data.link)
+            openBrowser(data.link)
         }
 
         adapter.onDelete = { data, _ ->

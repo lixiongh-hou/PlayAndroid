@@ -103,20 +103,25 @@ abstract class BaseActivity : AppCompatActivity() {
                         }
                     }
                 }
-                if (it.source.refresh is LoadState.Error && this.itemCount == 0) {
-                    msv.toError {
-                        msv.toLoading()
-                        this.refresh()
+                if (it.source.refresh is LoadState.Error) {
+                    if (this.itemCount == 0) {
+                        msv.toError {
+                            msv.toLoading()
+                            this.refresh()
+                        }
                     }
                     failureAfter()
                 }
                 // Toast任何错误，无论它是来自RemoteMediator还是PagingSource
                 val errorState = it.source.append as? LoadState.Error
                     ?: it.source.prepend as? LoadState.Error
+                    ?: it.source.refresh as? LoadState.Error
                     ?: it.append as? LoadState.Error
                     ?: it.prepend as? LoadState.Error
                 errorState?.let { error ->
-                    error.error.message?.toast()
+                    error.error.message?.let { msg ->
+                        toast(msg)
+                    }
                 }
 
             } else {
@@ -141,10 +146,12 @@ abstract class BaseActivity : AppCompatActivity() {
                         }
                     }
                 }
-                if (it.mediator?.refresh is LoadState.Error && this.itemCount == 0) {
-                    msv.toError {
-                        msv.toLoading()
-                        this.refresh()
+                if (it.mediator?.refresh is LoadState.Error) {
+                    if (this.itemCount == 0) {
+                        msv.toError {
+                            msv.toLoading()
+                            this.refresh()
+                        }
                     }
                     failureAfter()
                 }
@@ -153,8 +160,11 @@ abstract class BaseActivity : AppCompatActivity() {
                     ?: it.source.prepend as? LoadState.Error
                     ?: it.append as? LoadState.Error
                     ?: it.prepend as? LoadState.Error
+                    ?: it.mediator?.refresh as? LoadState.Error
                 errorState?.let { error ->
-                    error.error.message?.toast()
+                    error.error.message?.let { msg ->
+                        toast(msg)
+                    }
                 }
             }
         }

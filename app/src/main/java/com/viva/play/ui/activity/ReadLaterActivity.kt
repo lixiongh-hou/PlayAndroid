@@ -11,7 +11,6 @@ import com.viva.play.databinding.ActivityReadLaterBinding
 import com.viva.play.dialog.TipDialog
 import com.viva.play.ui.model.ReadLaterModel
 import com.viva.play.utils.*
-import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.bind.binding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -59,20 +58,20 @@ class ReadLaterActivity : BaseActivity() {
 
         adapter.onCopy = { data, _ ->
             CopyUtils.copyText(data.link)
-            "复制成功".toast()
+            toast("复制成功")
         }
         adapter.onOpen = b@{ data, _ ->
             if (data.link.isBlank()) {
-                "链接为空".toast()
+                toast("链接为空")
                 return@b
             }
-            IntentUtils.openBrowser(this, data.link)
+            openBrowser(data.link)
         }
         adapter.onDelete = { data, _ ->
             model.removeReadLater(data.link)
         }
         model.error.observe(this) {
-            it.message.toast()
+            toast(it.message)
         }
     }
 

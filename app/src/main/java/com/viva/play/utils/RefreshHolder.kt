@@ -1,12 +1,9 @@
 package com.viva.play.utils
 
-import com.viva.play.di.MadeInPoetry
 import com.viva.play.service.CommonService
 import com.viva.play.service.DataConvert.convertNetworkError
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 /**
  * @author 李雄厚

@@ -3,7 +3,6 @@ package com.viva.play.ui.fragment
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.viva.play.adapter.CollectionLinkAdapter
 import com.viva.play.adapter.FooterAdapter
 import com.viva.play.base.BaseFragment
@@ -15,7 +14,6 @@ import com.viva.play.ui.model.CollectionLinkModel
 import com.viva.play.utils.*
 import com.viva.play.utils.ToastUtil.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 /**
  * @author 李雄厚
@@ -61,12 +59,17 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
     }
 
     override fun initData() {
-        lifecycleScope.launchWhenCreated {
-            model.pagingData.collectLatest {
-                adapter.submitData(it)
-            }
+//        lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED){
+//                model.pagingData.collectLatest {
+//                    adapter.submitData(it)
+//                }
+//            }
+//
+//        }
+        model.pagingData.launchAndCollectLatestIn(viewLifecycleOwner) {
+            adapter.submitData(it)
         }
-
         adapter.itemOnClick = { data, _ ->
             UrlOpenUtils.with(data.url).apply {
                 title = data.title
@@ -84,7 +87,7 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
                 "链接为空".toast()
                 return@b
             }
-            IntentUtils.openBrowser(requireContext(), data.url)
+            requireContext().openBrowser(data.url)
         }
         adapter.onEdit = { data, _ ->
             model.id = data.collectId
@@ -105,7 +108,6 @@ class CollectionLinkFragment : BaseFragment<FragmentCollectionLinkBinding>() {
         model.error.observe(viewLifecycleOwner) {
             it.message.toast()
         }
-
     }
 
 

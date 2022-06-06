@@ -6,21 +6,13 @@ import android.content.Intent
 import android.net.Uri
 
 /**
- * @author 李雄厚
- *
- *
+ * 浏览器打开
  */
-object IntentUtils {
-
-    /**
-     * 浏览器打开
-     */
-    fun openBrowser(context: Context, url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
-        }
+fun Context.openBrowser(url: String) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        this.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        e.printStackTrace()
     }
 }

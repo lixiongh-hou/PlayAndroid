@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.viva.play.adapter.HistoryAdapter
 import com.viva.play.adapter.HotAdapter
@@ -17,10 +16,6 @@ import com.viva.play.utils.ToastUtil.toast
 import com.viva.play.utils.launchAndCollectIn
 import com.viva.play.utils.solveNestQuestion
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 /**
  * @author 李雄厚

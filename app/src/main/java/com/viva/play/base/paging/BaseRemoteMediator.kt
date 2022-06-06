@@ -42,7 +42,7 @@ abstract class BaseRemoteMediator<Value : BasePagingData> : RemoteMediator<Int, 
             loadData(pageKey, loadType)
         } catch (e: Exception) {
             e.printStackTrace()
-            return MediatorResult.Error(Throwable())
+            return MediatorResult.Error(Throwable(message = "网络连接失败"))
         }
     }
 
